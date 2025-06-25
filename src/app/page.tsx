@@ -8,7 +8,7 @@ export default function Home() {
       <div className="text-left max-w-xl">
         <h1 className="text-3xl font-bold mb-4">SSD Model</h1>
         <p className="text-lg">
-          The stuff on the right is an in-progress attempt of visualizing an ssd. 
+          The stuff on the right is an in-progress attempt of visualizing an ssd. The middle is an image of the goal, and the right is what is coded
         </p>
       </div>
       <div className="md:mt-10 md:ml-auto mr-20">
@@ -18,7 +18,14 @@ export default function Home() {
           className="w-[600px] h-auto rounded-lg shadow-lg"
         />
       </div>
-      <Box />
+
+      <Box>
+        <Box>
+          <Box>
+            <p>This is a nested box!</p>
+          </Box>
+        </Box>
+      </Box>
     </div>
   );
 }
