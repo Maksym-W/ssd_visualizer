@@ -3,6 +3,8 @@
 import Box from "./components/box";
 
 export default function Home() {
+  let counter = 1;
+
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
       <div className="text-left max-w-xl">
@@ -18,13 +20,33 @@ export default function Home() {
           className="w-[600px] h-auto rounded-lg shadow-lg"
         />
       </div>
+    
+      {/* Everything below is the SSD model. Everything above is info about the model. */} 
 
-      <Box>
-        <Box>
-          <Box>
-            <p>This is a nested box!</p>
-          </Box>
-        </Box>
+      <Box bgColor="bg-yellow-300">
+        <div className="flex space-x-4">
+          {/* Left column */}
+          <div className="grid grid-cols-4 gap-2">
+            {[...Array(24)].map((_, i) => (
+              <Box
+                key={"left-" + i}
+                bgColor="bg-green-500"
+                pageNumber={counter++}
+              />
+            ))}
+         </div>
+
+          {/* Right column */}
+         <div className="grid grid-cols-4 gap-2">
+            {[...Array(24)].map((_, i) => (
+              <Box
+                key={"right-" + i}
+                bgColor="bg-green-500"
+                pageNumber={counter++}
+              />
+            ))}
+          </div>
+        </div>
       </Box>
     </div>
   );
