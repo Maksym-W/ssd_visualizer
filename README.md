@@ -1,6 +1,6 @@
 As of July 2025, This is a project that I am doing for CSC492, a reading course on file systems. The end goal of it is to create a visualization tool of how SSD's work, for use in courses about Operating Systems (CSC369)
 
-Goals: Have a standard SSD algorithm that users can visualize, and have users be able to upload their own custom algorithms.
+Goals: Finish the front end to properly visualize an SSD. Then add a back end to add user customization (such as uploading custom SSD algorithms, or a quiz on how SSDs work and user results are saved.)
 
 The stuff below is just the standard Next.js stuff
 
