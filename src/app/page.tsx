@@ -9,6 +9,7 @@ export default function Home() {
   );
   const [inputValue, setInputValue] = useState("");
   const [fileCounter, setFileCounter] = useState(1); // Track how many files have been written
+  const [errorDisplay, setErrorDisplay] = useState("No errors yet");
 
   const handleWriteFile = () => {
     const kbSize = parseInt(inputValue);
@@ -26,6 +27,7 @@ export default function Home() {
 
     if (availablePages.length < pagesToUpdate) {
       console.log("Not enough space!");
+      setErrorDisplay("Not enough space!");
       return;
     }
 
@@ -68,6 +70,7 @@ export default function Home() {
             className="w-[600px] h-auto rounded-lg shadow-lg"
           />
         <h1 className="text-3xl font-bold mb-4">The size of the page is 4kb</h1>
+        <h1>Last error: {errorDisplay}</h1>
       </div>
 
       <div className="md:mt-10 md:ml-auto mr-20">
@@ -102,7 +105,7 @@ export default function Home() {
             {[...Array(24)].map((_, i) => (
               <Box
                 key={"right-" + i}
-                bgColor="bg-green-500"
+                bgColor={pages[i+24].bgColor || "bg-green-500"}
                 pageNumber={counter++}
                 status={pages[i + 24].status}
               />
@@ -110,8 +113,22 @@ export default function Home() {
           </div>
         </div>
         </Box>  
+
+        <Box bgColor="bg-yellow-300" status="Backup pages">
+        <div className="flex space-x-4">
+          <div className="grid grid-cols-4 gap-2">
+            {[...Array(24)].map((_, i) => (
+              <Box
+                key={"left-" + i}
+                bgColor={"bg-green-500"}
+                pageNumber={counter++}
+                status={"Empty"}
+              />
+            ))}
+         </div>
+        </div>
+        </Box>  
       </div>
-    
     </div>
   );
 }
