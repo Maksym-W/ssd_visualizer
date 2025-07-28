@@ -1,3 +1,11 @@
+As of July 2025, This is a project that I am doing for CSC492, a reading course on file systems. The end goal of it is to create a visualization tool of how SSD's work, for use in courses about Operating Systems (CSC369)
+
+Goals: Finish the front end to properly visualize an SSD. Then add a back end to add user customization (such as uploading custom SSD algorithms, or a quiz on how SSDs work and user results are saved.)
+
+The stuff below is just the standard Next.js stuff
+
+------------------------------------------------
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
