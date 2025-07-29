@@ -12,12 +12,6 @@ interface SsdblockProps extends BoxProps {
 }
 
 export default function Ssdblock({ pages,  blockNumber,  startPageIndex, bgColor = "bg-green-200", status = "Empty"}: SsdblockProps) {
-  const [uses, setUses] = useState(0);
-
-  useEffect(() => {
-    setUses(prev => prev + 1);
-  }, [status]);
-
   return (
     <div className="bg-blue-50 rounded-lg p-3 shadow-inner">
       <h3 className="text-center font-bold mb-2">Block {blockNumber}</h3>
@@ -33,9 +27,6 @@ export default function Ssdblock({ pages,  blockNumber,  startPageIndex, bgColor
             />
           );
         })}
-      </div>
-      <div className="text-xs text-gray-500 mt-1">
-        Block uses: {uses}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 
-interface BoxProps {
+export interface BoxProps {
   children?: ReactNode;
   bgColor?: string; // e.g. "bg-green-200"
   pageNumber?: number;
@@ -11,8 +11,8 @@ export default function Ssdpage({ children, bgColor = "bg-green-200", pageNumber
   const [uses, setUses] = useState(-1);
 
   useEffect(() => {
-    setUses(uses + 1);
-  }, [status]);
+    if (status !== "Stale") { setUses(prevUses => prevUses + 1);}
+  }, [status]); 
 
   return (
     <div className={`p-6 ${bgColor} text-black rounded-box shadow-md border border-green-600`}>

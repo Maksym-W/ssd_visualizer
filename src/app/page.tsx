@@ -1,16 +1,23 @@
 "use client"
 
 import Ssdpage from "./components/ssdpage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
 export default function Home() {
-  const [pages, setPages] = useState<Array<{status: string, bgColor: string}>>(
+  const [pages, setPages] = useState<Array<{status: string, bgColor: string, writtenByFile?: number}>>( // Maybe turn this into an interface? TODO 
     Array(48).fill({ status: "Empty", bgColor: "bg-green-500" })
   );
   const [inputValue, setInputValue] = useState("");
   const [fileCounter, setFileCounter] = useState(1); // Track how many files have been written
   const [errorDisplay, setErrorDisplay] = useState("No errors yet");
+  const [deleteFileValue, setDeleteFileValue] = useState("");
+  const [staleCounter, setStaleCounter] = useState(0);
+
+  useEffect(() => {
+    if (staleCounter >= .25){
+    console.log("THIS IS NOT IMPLEMENTED!")}
+  }, [staleCounter]); 
 
   const handleWriteFile = () => {
     const kbSize = parseInt(inputValue);
@@ -56,7 +63,22 @@ export default function Home() {
     return colors[(fileNumber - 1) % colors.length];
   };
 
-  let counter = 1;
+  const handleDeleteFile = () => {
+    const fileNumber = parseInt(deleteFileValue);
+    if (isNaN(fileNumber)) return;
+
+    setPages(prevPages => 
+      prevPages.map(page => {
+        const isTargetFile = page.status.startsWith(`Written by file ${fileNumber}`);
+        
+        return isTargetFile
+          ? { ...page, status: "Stale", bgColor: "bg-gray-500" }
+          : page;
+      })
+    );
+  };
+
+  let pageCounter = 1;
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
@@ -87,7 +109,19 @@ export default function Home() {
             Write a file of size n kilobytes
           </button>
 
-        <Ssdpage bgColor="bg-yellow-300">
+          <input type="text" placeholder="Enter value..."
+            onChange={(e) => setDeleteFileValue(e.target.value)}
+            className="border border-blue-500 text-blue-500 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200"
+          />
+
+          <button onClick={handleDeleteFile}
+            className="btn btn-outline btn-primary border-blue-500 text-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded"
+          >
+            Delete file n
+          </button>
+
+
+        <Ssdpage bgColor="bg-yellow-300" status="THIS IS SUPPOSED TO BE A PLANE, NOT A PAGE!!!!">
   {/* 2x2 Block Grid */}
   <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
     {/* Block 1 (Top-left) */}
@@ -128,7 +162,7 @@ export default function Home() {
               <Ssdpage
                 key={"left-" + i}
                 bgColor={"bg-green-500"}
-                pageNumber={counter++}
+                pageNumber={pageCounter++}
                 status={"Empty"}
               />
             ))}
