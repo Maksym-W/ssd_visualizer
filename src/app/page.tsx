@@ -1,7 +1,8 @@
 "use client"
 
-import Box from "./components/box";
+import Ssdpage from "./components/ssdpage";
 import { useState } from "react";
+import Ssdblock from "./components/ssdblock";
 
 export default function Home() {
   const [pages, setPages] = useState<Array<{status: string, bgColor: string}>>(
@@ -72,7 +73,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-4">The size of the page is 4kb</h1>
         <h1>Last error: {errorDisplay}</h1>
       </div>
-
+      {/* The stuff below is the ssd stuff. The above is info*/}
       <div className="md:mt-10 md:ml-auto mr-20">
 
           <input type="text" placeholder="Enter value..."
@@ -86,39 +87,45 @@ export default function Home() {
             Write a file of size n kilobytes
           </button>
 
-        <Box bgColor="bg-yellow-300">
+        <Ssdpage bgColor="bg-yellow-300">
+  {/* 2x2 Block Grid */}
+  <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
+    {/* Block 1 (Top-left) */}
+          <Ssdblock 
+        pages={pages} 
+        blockNumber={1} 
+        startPageIndex={0} 
+      />
+
+    {/* Block 2 (Top-right) */}
+          <Ssdblock 
+        pages={pages} 
+        blockNumber={2} 
+        startPageIndex={12} 
+      />
+
+    {/* Block 3 (Bottom-left) */}
+      <Ssdblock 
+        pages={pages} 
+        blockNumber={3} 
+        startPageIndex={24} 
+      />
+
+    {/* Block 4 (Bottom-right) */}
+          <Ssdblock 
+        pages={pages} 
+        blockNumber={4} 
+        startPageIndex={36} 
+      />
+
+  </div>
+</Ssdpage>
+
+        <Ssdpage bgColor="bg-yellow-300" status="Backup pages">
         <div className="flex space-x-4">
-          {/* Left column */}
           <div className="grid grid-cols-4 gap-2">
             {[...Array(24)].map((_, i) => (
-              <Box
-                key={"left-" + i}
-                bgColor={pages[i].bgColor || "bg-green-500"}
-                pageNumber={counter++}
-                status={pages[i].status || "Empty"}
-              />
-            ))}
-         </div>
-
-          {/* Right column */}
-         <div className="grid grid-cols-4 gap-2">
-            {[...Array(24)].map((_, i) => (
-              <Box
-                key={"right-" + i}
-                bgColor={pages[i+24].bgColor || "bg-green-500"}
-                pageNumber={counter++}
-                status={pages[i + 24].status}
-              />
-            ))}
-          </div>
-        </div>
-        </Box>  
-
-        <Box bgColor="bg-yellow-300" status="Backup pages">
-        <div className="flex space-x-4">
-          <div className="grid grid-cols-4 gap-2">
-            {[...Array(24)].map((_, i) => (
-              <Box
+              <Ssdpage
                 key={"left-" + i}
                 bgColor={"bg-green-500"}
                 pageNumber={counter++}
@@ -127,7 +134,7 @@ export default function Home() {
             ))}
          </div>
         </div>
-        </Box>  
+        </Ssdpage>  
       </div>
     </div>
   );

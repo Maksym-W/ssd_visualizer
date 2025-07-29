@@ -9,6 +9,11 @@ export default function Navbar() {
           className="btn btn-outline btn-primary border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg">
           🏠 Home
         </Link>
+        <Link
+          href="/faq"
+          className="btn btn-outline btn-primary border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg">
+          faq
+        </Link>
       </div>
     </nav>
   );
