@@ -29,7 +29,13 @@ export default function Home() {
     newBlocks.push(newBlock);
   }
 
+  let newBackupPages = [];
+  for (let i = 0; i < 16; i++) {
+    newBackupPages.push({ status: "Empty", bgColour: "bg-green-500" })
+  }
+
   const [blocks, setBlocks] = useState(newBlocks);
+  const [backupPages, setBackupPages] = useState(newBackupPages)
 
   // Block we're currently writing to
   const [currentBlock, setCurrentBlock] = useState(-1);
@@ -40,7 +46,7 @@ export default function Home() {
   const [deleteFileValue, setDeleteFileValue] = useState("");
   const [staleCounter, setStaleCounter] = useState(0);
 
-  const [algorithm, setAlgorithm] = useState('');
+  const [algorithm, setAlgorithm] = useState('Greedy');
 
 
   useEffect(() => {
@@ -50,7 +56,7 @@ export default function Home() {
 
   const handleWriteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter);
+      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, backupPages, setBackupPages);
 
       setBlocks(updatedBlocks);
       setFileCounter(fileCounter + 1); // Increment for next file
@@ -63,7 +69,7 @@ export default function Home() {
 
   const handleDeleteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyDelete(parseInt(deleteFileValue), blocks);
+      const updatedBlocks = greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock);
 
       setBlocks(updatedBlocks);
     } else {
@@ -81,19 +87,19 @@ export default function Home() {
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
-      <div className="text-left max-w-xl">
-        <h1 className="text-3xl font-bold mb-4">SSD Model</h1>
-        <p className="text-lg">
-          The stuff on the right is an in-progress attempt of visualizing an ssd. The below is an image of the goal, and the right is what is coded
-        </p>
-          <img
-            src="https://images.anandtech.com/doci/7864/NAND%20die.png"
-            alt="A photo of what we want"
-            className="w-[600px] h-auto rounded-lg shadow-lg"
-          />
-        <h1 className="text-3xl font-bold mb-4">The size of the page is 4kb</h1>
-        <h1>Last error: {errorDisplay}</h1>
-      </div>
+      {/* <div className="text-left max-w-xl"> */}
+      {/*   <h1 className="text-3xl font-bold mb-4">SSD Model</h1> */}
+      {/*   <p className="text-lg"> */}
+      {/*     The stuff on the right is an in-progress attempt of visualizing an ssd. The below is an image of the goal, and the right is what is coded */}
+      {/*   </p> */}
+      {/*     <img */}
+      {/*       src="https://images.anandtech.com/doci/7864/NAND%20die.png" */}
+      {/*       alt="A photo of what we want" */}
+      {/*       className="w-[600px] h-auto rounded-lg shadow-lg" */}
+      {/*     /> */}
+      {/*   <h1 className="text-3xl font-bold mb-4">The size of the page is 4kb</h1> */}
+      {/*   <h1>Last error: {errorDisplay}</h1> */}
+      {/* </div> */}
 
       {/* The stuff below is the ssd stuff. The above is info*/}
       <div className="md:mt-10 md:ml-auto mr-20">
@@ -122,7 +128,7 @@ export default function Home() {
           Delete file n
         </button>
 
-        <select defaultValue="Select an Algorithm" 
+        <select defaultValue="Greedy" 
         className="select select-bordered text-blue-500 border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded" 
         onChange={e => setAlgorithm(e.target.value)}>
           <option disabled={true}>Select an Algorithm</option>
@@ -135,7 +141,6 @@ export default function Home() {
           {/* 2x2 Block Grid */}
           <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
             {/* Better way to have a grid */}
-            {console.log(blocks)}
             {Array(4).fill(0).map((_, i) => (
                   <Ssdblock 
                 key={`block-${i}`}
@@ -152,14 +157,22 @@ export default function Home() {
         <Ssdpage bgColour="bg-yellow-300" status="Backup pages">
         <div className="flex space-x-4">
           <div className="grid grid-cols-4 gap-2">
-            {[...Array(24)].map((_, i) => (
-              <Ssdpage
-                key={"left-" + i}
-                bgColour={"bg-green-500"}
-                pageNumber={pageCounter++}
-                status={"Empty"}
-              />
+            {backupPages.map((page, i) => (
+            <Ssdpage 
+              key={"left-" + i}
+              bgColour={page.bgColour}
+              pageNumber={pageCounter++}
+              status={page.status}
+            />
             ))}
+            {/* {[...Array(24)].map((_, i) => ( */}
+            {/*   <Ssdpage */}
+            {/*     key={"left-" + i} */}
+            {/*     bgColour={"bg-green-500"} */}
+            {/*     pageNumber={pageCounter++} */}
+            {/*     status={"Empty"} */}
+            {/*   /> */}
+            {/* ))} */}
          </div>
         </div>
         </Ssdpage>  

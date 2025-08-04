@@ -17,7 +17,6 @@ export default function Ssdblock({ pages,  blockNumber,  startPageIndex, bgColou
   useEffect(() => {
     let stales = 0; // This will be used to update numOfStalePages
     for (const page of pages) {if (page.status != "empty") {stales++;}} // THIS BETTER THIS WAY!!!!!
-    console.log(stales);
     setNumOfStalePages(stales);
   }, [pages]); 
 
@@ -30,9 +29,9 @@ export default function Ssdblock({ pages,  blockNumber,  startPageIndex, bgColou
           return (
             <Ssdpage
               key={`block-${blockNumber}-page-${i}`}
-              bgColour={pages[pageIndex]?.bgColour || bgColour}
+              bgColour={pages[i]?.bgColour || bgColour}
               pageNumber={pageIndex}
-              status={pages[pageIndex]?.status || status}
+              status={pages[i]?.status || status}
             />
           );
         })}
