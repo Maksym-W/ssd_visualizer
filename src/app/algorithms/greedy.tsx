@@ -1,4 +1,4 @@
-import { Block } from "../page";
+import { Block, Page } from "../page";
 import getFileColour from "../utils/utils";
 
 const minStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) => {
@@ -21,7 +21,27 @@ const minStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
   return minIndex;
 }
 
-export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number): Array<Block> {
+const maxStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) => {
+  let maxNumOfStalePages = Infinity;
+  let maxIndex = -1;
+  let index = 0;
+  // Check for the block with the fewest stale blocks (NOT in ignoredPages)
+  for (let i = 0; i < blocks.length; i++) {
+    if (ignoredPages.includes(i)) {
+      index++;
+      continue;
+    };
+    const block = blocks[i];
+    if (block.numOfStalePages > maxNumOfStalePages) {
+      maxIndex = index;
+      maxNumOfStalePages = block.numOfStalePages;
+    }
+    index++;
+  }
+  return maxIndex;
+}
+
+export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, backupPages: Array<Page>, setBackupPages: Function): Array<Block> {
 
   if (isNaN(size)) return;
 
@@ -33,15 +53,13 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
   let pagesToUpdate = Math.ceil(size / 4);
 
-  let newBlock = blocks.slice();
+  let newBlocks = blocks.slice();
 
 
   let ignoredPages = [];
   while (pagesToUpdate > 0 && currentBlock != -1) {
-    console.log("Current size: " + pagesToUpdate)
-    console.log("Current block: " + currentBlock)
     // Find available pages (NOTE: might not work like this)
-    const emptyPages = blocks[currentBlock].pages
+    const emptyPages = newBlocks[currentBlock].pages
       .map((page, index) => ({ ...page, index }))
       .filter(page => page.status.startsWith("Empty"));
 
@@ -49,30 +67,30 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
     const availablePages = [...emptyPages];
 
     // Create updated pages array
-    const updatedPages = [...blocks[currentBlock].pages];
+    const updatedPages = [...newBlocks[currentBlock].pages];
     availablePages.slice(0, pagesToUpdate).forEach(page => {
       updatedPages[page.index] = {
         status: `Written by file ${fileID}`,
         bgColour: getFileColour(fileID) // Optional: different colors per file
       };
     });
-    newBlock[currentBlock].pages = updatedPages;
+    newBlocks[currentBlock].pages = updatedPages;
 
     pagesToUpdate -= availablePages.length;
     if (pagesToUpdate > 0) {
       // Retrigger the currentBlock algorithm
       ignoredPages.push(currentBlock)
-      currentBlock = minStalePages(blocks, ignoredPages);
-      console.log("hello!");
+      currentBlock = minStalePages(newBlocks, ignoredPages);
     }
   }
 
-  if (currentBlock == -1) {  // we ran out of space
+  if (currentBlock == -1) {  // NOTE: add sum of all stale pages here
+    setBackupPages(greedyGarbageCollection(newBlocks, backupPages));
     console.error("Not enough space!");  // NOTE: in reality, this is where garbage collection would probably be 
-    return;
+    return blocks;
   }
   setCurrentBlock(currentBlock);
-  return newBlock;
+  return newBlocks;
 }
 
 export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: Function): Array<Block> {
@@ -100,6 +118,32 @@ export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlo
   return newBlocks;
 }
 
-export function greedyGarbageCollection() {
+export function greedyGarbageCollection(blocks: Array<Block>, backupPages: Array<Page>): Array<Page> {
+  // find the block with the most amount of stale pages
+  let block = maxStalePages(blocks);
 
+  // Step 1: Find each non-stale page, write it to the backup pages
+  let newBackupPages = backupPages.slice();
+
+  for (const block of blocks) {
+    for (const page of block.pages) {
+      if (page.status.startsWith("Written")) {
+        if (newBackupPages.length < 16) {  // Hardcoded max backup pages size
+          // Look for the first empty backup page
+          for (const i in newBackupPages) {
+            const backupPage = newBackupPages[i];
+            if (backupPage.status.startsWith("Empty")) {
+              newBackupPages[i] = page;
+              break;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  console.log(newBackupPages);
+  return newBackupPages
+  // Step 2: set all pages (across all blocks) to empty pages
+  // Step 3: write back the backup pages
 }

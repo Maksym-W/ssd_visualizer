@@ -29,7 +29,13 @@ export default function Home() {
     newBlocks.push(newBlock);
   }
 
+  let newBackupPages = [];
+  for (let i = 0; i < 16; i++) {
+    newBackupPages.push({ status: "Empty", bgColour: "bg-green-500" })
+  }
+
   const [blocks, setBlocks] = useState(newBlocks);
+  const [backupPages, setBackupPages] = useState(newBackupPages)
 
   // Block we're currently writing to
   const [currentBlock, setCurrentBlock] = useState(-1);
@@ -50,7 +56,7 @@ export default function Home() {
 
   const handleWriteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter);
+      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, backupPages, setBackupPages);
 
       setBlocks(updatedBlocks);
       setFileCounter(fileCounter + 1); // Increment for next file
@@ -135,7 +141,6 @@ export default function Home() {
           {/* 2x2 Block Grid */}
           <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
             {/* Better way to have a grid */}
-            {console.log(blocks)}
             {Array(4).fill(0).map((_, i) => (
                   <Ssdblock 
                 key={`block-${i}`}
@@ -152,14 +157,22 @@ export default function Home() {
         <Ssdpage bgColour="bg-yellow-300" status="Backup pages">
         <div className="flex space-x-4">
           <div className="grid grid-cols-4 gap-2">
-            {[...Array(24)].map((_, i) => (
-              <Ssdpage
-                key={"left-" + i}
-                bgColour={"bg-green-500"}
-                pageNumber={pageCounter++}
-                status={"Empty"}
-              />
+            {backupPages.map((page, i) => (
+            <Ssdpage 
+              key={"left-" + i}
+              bgColour={page.bgColour}
+              pageNumber={pageCounter++}
+              status={page.status}
+            />
             ))}
+            {/* {[...Array(24)].map((_, i) => ( */}
+            {/*   <Ssdpage */}
+            {/*     key={"left-" + i} */}
+            {/*     bgColour={"bg-green-500"} */}
+            {/*     pageNumber={pageCounter++} */}
+            {/*     status={"Empty"} */}
+            {/*   /> */}
+            {/* ))} */}
          </div>
         </div>
         </Ssdpage>  

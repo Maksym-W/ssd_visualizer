@@ -17,7 +17,6 @@ export default function Ssdblock({ pages,  blockNumber,  startPageIndex, bgColou
   useEffect(() => {
     let stales = 0; // This will be used to update numOfStalePages
     for (const page of pages) {if (page.status != "empty") {stales++;}} // THIS BETTER THIS WAY!!!!!
-    console.log(stales);
     setNumOfStalePages(stales);
   }, [pages]); 
 
