@@ -6,13 +6,26 @@ import Ssdblock from "./components/ssdblock";
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
 
+export interface Page {
+    status: string;
+    bgColour: string;
+    writtenByFile?: number;
+};
+
+export interface Block {
+  numOfStalePages: number;
+  pages: Array<Page>;
+}
+
 export default function Home() {
   const blockSize = 16;  // Make sure that this is a multiple of 4.
 
-  const [pages, setPages] = useState<Array<{status: string, bgColour: string, writtenByFile?: number}>>( // Maybe turn this into an interface? TODO 
-    Array(blockSize * 4).fill({ status: "Empty", bgColour: "bg-green-500" })
-  );
-  const [inputValue, setInputValue] = useState("");
+  const [blocks, setBlocks] = useState(Array<Block>(4));
+
+  // Block we're currently writing to
+  const [currentBlock, setCurrentBlock] = useState(-1);
+
+  const [fileSizeValue, setFileSizeValue] = useState("");
   const [fileCounter, setFileCounter] = useState(1); // Track how many files have been written
   const [errorDisplay, setErrorDisplay] = useState("No errors yet");
   const [deleteFileValue, setDeleteFileValue] = useState("");
@@ -28,28 +41,47 @@ export default function Home() {
 
   const handleWriteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedPages = greedyWrite(parseInt(inputValue), pages, fileCounter);
+      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter);
 
-      setPages(updatedPages);
+      setBlocks(updatedBlocks);
       setFileCounter(fileCounter + 1); // Increment for next file
     } else {
       console.log('no algorithm selected');
     }
     // NOTE: you can remove this but I like resetting the inputValue here so you don't need to backspace
-    setInputValue('');
+    setFileSizeValue('');
   };
 
   const handleDeleteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedPages = greedyDelete(parseInt(deleteFileValue), pages);
+      const updatedBlocks = greedyDelete(parseInt(deleteFileValue), blocks);
 
-      setPages(updatedPages);
+      setBlocks(updatedBlocks);
     } else {
       console.log('no algorithm selected');
     }
   };
 
   let pageCounter = 1;
+// export interface Page {
+//     status: string;
+//     bgColour: string;
+//     writtenByFile?: number;
+// };
+
+  // Instantiate the pages here
+  let newBlocks = [];
+  for (let i = 0; i < 4; i++) {
+    let pages = [];
+    for (let j = 0; j < 16; j++) {
+      pages.push({ status: "Empty", bgColour: "bg-green-500" })
+    }
+    const newBlock: Block = { pages: pages, numOfStalePages: 0 };
+    newBlocks.push(newBlock);
+  }
+  console.log(newBlocks);
+  setBlocks(newBlocks);
+
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
@@ -72,8 +104,8 @@ export default function Home() {
 
         {/* NOTE: for some reason I can't have both value={} and placeholder= in this... so if you don't like one then yeah */}
         <input type="text"
-          onChange={(e) => setInputValue(e.target.value)}
-          value={inputValue} 
+          onChange={(e) => setFileSizeValue(e.target.value)}
+          value={fileSizeValue} 
           className="border border-blue-500 text-blue-500 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200"
         />
 
@@ -110,7 +142,7 @@ export default function Home() {
             {Array(4).fill(0).map((_, i) => (
                   <Ssdblock 
                 key={`block-${i}`}
-                pages={pages} 
+                pages={blocks[i].pages} 
                 blockNumber={i+1} 
                 startPageIndex={i*blockSize} 
                       blockSize={blockSize}

@@ -1,12 +1,11 @@
 import { ReactNode, useEffect, useState } from "react";
 import Ssdpage, { BoxProps } from "./ssdpage"; // Import both component and props
 
+import { Page } from "../page";
+
 // Extend the BoxProps interface
 interface SsdblockProps extends BoxProps {
-  pages: Array<{
-    bgColour?: string;
-    status?: string;
-  }>;
+  pages: Array<Page>;
   blockNumber: number;
   startPageIndex: number;
   blockSize: number;
