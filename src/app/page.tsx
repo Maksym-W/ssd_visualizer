@@ -39,7 +39,6 @@ export default function Home() {
     setInputValue('');
   };
 
-
   const handleDeleteFile = () => {
     if (algorithm == "Greedy") {
       const updatedPages = greedyDelete(parseInt(deleteFileValue), pages);
@@ -67,6 +66,7 @@ export default function Home() {
         <h1 className="text-3xl font-bold mb-4">The size of the page is 4kb</h1>
         <h1>Last error: {errorDisplay}</h1>
       </div>
+
       {/* The stuff below is the ssd stuff. The above is info*/}
       <div className="md:mt-10 md:ml-auto mr-20">
 
@@ -94,7 +94,9 @@ export default function Home() {
           Delete file n
         </button>
 
-        <select defaultValue="Select an Algorithm" className="select" onChange={e => setAlgorithm(e.target.value)}>
+        <select defaultValue="Select an Algorithm" 
+        className="select select-bordered text-blue-500 border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded" 
+        onChange={e => setAlgorithm(e.target.value)}>
           <option disabled={true}>Select an Algorithm</option>
           <option>Greedy</option>
         </select>
@@ -102,21 +104,21 @@ export default function Home() {
 
 
         <Ssdpage bgColour="bg-yellow-300" status="THIS IS SUPPOSED TO BE A PLANE, NOT A PAGE!!!!">
-  {/* 2x2 Block Grid */}
-  <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
-    {/* Better way to have a grid */}
-    {Array(4).fill(0).map((_, i) => (
-          <Ssdblock 
-        key={`block-${i}`}
-        pages={pages} 
-        blockNumber={i+1} 
-        startPageIndex={i*blockSize} 
-              blockSize={blockSize}
-      />
-    ))}
+          {/* 2x2 Block Grid */}
+          <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
+            {/* Better way to have a grid */}
+            {Array(4).fill(0).map((_, i) => (
+                  <Ssdblock 
+                key={`block-${i}`}
+                pages={pages} 
+                blockNumber={i+1} 
+                startPageIndex={i*blockSize} 
+                      blockSize={blockSize}
+              />
+            ))}
 
-  </div>
-</Ssdpage>
+          </div>
+        </Ssdpage>
 
         <Ssdpage bgColour="bg-yellow-300" status="Backup pages">
         <div className="flex space-x-4">
