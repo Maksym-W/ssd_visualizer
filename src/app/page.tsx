@@ -19,8 +19,17 @@ export interface Block {
 
 export default function Home() {
   const blockSize = 16;  // Make sure that this is a multiple of 4.
+  let newBlocks: Array<Block> = [];
+  for (let i = 0; i < 4; i++) {
+    let pages = [];
+    for (let j = 0; j < 16; j++) {
+      pages.push({ status: "Empty", bgColour: "bg-green-500" })
+    }
+    const newBlock: Block = { pages: pages, numOfStalePages: 0 };
+    newBlocks.push(newBlock);
+  }
 
-  const [blocks, setBlocks] = useState(Array<Block>(4));
+  const [blocks, setBlocks] = useState(newBlocks);
 
   // Block we're currently writing to
   const [currentBlock, setCurrentBlock] = useState(-1);
@@ -68,19 +77,6 @@ export default function Home() {
 //     bgColour: string;
 //     writtenByFile?: number;
 // };
-
-  // Instantiate the pages here
-  let newBlocks = [];
-  for (let i = 0; i < 4; i++) {
-    let pages = [];
-    for (let j = 0; j < 16; j++) {
-      pages.push({ status: "Empty", bgColour: "bg-green-500" })
-    }
-    const newBlock: Block = { pages: pages, numOfStalePages: 0 };
-    newBlocks.push(newBlock);
-  }
-  console.log(newBlocks);
-  setBlocks(newBlocks);
 
 
   return (
@@ -139,6 +135,7 @@ export default function Home() {
           {/* 2x2 Block Grid */}
           <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
             {/* Better way to have a grid */}
+            {console.log(blocks)}
             {Array(4).fill(0).map((_, i) => (
                   <Ssdblock 
                 key={`block-${i}`}
