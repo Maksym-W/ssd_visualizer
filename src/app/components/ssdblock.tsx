@@ -30,9 +30,9 @@ export default function Ssdblock({ pages,  blockNumber,  startPageIndex, bgColou
           return (
             <Ssdpage
               key={`block-${blockNumber}-page-${i}`}
-              bgColour={pages[pageIndex]?.bgColour || bgColour}
+              bgColour={pages[i]?.bgColour || bgColour}
               pageNumber={pageIndex}
-              status={pages[pageIndex]?.status || status}
+              status={pages[i]?.status || status}
             />
           );
         })}
