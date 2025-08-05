@@ -56,6 +56,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
   let ignoredPages = [];
 
+  let amountWritten = 0 // Will be used if we need to do garbage collection
   while (pagesToUpdate > 0 && currentBlock != -1) {
     // Find available pages (NOTE: might not work like this)
     const emptyPages = newBlocks[currentBlock].pages
@@ -72,6 +73,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
         status: `Written by file ${fileID}`,
         bgColour: getFileColour(fileID) // Optional: different colors per file
       };
+      amountWritten += 4;
     });
     newBlocks[currentBlock].pages = updatedPages;
 
@@ -85,7 +87,8 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
   if (currentBlock == -1) {  // NOTE: add sum of all stale pages here
     greedyGarbageCollection(newBlocks, backupPages, setCurrentBlock);
-    greedyWrite(size, blocks, currentBlock, setCurrentBlock, fileID, backupPages, setBackupPages);
+    console.log(size - amountWritten);
+    greedyWrite(size - amountWritten, blocks, currentBlock, setCurrentBlock, fileID, backupPages, setBackupPages);
     return blocks;
   }
   setCurrentBlock(currentBlock);
