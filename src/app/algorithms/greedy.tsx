@@ -43,7 +43,7 @@ const maxStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
 
 export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, backupPages: Array<Page>, setBackupPages: Function): Array<Block> {
 
-  if (isNaN(size)) return;
+  if (isNaN(size)) return [];
 
   // check if the currentBlock exists yet (default value is -1)
   if (currentBlock == -1) {
@@ -96,7 +96,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 }
 
 export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: Function): Array<Block> {
-  if (isNaN(fileID)) return;
+  if (isNaN(fileID)) return [];
 
   let newBlocks = [...blocks];
 

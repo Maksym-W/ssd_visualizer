@@ -119,6 +119,14 @@ export default function Home() {
           <option disabled={true}>Select an Algorithm</option>
           <option>Greedy</option>
         </select>
+        {/* The below doesnt do anything yet */}
+        <select defaultValue="Slow Mo off" 
+        className="select select-bordered text-blue-500 border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded" 
+        onChange={e => setAlgorithm(e.target.value)}>
+          <option>Slow Mo On</option>
+          <option>Slow Mo off</option>
+        </select>
+        
         
 
 
