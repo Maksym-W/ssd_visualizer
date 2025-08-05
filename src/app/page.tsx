@@ -87,21 +87,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
-      {/* <div className="text-left max-w-xl"> */}
-      {/*   <h1 className="text-3xl font-bold mb-4">SSD Model</h1> */}
-      {/*   <p className="text-lg"> */}
-      {/*     The stuff on the right is an in-progress attempt of visualizing an ssd. The below is an image of the goal, and the right is what is coded */}
-      {/*   </p> */}
-      {/*     <img */}
-      {/*       src="https://images.anandtech.com/doci/7864/NAND%20die.png" */}
-      {/*       alt="A photo of what we want" */}
-      {/*       className="w-[600px] h-auto rounded-lg shadow-lg" */}
-      {/*     /> */}
-      {/*   <h1 className="text-3xl font-bold mb-4">The size of the page is 4kb</h1> */}
-      {/*   <h1>Last error: {errorDisplay}</h1> */}
-      {/* </div> */}
-
-      {/* The stuff below is the ssd stuff. The above is info*/}
       <div className="md:mt-10 md:ml-auto mr-20">
 
         {/* NOTE: for some reason I can't have both value={} and placeholder= in this... so if you don't like one then yeah */}
@@ -165,14 +150,6 @@ export default function Home() {
               status={page.status}
             />
             ))}
-            {/* {[...Array(24)].map((_, i) => ( */}
-            {/*   <Ssdpage */}
-            {/*     key={"left-" + i} */}
-            {/*     bgColour={"bg-green-500"} */}
-            {/*     pageNumber={pageCounter++} */}
-            {/*     status={"Empty"} */}
-            {/*   /> */}
-            {/* ))} */}
          </div>
         </div>
         </Ssdpage>  

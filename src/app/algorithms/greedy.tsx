@@ -22,10 +22,10 @@ const minStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
 }
 
 const maxStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) => {
-  let maxNumOfStalePages = Infinity;
+  let maxNumOfStalePages = -Infinity;
   let maxIndex = -1;
   let index = 0;
-  // Check for the block with the fewest stale blocks (NOT in ignoredPages)
+  // Check for the block with the most stale blocks (NOT in ignoredPages)
   for (let i = 0; i < blocks.length; i++) {
     if (ignoredPages.includes(i)) {
       index++;
@@ -50,13 +50,12 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
     currentBlock = minStalePages(blocks);
   }
 
-
   let pagesToUpdate = Math.ceil(size / 4);
 
   let newBlocks = blocks.slice();
 
-
   let ignoredPages = [];
+
   while (pagesToUpdate > 0 && currentBlock != -1) {
     // Find available pages (NOTE: might not work like this)
     const emptyPages = newBlocks[currentBlock].pages
@@ -85,8 +84,8 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
   }
 
   if (currentBlock == -1) {  // NOTE: add sum of all stale pages here
-    setBackupPages(greedyGarbageCollection(newBlocks, backupPages));
-    console.error("Not enough space!");  // NOTE: in reality, this is where garbage collection would probably be 
+    greedyGarbageCollection(newBlocks, backupPages, setCurrentBlock);
+    greedyWrite(size, blocks, currentBlock, setCurrentBlock, fileID, backupPages, setBackupPages);
     return blocks;
   }
   setCurrentBlock(currentBlock);
@@ -118,32 +117,25 @@ export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlo
   return newBlocks;
 }
 
-export function greedyGarbageCollection(blocks: Array<Block>, backupPages: Array<Page>): Array<Page> {
+export function greedyGarbageCollection(blocks: Array<Block>, backupPages: Array<Page>, setCurrentBlock: Function): Array<Page> {
   // find the block with the most amount of stale pages
-  let block = maxStalePages(blocks);
+  let blockIndex = maxStalePages(blocks);
 
   // Step 1: Find each non-stale page, write it to the backup pages
-  let newBackupPages = backupPages.slice();
-
-  for (const block of blocks) {
-    for (const page of block.pages) {
-      if (page.status.startsWith("Written")) {
-        if (newBackupPages.length < 16) {  // Hardcoded max backup pages size
-          // Look for the first empty backup page
-          for (const i in newBackupPages) {
-            const backupPage = newBackupPages[i];
-            if (backupPage.status.startsWith("Empty")) {
-              newBackupPages[i] = page;
-              break;
-            }
-          }
-        }
-      }
-    }
-  }
+  const newBackupPages: Array<Page> = [];
   
-  console.log(newBackupPages);
-  return newBackupPages
-  // Step 2: set all pages (across all blocks) to empty pages
+  for (const page of blocks[blockIndex].pages) 
+    if (/^Written by file \d+$/.test(page.status)) newBackupPages.push(page);
+
+  for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) // Note, we are assuming that all of the pages in the backup are empty.
+      backupPages[pageIndex] = newBackupPages[pageIndex];
+
+  // Step 2: set all pages in the block to empty pages
+  for (let pageIndex = 0; pageIndex < backupPages.length; pageIndex++) blocks[blockIndex].pages[pageIndex] = { status: "Empty", bgColour: "bg-green-500"};
+
   // Step 3: write back the backup pages
+  for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) 
+    blocks[blockIndex].pages[pageIndex] = newBackupPages[pageIndex]; // Maybe call greedywrite here instead?
+
+  return [];
 }
