@@ -1,6 +1,16 @@
 import { Block, Page } from "../page";
 import getFileColour from "../utils/utils";
 
+const numOfEmptyPages = (block: Block) => {
+  let numOfPages = 0;
+  for (let j = 0; j < block.pages.length; j++){
+    if (block.pages[j].status == "Empty"){
+      numOfPages += 1;
+    }
+  }
+  return numOfPages
+}
+
 const minStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) => {
   let minNumOfStalePages = Infinity;
   let minIndex = -1;
@@ -48,12 +58,8 @@ const maxEmptyPages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
 
   for (let i = 0; i < blocks.length; i++){
     const block = blocks[i];
-    let numOfCurrentEmptyPages = 0
-    for (let j = 0; j < block.pages.length; j++){
-      if (block.pages[j].status == "Empty"){
-        numOfCurrentEmptyPages += 1;
-      }
-    }
+    let numOfCurrentEmptyPages = numOfEmptyPages(block);
+
     if (numOfCurrentEmptyPages > maxNumOfEmptyPages) {
       maxNumOfEmptyPages = numOfCurrentEmptyPages;
       maxIndex = i;
@@ -102,13 +108,19 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
     pagesToUpdate -= 1;
 
     if (pagesToUpdate > 0) {
-      if (currentBlock + 1 == blocks.length) {
-        currentBlock = maxEmptyPages(blocks)
-      } else {
-        // Retrigger the currentBlock algorithm
+      currentBlock = maxEmptyPages(blocks);
+      if (numOfEmptyPages(blocks[currentBlock]) == 0){
         ignoredPages.push(currentBlock)
         currentBlock = minStalePages(newBlocks, ignoredPages);
       }
+
+      // if (currentBlock + 1 == blocks.length) {
+      //   currentBlock = maxEmptyPages(blocks)
+      // } else {
+      //   // Retrigger the currentBlock algorithm
+        // ignoredPages.push(currentBlock)
+        // currentBlock = minStalePages(newBlocks, ignoredPages);
+      // }
     }
   }
 
