@@ -15,7 +15,10 @@ export interface Page {
 };
 
 export interface Block {
-  numOfStalePages: number;
+  numStalePages: number;
+  numBlankPages: number;
+  numLivePages: number;
+  numErases: number;
   pages: Array<Page>;
 }
 
@@ -31,7 +34,7 @@ export default function Home() {
     for (let j = 0; j < pageRows * pageCols; j++) {
       pages.push({ status: "Empty", bgColour: "bg-green-500" })
     }
-    const newBlock: Block = { pages: pages, numOfStalePages: 0 };
+    const newBlock: Block = { pages: pages, numStalePages: 0, numBlankPages: pageRows * pageCols, numLivePages: 0, numErases: 0 };
     newBlocks.push(newBlock);
   }
 
@@ -62,7 +65,7 @@ export default function Home() {
 
   const handleWriteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, backupPages, setBackupPages);
+      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, backupPages, setBackupPages, 0);
 
       setBlocks(updatedBlocks);
       setFileCounter(fileCounter + 1); // Increment for next file
@@ -93,41 +96,41 @@ export default function Home() {
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
-      <div className="md:mt-10 md:ml-auto mr-20">
 
+      <div className="md:mt-10 md:ml-auto mr-20">
         {/* NOTE: for some reason I can't have both value={} and placeholder= in this... so if you don't like one then yeah */}
         <input type="text"
           onChange={(e) => setFileSizeValue(e.target.value)}
           value={fileSizeValue} 
-          className="border border-blue-500 text-blue-500 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200"
+          className="input input-primary"
         />
 
         <button onClick={handleWriteFile}
-          className="btn btn-outline btn-primary border-blue-500 text-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded"
+          className="btn btn-primary"
         >
           Write a file of size n kilobytes
         </button>
 
         <input type="text" placeholder="Enter value..."
           onChange={(e) => setDeleteFileValue(e.target.value)}
-          className="border border-blue-500 text-blue-500 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200"
+          className="input input-primary"
         />
 
         <button onClick={handleDeleteFile}
-          className="btn btn-outline btn-primary border-blue-500 text-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded"
+          className="btn btn-primary"
         >
           Delete file n
         </button>
 
         <select defaultValue="Greedy" 
-        className="select select-bordered text-blue-500 border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded" 
+        className="select select-primary" 
         onChange={e => setAlgorithm(e.target.value)}>
           <option disabled={true}>Select an Algorithm</option>
           <option>Greedy</option>
         </select>
         {/* The below doesnt do anything yet */}
         <select defaultValue="Slow Mo off" 
-        className="select select-bordered text-blue-500 border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded" 
+        className="select select-primary" 
         onChange={e => setAlgorithm(e.target.value)}>
           <option>Slow Mo On</option>
           <option>Slow Mo off</option>
@@ -136,9 +139,26 @@ export default function Home() {
         
 
 
-        {/* <SSDDie blockRows={4} blockCols={4} pageRows={4} pageCols={8} text={"Main Storage"}/> */}
         <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
-        {/* <SSDDie blocks={blocks} text={"Main Storage"} /> */}
+
+        <div className="bg-blue-500 inline-block">
+          <p className="font-bold">Legend</p>
+          <p className="font-bold">Blocks</p>
+          <ul>
+            <li>E: Empty Pages</li>
+            <li>L: Live Pages</li>
+            <li>B: Blank Pages</li>
+            <li>S: Stale Pages</li>
+          </ul>
+          <p className="font-bold">Pages</p>
+          <ul>
+            <li>Green: Blank Page</li>
+            <li>Grey: Stale Page</li>
+            <li>Any other colour: Live Page</li>
+            <li>#1 (#2): File #1 (Page #2 of the file)</li>
+          </ul>
+        </div>
+
       </div>
     </div>
   );

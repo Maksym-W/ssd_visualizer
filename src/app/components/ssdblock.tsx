@@ -4,7 +4,7 @@ import SSDPage from "./ssdpage"
 export default function SSDBlock({ block, pageRows, pageCols, blockNumber }: { block: Block, pageRows: number, pageCols: number, blockNumber: number }) {
   return (
     <div className="bg-white p-2">
-      <p>Block number {blockNumber}</p>
+      <p>Block{blockNumber}  E: {block.numErases} L: {block.numLivePages} B: {block.numBlankPages} S: {block.numStalePages}</p>
       <div
         className="grid gap-1"
         style={{

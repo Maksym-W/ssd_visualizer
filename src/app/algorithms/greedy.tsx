@@ -12,9 +12,9 @@ const minStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
       continue;
     };
     const block = blocks[i];
-    if (block.numOfStalePages < minNumOfStalePages) {
+    if (block.numStalePages < minNumOfStalePages) {
       minIndex = index;
-      minNumOfStalePages = block.numOfStalePages;
+      minNumOfStalePages = block.numStalePages;
     }
     index++;
   }
@@ -32,16 +32,16 @@ const maxStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
       continue;
     };
     const block = blocks[i];
-    if (block.numOfStalePages > maxNumOfStalePages) {
+    if (block.numStalePages > maxNumOfStalePages) {
       maxIndex = index;
-      maxNumOfStalePages = block.numOfStalePages;
+      maxNumOfStalePages = block.numStalePages;
     }
     index++;
   }
   return maxIndex;
 }
 
-export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, backupPages: Array<Page>, setBackupPages: Function): Array<Block> {
+export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, backupPages: Array<Page>, setBackupPages: Function, numAlreadyWritten: number): Array<Block> {
 
   if (isNaN(size)) return [];
 
@@ -57,6 +57,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
   let ignoredPages = [];
 
   let pageIndexPlus = 0;
+  let numWrittenPages = numAlreadyWritten;
   while (pagesToUpdate > 0 && currentBlock != -1) {
     // Find available pages (NOTE: might not work like this)
     const emptyPages = newBlocks[currentBlock].pages
@@ -65,17 +66,25 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
     // Combine empty and previously written pages (if you want to allow overwrites)
     const availablePages = [...emptyPages];
-
-    // Create updated pages array
     const updatedPages = [...newBlocks[currentBlock].pages];
-    availablePages.slice(0, pagesToUpdate).forEach((page, index) => {
+    console.log(availablePages);
+
+    // Write to the new pages
+    let numWrittenOnBlock = 0;
+    for (let i = 0; i < Math.min(pagesToUpdate, availablePages.length); i++) {
+      const page = availablePages[i];
       updatedPages[page.index] = {
         status: `Written by file ${fileID}`,
-        bgColour: getFileColour(fileID), // Optional: different colors per file
+        bgColour: getFileColour(fileID),
         writtenByFile: fileID,
-      };
-    });
+        filePageNumber: numWrittenPages
+      }
+      numWrittenPages++;
+      numWrittenOnBlock++;
+    }
     newBlocks[currentBlock].pages = updatedPages;
+    newBlocks[currentBlock].numLivePages += numWrittenOnBlock;
+    newBlocks[currentBlock].numBlankPages -= numWrittenOnBlock;
 
     pagesToUpdate -= availablePages.length;
     if (pagesToUpdate > 0) {
@@ -89,7 +98,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
   if (currentBlock == -1) {  // NOTE: add sum of all stale pages here
 
     // This should get rid of any recursion errors.
-    const numOfStalePages = blocks.reduce((acc, block) => acc + block.numOfStalePages, 0);
+    const numOfStalePages = blocks.reduce((acc, block) => acc + block.numStalePages, 0);
     if (pagesToUpdate > numOfStalePages) {
       return blocks;
     }
@@ -97,7 +106,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
     // we should check if there are enough spaces to write to.
     greedyGarbageCollection(newBlocks, backupPages, setCurrentBlock);
     console.log("Stale pages remaining: " + numOfStalePages);
-    greedyWrite(pagesToUpdate * 4, newBlocks, currentBlock, setCurrentBlock, fileID, backupPages, setBackupPages);
+    greedyWrite(pagesToUpdate * 4, newBlocks, currentBlock, setCurrentBlock, fileID, backupPages, setBackupPages, numAlreadyWritten);
   } else {
     return blocks;
   }
@@ -122,7 +131,8 @@ export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlo
       }
     }
 
-    block.numOfStalePages += newStaleBlocks;
+    block.numStalePages += newStaleBlocks;
+    block.numLivePages -= newStaleBlocks;
     newBlocks[i] = block;
   }
 
@@ -152,7 +162,7 @@ export function greedyGarbageCollection(blocks: Array<Block>, backupPages: Array
     blocks[blockIndex].pages[pageIndex] = newBackupPages[pageIndex]; // Maybe call greedywrite here instead?
 
   // NOTE: we also need to reset the number of stale pages in the block
-  blocks[blockIndex].numOfStalePages = 0;
+  blocks[blockIndex].numStalePages = 0;
 
   console.log("garbage collection is done.");
   return [];
