@@ -18,6 +18,7 @@ const minStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
     }
     index++;
   }
+  
   return minIndex;
 }
 
@@ -41,6 +42,27 @@ const maxStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
   return maxIndex;
 }
 
+const maxEmptyPages = (blocks: Array<Block>, ignoredPages: Array<number> = []) => {
+  let maxNumOfEmptyPages = -Infinity;
+  let maxIndex = -1;
+
+  for (let i = 0; i < blocks.length; i++){
+    const block = blocks[i];
+    let numOfCurrentEmptyPages = 0
+    for (let j = 0; j < block.pages.length; j++){
+      if (block.pages[j].status == "Empty"){
+        numOfCurrentEmptyPages += 1;
+      }
+    }
+    if (numOfCurrentEmptyPages > maxNumOfEmptyPages) {
+      maxNumOfEmptyPages = numOfCurrentEmptyPages;
+      maxIndex = i;
+    }
+  }
+
+  return maxIndex
+}
+
 export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, backupPages: Array<Page>, setBackupPages: Function): Array<Block> {
 
   if (isNaN(size)) return [];
@@ -57,7 +79,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
   let ignoredPages = [];
 
   while (pagesToUpdate > 0 && currentBlock != -1) {
-    // Find available pages (NOTE: might not work like this)
+    // Find available pages within the current block. (NOTE: might not work like this)
     const emptyPages = newBlocks[currentBlock].pages
       .map((page, index) => ({ ...page, index }))
       .filter(page => page.status.startsWith("Empty"));
@@ -65,21 +87,28 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
     // Combine empty and previously written pages (if you want to allow overwrites)
     const availablePages = [...emptyPages];
 
-    // Create updated pages array
+    // Write into the first available page.
     const updatedPages = [...newBlocks[currentBlock].pages];
-    availablePages.slice(0, pagesToUpdate).forEach(page => {
-      updatedPages[page.index] = {
-        status: `Written by file ${fileID}`,
-        bgColour: getFileColour(fileID) // Optional: different colors per file
-      };
-    });
+
+    const firstPage = availablePages[0];
+    updatedPages[firstPage.index] = {
+      ...updatedPages[firstPage.index], // keep existing props if needed
+      status: `Written by file ${fileID}`,
+      bgColour: getFileColour(fileID) // Optional: different colors per file
+    };
+
     newBlocks[currentBlock].pages = updatedPages;
 
-    pagesToUpdate -= availablePages.length;
+    pagesToUpdate -= 1;
+
     if (pagesToUpdate > 0) {
-      // Retrigger the currentBlock algorithm
-      ignoredPages.push(currentBlock)
-      currentBlock = minStalePages(newBlocks, ignoredPages);
+      if (currentBlock + 1 == blocks.length) {
+        currentBlock = maxEmptyPages(blocks)
+      } else {
+        // Retrigger the currentBlock algorithm
+        ignoredPages.push(currentBlock)
+        currentBlock = minStalePages(newBlocks, ignoredPages);
+      }
     }
   }
 
