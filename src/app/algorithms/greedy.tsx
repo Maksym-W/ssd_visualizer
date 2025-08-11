@@ -41,7 +41,7 @@ const maxStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
   return maxIndex;
 }
 
-export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, backupPages: Array<Page>, setBackupPages: Function, numAlreadyWritten: number): Array<Block> {
+export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, setOverprovisionArea: Function, numAlreadyWritten: number): Array<Block> {
 
   if (isNaN(size)) return [];
 
@@ -104,9 +104,9 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
     }
 
     // we should check if there are enough spaces to write to.
-    greedyGarbageCollection(newBlocks, backupPages, setCurrentBlock);
+    // greedyGarbageCollection(newBlocks, overprovisionArea, setCurrentBlock);
     console.log("Stale pages remaining: " + numOfStalePages);
-    greedyWrite(pagesToUpdate * 4, newBlocks, currentBlock, setCurrentBlock, fileID, backupPages, setBackupPages, numAlreadyWritten);
+    greedyWrite(pagesToUpdate * 4, newBlocks, currentBlock, setCurrentBlock, fileID, overprovisionArea, setOverprovisionArea, numAlreadyWritten);
   } else {
     return blocks;
   }
@@ -140,30 +140,78 @@ export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlo
   return newBlocks;
 }
 
-export function greedyGarbageCollection(blocks: Array<Block>, backupPages: Array<Page>, setCurrentBlock: Function): Array<Page> {
-  console.log("garbage collection has started");
-  // find the block with the most amount of stale pages
-  let blockIndex = maxStalePages(blocks);
-
-  // Step 1: Find each non-stale page, write it to the backup pages
-  const newBackupPages: Array<Page> = [];
+export function greedyGarbageCollection(blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function): Array<Block> {
+  // Right now, this is going to clear EVERY block that has stale pages.
+  // Realistically this rarely happens.
+  // This will eventually be a toggleable mode. There is a manual mode (this one)
+  // that will clear everything, and an automatic mode that will work when a certain
+  // condition is met.
   
-  for (const page of blocks[blockIndex].pages) 
-    if (/^Written by file \d+$/.test(page.status)) newBackupPages.push(page);
+  // Step 1: iterate over every block.
+  const newBlocks = [...blocks];
 
-  for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) // Note, we are assuming that all of the pages in the backup are empty.
-      backupPages[pageIndex] = newBackupPages[pageIndex];
+  const blocksToWipe: number[] = [];
+  for (let i = 0; i < newBlocks.length; i++) {
+    const block = newBlocks[i];
+    for (let index = 0; index < block.pages.length; index++) {
+      const page = block.pages[index];
+      if (page.status.startsWith("Stale")) {
+        // This block needs to be wiped
+        blocksToWipe.push(i);
+        break;
+      }
+    }
+  }
 
-  // Step 2: set all pages in the block to empty pages
-  for (let pageIndex = 0; pageIndex < backupPages.length; pageIndex++) blocks[blockIndex].pages[pageIndex] = { status: "Empty", bgColour: "bg-green-500"};
+  console.log(newBlocks);
 
-  // Step 3: write back the backup pages
-  for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) 
-    blocks[blockIndex].pages[pageIndex] = newBackupPages[pageIndex]; // Maybe call greedywrite here instead?
+  // Step 2: Iterate over the blocks to wipe.
+  // We're going to first get rid of all of the stale pages.
+  // Then we're going to re-distribute all of the non-stale pages.
+  for (let i = 0; i < blocksToWipe.length; i++) {
+    // Check if i > the number of overprovision blocks we have. In this case, we can't switch out the block
+    // to our OP area. Instead, we will increment the erase cycles on that block exactly.
+    if (i >= overprovisionArea.length) {
+      newBlocks[blocksToWipe[i]].numErases++;
+    } else {
+      // In this case, we increment the number of erases on the corresponding OP block (we're switching it out)
+      // We don't just want to pick any block, though... We want to pick the block with the least erases.
+      const minIndex = overprovisionArea.reduce((minIdx, block, i, a) => block.numErases < a[minIdx].numErases ? i : minIdx, 0);
+      // Of course, if the number of erases on the current block is less than on the OP block, we will just erase ours.
+      if (newBlocks[blocksToWipe[i]].numErases < overprovisionArea[minIndex].numErases) {
+        newBlocks[blocksToWipe[i]].numErases++;
+      } else {
+        overprovisionArea[minIndex].numErases++;
+      }
+    }
 
-  // NOTE: we also need to reset the number of stale pages in the block
-  blocks[blockIndex].numStalePages = 0;
+    // Now we get all of the non-stale pages into a backup array
+    const newPages = [];
+    for (let j = 0; j < newBlocks[blocksToWipe[i]].pages.length; j++) {
+      newPages.push({ status: "Empty", bgColour: "bg-green-500" });
+    }
 
-  console.log("garbage collection is done.");
-  return [];
+    // Now we fill in all of the written pages into the new pages array
+    let currentIndex = 0;
+    for (let j = 0; j < newBlocks[blocksToWipe[i]].pages.length; j++) {
+      const page = newBlocks[blocksToWipe[i]].pages[j];
+      if (page.status.startsWith("Written")) {
+        newPages[currentIndex] = page;
+        currentIndex++;
+      } 
+    }
+
+    // Finally, we overwrite the block's with our new pages.
+    newBlocks[blocksToWipe[i]].pages = newPages;
+
+    // And we also need to get rid of the number of stale pages in the block!! Important!!
+    newBlocks[blocksToWipe[i]].numStalePages = 0;
+    // And also add the new number of blank pages!
+    newBlocks[blocksToWipe[i]].numBlankPages = (newBlocks[blocksToWipe[i]].pages.length - currentIndex);
+  }
+
+  // For good measure
+  setCurrentBlock(minStalePages(blocks, []));
+
+  return newBlocks;
 }

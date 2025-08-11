@@ -4,7 +4,7 @@ import Ssdpage from "./components/ssdpage";
 import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
-import { greedyWrite, greedyDelete } from "./algorithms/greedy";
+import { greedyWrite, greedyDelete, greedyGarbageCollection } from "./algorithms/greedy";
 import SSDDie from "./components/ssddie";
 
 export interface Page {
@@ -38,13 +38,19 @@ export default function Home() {
     newBlocks.push(newBlock);
   }
 
-  let newBackupPages = [];
-  for (let i = 0; i < 16; i++) {
-    newBackupPages.push({ status: "Empty", bgColour: "bg-green-500" })
+  let newOverprovisionArea = [];
+  for (let i = 0; i < blockRows * blockCols / 4; i++) {
+    let pages = [];
+    for (let j = 0; j < pageRows * pageCols; j++) {
+      pages.push({ status: "Empty", bgColour: "bg-green-500" })
+    }
+    const newBlock: Block = { pages: pages, numStalePages: 0, numBlankPages: pageRows * pageCols, numLivePages: 0, numErases: 0 };
+    newOverprovisionArea.push(newBlock);
   }
+  console.log(newOverprovisionArea);
 
   const [blocks, setBlocks] = useState(newBlocks);
-  const [backupPages, setBackupPages] = useState(newBackupPages)
+  const [overprovisionArea, setOverprovisionArea] = useState(newOverprovisionArea)
 
   // Block we're currently writing to
   const [currentBlock, setCurrentBlock] = useState(-1);
@@ -65,7 +71,7 @@ export default function Home() {
 
   const handleWriteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, backupPages, setBackupPages, 0);
+      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, 0);
 
       setBlocks(updatedBlocks);
       setFileCounter(fileCounter + 1); // Increment for next file
@@ -86,12 +92,12 @@ export default function Home() {
     }
   };
 
+  const handleGarbageCollection = () => {
+    let newBlocks = greedyGarbageCollection(blocks, overprovisionArea, setCurrentBlock);
+    setBlocks(newBlocks);
+  }
+
   let pageCounter = 1;
-// export interface Page {
-//     status: string;
-//     bgColour: string;
-//     writtenByFile?: number;
-// };
 
 
   return (
@@ -128,18 +134,20 @@ export default function Home() {
           <option disabled={true}>Select an Algorithm</option>
           <option>Greedy</option>
         </select>
-        {/* The below doesnt do anything yet */}
-        <select defaultValue="Slow Mo off" 
-        className="select select-primary" 
-        onChange={e => setAlgorithm(e.target.value)}>
-          <option>Slow Mo On</option>
-          <option>Slow Mo off</option>
-        </select>
+
+        <button onClick={handleGarbageCollection}
+          className="btn btn-primary"
+        >
+          Toggle Garbage Collection
+        </button>
         
         
 
 
         <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
+
+        {/* Overprovision Area */}
+        <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
 
         <div className="bg-blue-500 inline-block">
           <p className="font-bold">Legend</p>
