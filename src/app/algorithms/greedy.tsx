@@ -56,6 +56,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
   let ignoredPages = [];
 
+  let pageIndexPlus = 0;
   while (pagesToUpdate > 0 && currentBlock != -1) {
     // Find available pages (NOTE: might not work like this)
     const emptyPages = newBlocks[currentBlock].pages
@@ -67,10 +68,11 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
     // Create updated pages array
     const updatedPages = [...newBlocks[currentBlock].pages];
-    availablePages.slice(0, pagesToUpdate).forEach(page => {
+    availablePages.slice(0, pagesToUpdate).forEach((page, index) => {
       updatedPages[page.index] = {
         status: `Written by file ${fileID}`,
-        bgColour: getFileColour(fileID) // Optional: different colors per file
+        bgColour: getFileColour(fileID), // Optional: different colors per file
+        writtenByFile: fileID,
       };
     });
     newBlocks[currentBlock].pages = updatedPages;
@@ -82,6 +84,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
       currentBlock = minStalePages(newBlocks, ignoredPages);
     }
   }
+  pageIndexPlus = 0;
 
   if (currentBlock == -1) {  // NOTE: add sum of all stale pages here
 

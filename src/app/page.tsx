@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
+import SSDDie from "./components/ssddie";
 
 export interface Page {
     status: string;
     bgColour: string;
     writtenByFile?: number;
+    filePageNumber?: number;
 };
 
 export interface Block {
@@ -18,11 +20,15 @@ export interface Block {
 }
 
 export default function Home() {
-  const blockSize = 16;  // Make sure that this is a multiple of 4.
+  const blockRows = 4;
+  const blockCols = 4;
+  const pageRows = 4;
+  const pageCols = 8;
+
   let newBlocks: Array<Block> = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < blockRows * blockCols; i++) {
     let pages = [];
-    for (let j = 0; j < 16; j++) {
+    for (let j = 0; j < pageRows * pageCols; j++) {
       pages.push({ status: "Empty", bgColour: "bg-green-500" })
     }
     const newBlock: Block = { pages: pages, numOfStalePages: 0 };
@@ -130,37 +136,9 @@ export default function Home() {
         
 
 
-        <Ssdpage bgColour="bg-yellow-300" status="THIS IS SUPPOSED TO BE A PLANE, NOT A PAGE!!!!">
-          {/* 2x2 Block Grid */}
-          <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
-            {/* Better way to have a grid */}
-            {Array(4).fill(0).map((_, i) => (
-                  <Ssdblock 
-                key={`block-${i}`}
-                pages={blocks[i].pages} 
-                blockNumber={i+1} 
-                startPageIndex={i*blockSize} 
-                      blockSize={blockSize}
-              />
-            ))}
-
-          </div>
-        </Ssdpage>
-
-        <Ssdpage bgColour="bg-yellow-300" status="Backup pages">
-        <div className="flex space-x-4">
-          <div className="grid grid-cols-4 gap-2">
-            {backupPages.map((page, i) => (
-            <Ssdpage 
-              key={"left-" + i}
-              bgColour={page.bgColour}
-              pageNumber={pageCounter++}
-              status={page.status}
-            />
-            ))}
-         </div>
-        </div>
-        </Ssdpage>  
+        {/* <SSDDie blockRows={4} blockCols={4} pageRows={4} pageCols={8} text={"Main Storage"}/> */}
+        <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
+        {/* <SSDDie blocks={blocks} text={"Main Storage"} /> */}
       </div>
     </div>
   );
