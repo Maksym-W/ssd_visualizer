@@ -75,7 +75,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
   // check if the currentBlock exists yet (default value is -1)
   if (currentBlock == -1) {
-    currentBlock = minStalePages(blocks);
+    currentBlock = maxEmptyPages(blocks);
   }
 
   let pagesToUpdate = Math.ceil(size / 4);
