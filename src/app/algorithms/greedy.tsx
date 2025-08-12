@@ -49,6 +49,8 @@ const maxStalePages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
     }
     index++;
   }
+  if (maxNumOfStalePages == 0) console.error("There are no pages to free!");
+  console.log(maxNumOfStalePages);
   return maxIndex;
 }
 
@@ -70,7 +72,6 @@ const maxEmptyPages = (blocks: Array<Block>, ignoredPages: Array<number> = []) =
 }
 
 export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, backupPages: Array<Page>, setBackupPages: Function): Array<Block> {
-
   if (isNaN(size)) return [];
 
   // check if the currentBlock exists yet (default value is -1)
@@ -95,8 +96,9 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
     // Write into the first available page.
     const updatedPages = [...newBlocks[currentBlock].pages];
+
     if (availablePages[0] == undefined) {
-      greedyGarbageCollection(newBlocks, backupPages, setCurrentBlock);
+      currentBlock = greedyGarbageCollection(blocks, backupPages, setCurrentBlock);
       continue;
     }
     const firstPage = availablePages[0];
@@ -118,19 +120,10 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
         ignoredPages.push(currentBlock)
         currentBlock = minStalePages(newBlocks, ignoredPages);
       }
-
-      // if (currentBlock + 1 == blocks.length) {
-      //   currentBlock = maxEmptyPages(blocks)
-      // } else {
-      //   // Retrigger the currentBlock algorithm
-        // ignoredPages.push(currentBlock)
-        // currentBlock = minStalePages(newBlocks, ignoredPages);
-      // }
     }
   }
 
   if (currentBlock == -1) {  // NOTE: add sum of all stale pages here
-
     // This should get rid of any recursion errors.
     const numOfStalePages = blocks.reduce((acc, block) => acc + block.numOfStalePages, 0);
     if (pagesToUpdate > numOfStalePages) {
@@ -173,7 +166,7 @@ export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlo
   return newBlocks;
 }
 
-export function greedyGarbageCollection(blocks: Array<Block>, backupPages: Array<Page>, setCurrentBlock: Function): Array<Page> {
+export function greedyGarbageCollection(blocks: Array<Block>, backupPages: Array<Page>, setCurrentBlock: Function): number {
   console.log("garbage collection has started");
   // find the block with the most amount of stale pages
   let blockIndex = maxStalePages(blocks);
@@ -198,5 +191,5 @@ export function greedyGarbageCollection(blocks: Array<Block>, backupPages: Array
   blocks[blockIndex].numOfStalePages = 0;
 
   console.log("garbage collection is done.");
-  return [];
+  return blockIndex;
 }
