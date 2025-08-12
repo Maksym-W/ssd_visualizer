@@ -10,11 +10,70 @@ export interface Page {
     status: string;
     bgColour: string;
     writtenByFile?: number;
+    uses?: number; // TODO Make uses compulsory
 };
 
 export interface Block {
   numOfStalePages: number;
   pages: Array<Page>;
+}
+
+export class PageHeap {
+  heap: Page[] = []; // This is implemented as a min heap
+
+  insert(page: Page) {
+    if (page.uses === undefined) {
+      throw new Error("Page must have a 'uses' value before inserting into heap");
+    }
+
+    this.heap.push(page);
+    this.bubbleUp(this.heap.length - 1);
+  }
+
+  private bubbleUp(index: number) {
+    while (index > 0) {
+      const parentIndex = Math.floor((index - 1) / 2);
+
+      if ((this.heap[parentIndex].uses ?? 0) <= (this.heap[index].uses ?? 0)) {
+        break; // Heap property is fine
+      }
+
+      [this.heap[parentIndex], this.heap[index]] = [this.heap[index], this.heap[parentIndex]];
+      index = parentIndex;
+    }
+  }
+
+  private checkValidity(index: number = 0) {
+  const leftIndex = 2 * index + 1;
+  const rightIndex = 2 * index + 2;
+  let smallestIndex = index;
+
+  if (
+    leftIndex < this.heap.length &&
+    (this.heap[leftIndex].uses ?? 0) < (this.heap[smallestIndex].uses ?? 0)
+  ) {
+    smallestIndex = leftIndex;
+  }
+
+  if (
+    rightIndex < this.heap.length &&
+    (this.heap[rightIndex].uses ?? 0) < (this.heap[smallestIndex].uses ?? 0)
+  ) {
+    smallestIndex = rightIndex;
+  }
+
+  if (smallestIndex !== index) {
+    [this.heap[index], this.heap[smallestIndex]] = [
+      this.heap[smallestIndex],
+      this.heap[index],
+    ];
+    this.checkValidity(smallestIndex); 
+  }
+}
+
+private peak() {
+  return this.heap[0];
+}
 }
 
 export default function Home() {
