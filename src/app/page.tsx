@@ -47,7 +47,6 @@ export default function Home() {
     const newBlock: Block = { pages: pages, numStalePages: 0, numBlankPages: pageRows * pageCols, numLivePages: 0, numErases: 0 };
     newOverprovisionArea.push(newBlock);
   }
-  console.log(newOverprovisionArea);
 
   const [blocks, setBlocks] = useState(newBlocks);
   const [overprovisionArea, setOverprovisionArea] = useState(newOverprovisionArea)

@@ -67,7 +67,6 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
     // Combine empty and previously written pages (if you want to allow overwrites)
     const availablePages = [...emptyPages];
     const updatedPages = [...newBlocks[currentBlock].pages];
-    console.log(availablePages);
 
     // Write to the new pages
     let numWrittenOnBlock = 0;
@@ -105,7 +104,6 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
     // we should check if there are enough spaces to write to.
     // greedyGarbageCollection(newBlocks, overprovisionArea, setCurrentBlock);
-    console.log("Stale pages remaining: " + numOfStalePages);
     greedyWrite(pagesToUpdate * 4, newBlocks, currentBlock, setCurrentBlock, fileID, overprovisionArea, setOverprovisionArea, numAlreadyWritten);
   } else {
     return blocks;
@@ -163,7 +161,6 @@ export function greedyGarbageCollection(blocks: Array<Block>, overprovisionArea:
     }
   }
 
-  console.log(newBlocks);
 
   // Step 2: Iterate over the blocks to wipe.
   // We're going to first get rid of all of the stale pages.
