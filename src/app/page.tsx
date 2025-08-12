@@ -4,7 +4,7 @@ import Ssdpage from "./components/ssdpage";
 import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
-import { greedyWrite, greedyDelete } from "./algorithms/greedy";
+import { greedyWrite, greedyDelete, greedyGarbageCollection } from "./algorithms/greedy";
 
 export interface Page {
     status: string;
@@ -77,6 +77,11 @@ export default function Home() {
     }
   };
 
+  const handleGarbageCollection = () => {
+    for (let i = 0; i < blocks.length; i++) greedyGarbageCollection(blocks, backupPages, setCurrentBlock);
+    setErrorDisplay("This causes a render"); // TODO Need to figure out a better way of causing a rerender. This is ugly
+  }
+
   let pageCounter = 1;
 // export interface Page {
 //     status: string;
@@ -100,6 +105,12 @@ export default function Home() {
           className="btn btn-outline btn-primary border-blue-500 text-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded"
         >
           Write a file of size n kilobytes
+        </button>
+
+        <button onClick={handleGarbageCollection}
+          className="btn btn-outline btn-primary border-blue-500 text-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded"
+        >
+          Trigger Garbage Collection for all pages.
         </button>
 
         <input type="text" placeholder="Enter value..."
@@ -126,6 +137,13 @@ export default function Home() {
           <option>Slow Mo On</option>
           <option>Slow Mo off</option>
         </select>
+
+        <select defaultValue="Empty Pages" 
+        className="select select-bordered text-blue-500 border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded" 
+        onChange={e => setAlgorithm(e.target.value)}>
+          <option>Empty Pages</option>
+          <option>Hot/Cold Config</option>
+        </select>
         
         
 
@@ -147,7 +165,7 @@ export default function Home() {
           </div>
         </Ssdpage>
 
-        <Ssdpage bgColour="bg-yellow-300" status="Backup pages">
+        <Ssdpage bgColour="bg-yellow-300" status="Overprovision Space">
         <div className="flex space-x-4">
           <div className="grid grid-cols-4 gap-2">
             {backupPages.map((page, i) => (
