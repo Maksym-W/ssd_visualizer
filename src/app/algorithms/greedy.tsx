@@ -95,8 +95,13 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
     // Write into the first available page.
     const updatedPages = [...newBlocks[currentBlock].pages];
-
+    if (availablePages[0] == undefined) {
+      greedyGarbageCollection(newBlocks, backupPages, setCurrentBlock);
+      continue;
+    }
     const firstPage = availablePages[0];
+
+    
     updatedPages[firstPage.index] = {
       ...updatedPages[firstPage.index], // keep existing props if needed
       status: `Written by file ${fileID}`,
