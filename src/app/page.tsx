@@ -4,38 +4,52 @@ import Ssdpage from "./components/ssdpage";
 import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
-import { greedyWrite, greedyDelete } from "./algorithms/greedy";
+import { greedyWrite, greedyDelete, greedyGarbageCollection } from "./algorithms/greedy";
+import SSDDie from "./components/ssddie";
 
 export interface Page {
     status: string;
     bgColour: string;
     writtenByFile?: number;
+    filePageNumber?: number;
 };
 
 export interface Block {
-  numOfStalePages: number;
+  numStalePages: number;
+  numBlankPages: number;
+  numLivePages: number;
+  numErases: number;
   pages: Array<Page>;
 }
 
 export default function Home() {
-  const blockSize = 16;  // Make sure that this is a multiple of 4.
+  const blockRows = 4;
+  const blockCols = 4;
+  const pageRows = 4;
+  const pageCols = 8;
+
   let newBlocks: Array<Block> = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < blockRows * blockCols; i++) {
     let pages = [];
-    for (let j = 0; j < 16; j++) {
+    for (let j = 0; j < pageRows * pageCols; j++) {
       pages.push({ status: "Empty", bgColour: "bg-green-500" })
     }
-    const newBlock: Block = { pages: pages, numOfStalePages: 0 };
+    const newBlock: Block = { pages: pages, numStalePages: 0, numBlankPages: pageRows * pageCols, numLivePages: 0, numErases: 0 };
     newBlocks.push(newBlock);
   }
 
-  let newBackupPages = [];
-  for (let i = 0; i < 16; i++) {
-    newBackupPages.push({ status: "Empty", bgColour: "bg-green-500" })
+  let newOverprovisionArea = [];
+  for (let i = 0; i < blockRows * blockCols / 4; i++) {
+    let pages = [];
+    for (let j = 0; j < pageRows * pageCols; j++) {
+      pages.push({ status: "Empty", bgColour: "bg-green-500" })
+    }
+    const newBlock: Block = { pages: pages, numStalePages: 0, numBlankPages: pageRows * pageCols, numLivePages: 0, numErases: 0 };
+    newOverprovisionArea.push(newBlock);
   }
 
   const [blocks, setBlocks] = useState(newBlocks);
-  const [backupPages, setBackupPages] = useState(newBackupPages)
+  const [overprovisionArea, setOverprovisionArea] = useState(newOverprovisionArea)
 
   // Block we're currently writing to
   const [currentBlock, setCurrentBlock] = useState(-1);
@@ -56,7 +70,7 @@ export default function Home() {
 
   const handleWriteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, backupPages, setBackupPages);
+      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, 0);
 
       setBlocks(updatedBlocks);
       setFileCounter(fileCounter + 1); // Increment for next file
@@ -77,90 +91,81 @@ export default function Home() {
     }
   };
 
+  const handleGarbageCollection = () => {
+    let newBlocks = greedyGarbageCollection(blocks, overprovisionArea, setCurrentBlock);
+    setBlocks(newBlocks);
+  }
+
   let pageCounter = 1;
-// export interface Page {
-//     status: string;
-//     bgColour: string;
-//     writtenByFile?: number;
-// };
 
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
-      <div className="md:mt-10 md:ml-auto mr-20">
 
+      <div className="md:mt-10 md:ml-auto mr-20">
         {/* NOTE: for some reason I can't have both value={} and placeholder= in this... so if you don't like one then yeah */}
         <input type="text"
           onChange={(e) => setFileSizeValue(e.target.value)}
           value={fileSizeValue} 
-          className="border border-blue-500 text-blue-500 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200"
+          className="input input-primary"
         />
 
         <button onClick={handleWriteFile}
-          className="btn btn-outline btn-primary border-blue-500 text-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded"
+          className="btn btn-primary"
         >
           Write a file of size n kilobytes
         </button>
 
         <input type="text" placeholder="Enter value..."
           onChange={(e) => setDeleteFileValue(e.target.value)}
-          className="border border-blue-500 text-blue-500 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200"
+          className="input input-primary"
         />
 
         <button onClick={handleDeleteFile}
-          className="btn btn-outline btn-primary border-blue-500 text-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded"
+          className="btn btn-primary"
         >
           Delete file n
         </button>
 
         <select defaultValue="Greedy" 
-        className="select select-bordered text-blue-500 border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded" 
+        className="select select-primary" 
         onChange={e => setAlgorithm(e.target.value)}>
           <option disabled={true}>Select an Algorithm</option>
           <option>Greedy</option>
         </select>
-        {/* The below doesnt do anything yet */}
-        <select defaultValue="Slow Mo off" 
-        className="select select-bordered text-blue-500 border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg px-4 py-2 rounded" 
-        onChange={e => setAlgorithm(e.target.value)}>
-          <option>Slow Mo On</option>
-          <option>Slow Mo off</option>
-        </select>
+
+        <button onClick={handleGarbageCollection}
+          className="btn btn-primary"
+        >
+          Toggle Garbage Collection
+        </button>
         
         
 
 
-        <Ssdpage bgColour="bg-yellow-300" status="THIS IS SUPPOSED TO BE A PLANE, NOT A PAGE!!!!">
-          {/* 2x2 Block Grid */}
-          <div className="grid grid-cols-2 gap-8 p-4"> {/* Main block container */}
-            {/* Better way to have a grid */}
-            {Array(4).fill(0).map((_, i) => (
-                  <Ssdblock 
-                key={`block-${i}`}
-                pages={blocks[i].pages} 
-                blockNumber={i+1} 
-                startPageIndex={i*blockSize} 
-                      blockSize={blockSize}
-              />
-            ))}
+        <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
 
-          </div>
-        </Ssdpage>
+        {/* Overprovision Area */}
+        <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
 
-        <Ssdpage bgColour="bg-yellow-300" status="Backup pages">
-        <div className="flex space-x-4">
-          <div className="grid grid-cols-4 gap-2">
-            {backupPages.map((page, i) => (
-            <Ssdpage 
-              key={"left-" + i}
-              bgColour={page.bgColour}
-              pageNumber={pageCounter++}
-              status={page.status}
-            />
-            ))}
-         </div>
+        <div className="bg-blue-500 inline-block">
+          <p className="font-bold">Legend</p>
+          <p className="font-bold">Blocks</p>
+          <ul>
+            <li>E: Empty Pages</li>
+            <li>L: Live Pages</li>
+            <li>B: Blank Pages</li>
+            <li>S: Stale Pages</li>
+          </ul>
+          <p className="font-bold">Pages</p>
+          <ul>
+            <li>Green: Blank Page</li>
+            <li>Grey: Stale Page</li>
+            <li>Any other colour: Live Page</li>
+            <li>#1 (#2): File #1 (Page #2 of the file)</li>
+          </ul>
         </div>
-        </Ssdpage>  
+
       </div>
     </div>
   );
