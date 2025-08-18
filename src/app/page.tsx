@@ -6,12 +6,13 @@ import Ssdblock from "./components/ssdblock";
 
 import { greedyWrite, greedyDelete, greedyGarbageCollection } from "./algorithms/greedy";
 import SSDDie from "./components/ssddie";
-
+import { stripingWrite } from "./algorithms/striping";
 export interface Page {
     status: string;
     bgColour: string;
     writtenByFile?: number;
     filePageNumber?: number;
+    uses?: number; // TODO Make uses compulsory
 };
 
 export interface Block {
@@ -20,6 +21,64 @@ export interface Block {
   numLivePages: number;
   numErases: number;
   pages: Array<Page>;
+}
+
+export class PageHeap {
+  heap: Page[] = []; // This is implemented as a min heap
+
+  insert(page: Page) {
+    if (page.uses === undefined) {
+      throw new Error("Page must have a 'uses' value before inserting into heap");
+    }
+
+    this.heap.push(page);
+    this.bubbleUp(this.heap.length - 1);
+  }
+
+  private bubbleUp(index: number) {
+    while (index > 0) {
+      const parentIndex = Math.floor((index - 1) / 2);
+
+      if ((this.heap[parentIndex].uses ?? 0) <= (this.heap[index].uses ?? 0)) {
+        break; // Heap property is fine
+      }
+
+      [this.heap[parentIndex], this.heap[index]] = [this.heap[index], this.heap[parentIndex]];
+      index = parentIndex;
+    }
+  }
+
+  private checkValidity(index: number = 0) {
+  const leftIndex = 2 * index + 1;
+  const rightIndex = 2 * index + 2;
+  let smallestIndex = index;
+
+  if (
+    leftIndex < this.heap.length &&
+    (this.heap[leftIndex].uses ?? 0) < (this.heap[smallestIndex].uses ?? 0)
+  ) {
+    smallestIndex = leftIndex;
+  }
+
+  if (
+    rightIndex < this.heap.length &&
+    (this.heap[rightIndex].uses ?? 0) < (this.heap[smallestIndex].uses ?? 0)
+  ) {
+    smallestIndex = rightIndex;
+  }
+
+  if (smallestIndex !== index) {
+    [this.heap[index], this.heap[smallestIndex]] = [
+      this.heap[smallestIndex],
+      this.heap[index],
+    ];
+    this.checkValidity(smallestIndex); 
+  }
+}
+
+private peak() {
+  return this.heap[0];
+}
 }
 
 export default function Home() {
@@ -58,23 +117,24 @@ export default function Home() {
   const [fileCounter, setFileCounter] = useState(1); // Track how many files have been written
   const [errorDisplay, setErrorDisplay] = useState("No errors yet");
   const [deleteFileValue, setDeleteFileValue] = useState("");
-  const [staleCounter, setStaleCounter] = useState(0);
 
   const [algorithm, setAlgorithm] = useState('Greedy');
 
+  const [striping, setStriping] = useState(false);
 
-  useEffect(() => {
-    if (staleCounter >= .25){
-    console.log("THIS IS NOT IMPLEMENTED!")}
-  }, [staleCounter]); 
 
   const handleWriteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, 0);
-
-      setBlocks(updatedBlocks);
-      setFileCounter(fileCounter + 1); // Increment for next file
-    } else {
+      if (striping) {
+        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea);
+        setBlocks(updatedBlocks);
+        setFileCounter(fileCounter + 1); // Increment for next file
+      } else {
+        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, 0);
+        setBlocks(updatedBlocks);
+        setFileCounter(fileCounter + 1); // Increment for next file
+      }
+    } else if (algorithm == ""){
       console.log('no algorithm selected');
     }
     // NOTE: you can remove this but I like resetting the inputValue here so you don't need to backspace
@@ -92,7 +152,9 @@ export default function Home() {
   };
 
   const handleGarbageCollection = () => {
-    let newBlocks = greedyGarbageCollection(blocks, overprovisionArea, setCurrentBlock);
+    let newBlocks = [...blocks];
+    newBlocks = greedyGarbageCollection(newBlocks, overprovisionArea, setCurrentBlock, true);
+    console.log(newBlocks);
     setBlocks(newBlocks);
   }
 
@@ -127,18 +189,24 @@ export default function Home() {
           Delete file n
         </button>
 
-        <select defaultValue="Greedy" 
-        className="select select-primary" 
-        onChange={e => setAlgorithm(e.target.value)}>
-          <option disabled={true}>Select an Algorithm</option>
-          <option>Greedy</option>
-        </select>
+        <label className="label">
+          <input type="checkbox" className="toggle toggle-primary" checked={striping} onChange={e => setStriping(e.target.checked)}/>
+          Striping On/Off
+        </label>
+        
 
         <button onClick={handleGarbageCollection}
           className="btn btn-primary"
         >
           Toggle Garbage Collection
         </button>
+
+        <select defaultValue="Empty Pages" 
+        className="select select-primary" 
+        onChange={e => setAlgorithm(e.target.value)}>
+          <option>Empty Pages</option>
+          <option>Hot/Cold Config</option>
+        </select>
         
         
 

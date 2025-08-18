@@ -6,12 +6,12 @@ export default function Navbar() {
       <div className="max-w-5xl mx-auto flex justify-center items-center space-x-6">
         <Link
           href="/"
-          className="btn btn-outline btn-primary border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg">
+          className="btn btn-primary">
           🏠 Home
         </Link>
         <Link
           href="/faq"
-          className="btn btn-outline btn-primary border-blue-500 transition duration-200 hover:scale-105 hover:shadow-lg">
+          className="btn btn-primary">
           faq
         </Link>
       </div>
