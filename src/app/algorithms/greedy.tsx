@@ -57,7 +57,7 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
 
   let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
 
-  if (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
+  if (lowUtilizationBlocks.length / newBlocks.length <= 0.5) {
     newBlocks = gcAlgorithm(newBlocks, overprovisionArea, setCurrentBlock);
   }
 

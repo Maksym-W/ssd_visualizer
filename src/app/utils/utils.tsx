@@ -77,7 +77,7 @@ export const maxEmptyPages = (blocks: Array<Block>, ignoredPages: Array<number> 
 export const efficientGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function, isFullWipe = false) => {
   // Check if there are fewer than 50% free blocks
   let lowUtilizationBlocks = blocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
-  while (lowUtilizationBlocks.length / blocks.length < 0.5) {
+  while (lowUtilizationBlocks.length / blocks.length <= 0.5) {
     let blockIndex = maxStalePages(blocks);
     if (blocks[blockIndex].numStalePages == 0) break;
 
