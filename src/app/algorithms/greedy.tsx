@@ -1,8 +1,8 @@
 import { time } from "console";
 import { Block, Page } from "../page";
-import { getFileColour, minStalePages, maxStalePages, maxEmptyPages, garbageCollection, efficientGarbageCollection } from "../utils/utils";
+import { getFileColour, minStalePages, maxStalePages, maxEmptyPages } from "../utils/utils";
 
-export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, setOverprovisionArea: Function, numAlreadyWritten: number, gcAlgorithm: Function): Array<Block> {
+export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, numAlreadyWritten: number, gcAlgorithm: Function, lowThreshold: number, highThreshold: number): Array<Block> {
 
   if (isNaN(size)) return [];
 
@@ -55,10 +55,10 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
   }
   pageIndexPlus = 0;
 
-  let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
-
-  if (lowUtilizationBlocks.length / newBlocks.length <= 0.5) {
-    newBlocks = gcAlgorithm(newBlocks, overprovisionArea, setCurrentBlock);
+  let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+  if (numBlankPages / numTotalPages <= lowThreshold) {
+    newBlocks = gcAlgorithm(newBlocks, overprovisionArea, lowThreshold, highThreshold);
   }
 
   return newBlocks;

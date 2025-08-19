@@ -74,10 +74,11 @@ export const maxEmptyPages = (blocks: Array<Block>, ignoredPages: Array<number> 
   return maxIndex
 }
 
-export const efficientGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function, isFullWipe = false) => {
+export const efficientGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, lowThreshold: number, highThreshold: number) => {
   // Check if there are fewer than 50% free blocks
-  let lowUtilizationBlocks = blocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
-  while (lowUtilizationBlocks.length / blocks.length <= 0.5) {
+  let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+  while (numBlankPages / numTotalPages <= highThreshold) {
     let blockIndex = maxStalePages(blocks);
     if (blocks[blockIndex].numStalePages == 0) break;
 
@@ -107,13 +108,13 @@ export const efficientGarbageCollection = (blocks: Array<Block>, overprovisionAr
     blocks[blockIndex].numStalePages = 0;
     blocks[blockIndex].numBlankPages = blocks[blockIndex].pages.length - newBackupPages.length;
      
-    lowUtilizationBlocks = blocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
+    numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
   }
 
   return blocks;
 }
 
-export const singleGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function, isFullWipe = false) => {
+export const singleGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, lowThreshold: number, highThreshold: number) => {
   let blockIndex = maxStalePages(blocks);
 
   // Step 1: Find each non-stale page, write it to the backup pages
@@ -145,7 +146,7 @@ export const singleGarbageCollection = (blocks: Array<Block>, overprovisionArea:
   return blocks;
 }
 
-export const totalGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function, isFullWipe = false) => {
+export const totalGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, lowThreshold: number, highThreshold: number) => {
 
   let blockIndex = maxStalePages(blocks);
   while (blocks[blockIndex].numStalePages > 0) {

@@ -1,7 +1,7 @@
 import { Block, Page } from "../page";
-import { getFileColour, minStalePages, maxStalePages, maxEmptyPages, garbageCollection, efficientGarbageCollection } from "../utils/utils";
+import { getFileColour, minStalePages, maxStalePages, maxEmptyPages } from "../utils/utils";
 
-export function stripingWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, setBackupPages: Function, gcAlgorithm: Function): Array<Block> {
+export function stripingWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, gcAlgorithm: Function, lowThreshold: number, highThreshold: number): Array<Block> {
   if (isNaN(size)) return [];
 
   // check if the currentBlock exists yet (default value is -1)
@@ -59,9 +59,10 @@ export function stripingWrite(size: number, blocks: Array<Block>, currentBlock: 
     }
   }
 
-  let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
-  if (lowUtilizationBlocks.length / newBlocks.length <= 0.5) {
-    newBlocks = gcAlgorithm(newBlocks, overprovisionArea, setCurrentBlock);
+  let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+  if (numBlankPages / numTotalPages <= lowThreshold) {
+    newBlocks = gcAlgorithm(newBlocks, overprovisionArea, lowThreshold, highThreshold);
   }
 
   return newBlocks;

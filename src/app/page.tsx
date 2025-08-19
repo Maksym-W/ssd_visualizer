@@ -88,6 +88,9 @@ export default function Home() {
   const pageRows = 4;
   const pageCols = 8;
 
+  const lowThreshold = 0.1;
+  const highThreshold = 0.25;
+
   let newBlocks: Array<Block> = [];
   for (let i = 0; i < blockRows * blockCols; i++) {
     let pages = [];
@@ -137,11 +140,11 @@ export default function Home() {
     }
     if (algorithm == "Greedy") {
       if (striping) {
-        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, gc);
+        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold);
         setBlocks(updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       } else {
-        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, 0, gc);
+        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold);
         setBlocks(updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       }
@@ -177,13 +180,12 @@ export default function Home() {
   }
   let newBlocks = [...blocks];
 
-  let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
-
-  if (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
-    newBlocks = gc(newBlocks, overprovisionArea, setCurrentBlock);
-    setBlocks(newBlocks);
+  let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+  if (numBlankPages / numTotalPages <= lowThreshold) {
+    newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
   }
-  }
+}
 
   let pageCounter = 1;
 
