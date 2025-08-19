@@ -4,7 +4,8 @@ import Ssdpage from "./components/ssdpage";
 import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
-import { greedyWrite, greedyDelete, greedyGarbageCollection } from "./algorithms/greedy";
+import { greedyWrite, greedyDelete } from "./algorithms/greedy";
+import { garbageCollection } from "./utils/utils";
 import SSDDie from "./components/ssddie";
 import { stripingWrite } from "./algorithms/striping";
 export interface Page {
@@ -152,10 +153,16 @@ export default function Home() {
   };
 
   const handleGarbageCollection = () => {
-    let newBlocks = [...blocks];
-    newBlocks = greedyGarbageCollection(newBlocks, overprovisionArea, setCurrentBlock, true);
-    console.log(newBlocks);
-    setBlocks(newBlocks);
+    // NOTE: right now, this does nothing. This is because our "good" threshold is the exact opposite
+    // of our "bad" threshold. In the future, we would have a better good and bad threshold (e.g. 
+    // < 0.25 is our bad threshold, >= 0.75 is our good threshold)
+  let newBlocks = [...blocks];
+  let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
+  while (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
+    newBlocks = garbageCollection(newBlocks, overprovisionArea, setCurrentBlock);
+    lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
+  }
+  setBlocks(newBlocks);
   }
 
   let pageCounter = 1;

@@ -1,5 +1,5 @@
 import { Block, Page } from "../page";
-import { getFileColour, minStalePages, maxStalePages, maxEmptyPages } from "../utils/utils";
+import { getFileColour, minStalePages, maxStalePages, maxEmptyPages, garbageCollection } from "../utils/utils";
 
 export function stripingWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, setBackupPages: Function): Array<Block> {
   if (isNaN(size)) return [];
@@ -28,10 +28,10 @@ export function stripingWrite(size: number, blocks: Array<Block>, currentBlock: 
     // Write into the first available page.
     const updatedPages = [...newBlocks[currentBlock].pages];
 
-    if (availablePages[0] == undefined) {
-      currentBlock = stripingGarbageCollection(blocks, overprovisionArea, setCurrentBlock);
-      continue;
-    }
+    // if (availablePages[0] == undefined) {
+    //   currentBlock = stripingGarbageCollection(blocks, overprovisionArea, setCurrentBlock);
+    //   continue;
+    // }
     const firstPage = availablePages[0];
 
     
@@ -61,9 +61,10 @@ export function stripingWrite(size: number, blocks: Array<Block>, currentBlock: 
 
   // Run our GC check down here
   // If there is less than 50% of blocks with "low utilization" (25% blank)
-  const lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length <= 0.25);
-  if (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
-    stripingGarbageCollection(newBlocks, overprovisionArea, setCurrentBlock);
+  let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
+  while (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
+    newBlocks = garbageCollection(newBlocks, overprovisionArea, setCurrentBlock);
+    lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
   }
   return newBlocks;
 }
@@ -93,42 +94,42 @@ export function stripingDelete(fileID: number, blocks: Array<Block>, setCurrentB
   return newBlocks;
 }
 
-export function stripingGarbageCollection(blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function, blockIndex = -1): number {
-  // find the block with the most amount of stale pages
-  if (blockIndex == -1) {
-    blockIndex = maxStalePages(blocks);
-  } else {
-    // Ensure that the block actually has stale pages to evict.
-    if (blocks[blockIndex].numStalePages == 0) {
-      return blockIndex;
-    }
-  }
-
-  // Step 1: Find each non-stale page, write it to the backup pages
-  const newBackupPages: Array<Page> = [];
-
-  for (const page of blocks[blockIndex].pages) 
-    if (/^Written by file \d+$/.test(page.status)) newBackupPages.push(page);
-
-  // Step 2: set all pages in the block to empty pages
-  for (let pageIndex = 0; pageIndex < overprovisionArea.length; pageIndex++) blocks[blockIndex].pages[pageIndex] = { status: "Empty", bgColour: "bg-green-500"};
-
-  // Step 3: write back the backup pages
-  for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) 
-    blocks[blockIndex].pages[pageIndex] = newBackupPages[pageIndex];
-
-  // Now we "swap" with a block in OP IF the num of erases on this block is more than any of the blocks in OP.
-  const minIndex = overprovisionArea.reduce((minIdx, block, i, a) => block.numErases < a[minIdx].numErases ? i : minIdx, 0);
-
-  if (overprovisionArea[minIndex].numErases <= blocks[blockIndex].numErases) {
-    overprovisionArea[minIndex].numErases++;
-  } else {
-    blocks[blockIndex].numErases++;
-  }
-
-  // NOTE: we also need to reset the number of stale pages in the block
-  blocks[blockIndex].numStalePages = 0;
-
-  console.log("garbage collection is done.");
-  return blockIndex;
-}
+// export function stripingGarbageCollection(blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function, blockIndex = -1): number {
+//   // find the block with the most amount of stale pages
+//   if (blockIndex == -1) {
+//     blockIndex = maxStalePages(blocks);
+//   } else {
+//     // Ensure that the block actually has stale pages to evict.
+//     if (blocks[blockIndex].numStalePages == 0) {
+//       return blockIndex;
+//     }
+//   }
+//
+//   // Step 1: Find each non-stale page, write it to the backup pages
+//   const newBackupPages: Array<Page> = [];
+//
+//   for (const page of blocks[blockIndex].pages) 
+//     if (/^Written by file \d+$/.test(page.status)) newBackupPages.push(page);
+//
+//   // Step 2: set all pages in the block to empty pages
+//   for (let pageIndex = 0; pageIndex < overprovisionArea.length; pageIndex++) blocks[blockIndex].pages[pageIndex] = { status: "Empty", bgColour: "bg-green-500"};
+//
+//   // Step 3: write back the backup pages
+//   for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) 
+//     blocks[blockIndex].pages[pageIndex] = newBackupPages[pageIndex];
+//
+//   // Now we "swap" with a block in OP IF the num of erases on this block is more than any of the blocks in OP.
+//   const minIndex = overprovisionArea.reduce((minIdx, block, i, a) => block.numErases < a[minIdx].numErases ? i : minIdx, 0);
+//
+//   if (overprovisionArea[minIndex].numErases <= blocks[blockIndex].numErases) {
+//     overprovisionArea[minIndex].numErases++;
+//   } else {
+//     blocks[blockIndex].numErases++;
+//   }
+//
+//   // NOTE: we also need to reset the number of stale pages in the block
+//   blocks[blockIndex].numStalePages = 0;
+//
+//   console.log("garbage collection is done.");
+//   return blockIndex;
+// }

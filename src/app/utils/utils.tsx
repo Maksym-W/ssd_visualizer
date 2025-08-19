@@ -73,3 +73,35 @@ export const maxEmptyPages = (blocks: Array<Block>, ignoredPages: Array<number> 
 
   return maxIndex
 }
+
+export const garbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function, isFullWipe = false) => {
+  let blockIndex = maxStalePages(blocks);
+
+  // Step 1: Find each non-stale page, write it to the backup pages
+  const newBackupPages: Array<Page> = [];
+
+  for (const page of blocks[blockIndex].pages) 
+    if (/^Written by file \d+$/.test(page.status)) newBackupPages.push(page);
+
+  // Step 2: set all pages in the block to empty pages
+  for (let pageIndex = 0; pageIndex < blocks[blockIndex].pages.length; pageIndex++) blocks[blockIndex].pages[pageIndex] = { status: "Empty", bgColour: "bg-green-500"};
+
+  // Step 3: write back the backup pages
+  for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) 
+    blocks[blockIndex].pages[pageIndex] = newBackupPages[pageIndex];
+
+  // Now we "swap" with a block in OP IF the num of erases on this block is more than any of the blocks in OP.
+  const minIndex = overprovisionArea.reduce((minIdx, block, i, a) => block.numErases < a[minIdx].numErases ? i : minIdx, 0);
+
+  if (overprovisionArea[minIndex].numErases <= blocks[blockIndex].numErases) {
+    overprovisionArea[minIndex].numErases++;
+  } else {
+    blocks[blockIndex].numErases++;
+  }
+
+  // NOTE: we also need to reset the number of stale pages in the block
+  blocks[blockIndex].numStalePages = 0;
+  blocks[blockIndex].numBlankPages = blocks[blockIndex].pages.length - newBackupPages.length;
+
+  return blocks;
+}
