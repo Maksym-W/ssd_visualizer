@@ -79,6 +79,7 @@ export const efficientGarbageCollection = (blocks: Array<Block>, overprovisionAr
   let lowUtilizationBlocks = blocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
   while (lowUtilizationBlocks.length / blocks.length < 0.5) {
     let blockIndex = maxStalePages(blocks);
+    if (blocks[blockIndex].numStalePages == 0) break;
 
     // Step 1: Find each non-stale page, write it to the backup pages
     const newBackupPages: Array<Page> = [];
