@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
-import { garbageCollection } from "./utils/utils";
+import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection } from "./utils/utils";
 import SSDDie from "./components/ssddie";
 import { stripingWrite } from "./algorithms/striping";
 export interface Page {
@@ -123,15 +123,25 @@ export default function Home() {
 
   const [striping, setStriping] = useState(false);
 
+  const [gcAlgorithm, setGcAlgorithm] = useState("Efficient Garbage Collection");
+
 
   const handleWriteFile = () => {
+    let gc;
+    if (gcAlgorithm == "Efficient Garbage Collection") {
+      gc = efficientGarbageCollection;
+    } else if (gcAlgorithm == "Single Garbage Collection") {
+      gc = singleGarbageCollection;
+    } else {
+      gc = totalGarbageCollection;
+    }
     if (algorithm == "Greedy") {
       if (striping) {
-        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea);
+        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, gc);
         setBlocks(updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       } else {
-        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, 0);
+        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, setOverprovisionArea, 0, gc);
         setBlocks(updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       }
@@ -156,13 +166,23 @@ export default function Home() {
     // NOTE: right now, this does nothing. This is because our "good" threshold is the exact opposite
     // of our "bad" threshold. In the future, we would have a better good and bad threshold (e.g. 
     // < 0.25 is our bad threshold, >= 0.75 is our good threshold)
-  let newBlocks = [...blocks];
-  let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
-  while (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
-    newBlocks = garbageCollection(newBlocks, overprovisionArea, setCurrentBlock);
-    lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
+
+  let gc;
+  if (gcAlgorithm == "Efficient Garbage Collection") {
+    gc = efficientGarbageCollection;
+  } else if (gcAlgorithm == "Single Garbage Collection") {
+    gc = singleGarbageCollection;
+  } else {
+    gc = totalGarbageCollection;
   }
-  setBlocks(newBlocks);
+  let newBlocks = [...blocks];
+
+  let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
+
+  if (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
+    newBlocks = gc(newBlocks, overprovisionArea, setCurrentBlock);
+    setBlocks(newBlocks);
+  }
   }
 
   let pageCounter = 1;
@@ -213,6 +233,15 @@ export default function Home() {
         onChange={e => setAlgorithm(e.target.value)}>
           <option>Empty Pages</option>
           <option>Hot/Cold Config</option>
+        </select>
+
+        <select value={gcAlgorithm}
+          className="select select-primary"
+          onChange={e => setGcAlgorithm(e.target.value)}
+        >
+          <option>Efficient Garbage Collection</option>
+          <option>Single Garbage Collection</option>
+          <option>Total Garbage Collection</option>
         </select>
         
         

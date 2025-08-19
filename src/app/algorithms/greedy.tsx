@@ -1,8 +1,8 @@
 import { time } from "console";
 import { Block, Page } from "../page";
-import { getFileColour, minStalePages, maxStalePages, maxEmptyPages, garbageCollection } from "../utils/utils";
+import { getFileColour, minStalePages, maxStalePages, maxEmptyPages, garbageCollection, efficientGarbageCollection } from "../utils/utils";
 
-export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, setOverprovisionArea: Function, numAlreadyWritten: number): Array<Block> {
+export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, setOverprovisionArea: Function, numAlreadyWritten: number, gcAlgorithm: Function): Array<Block> {
 
   if (isNaN(size)) return [];
 
@@ -55,12 +55,12 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
   }
   pageIndexPlus = 0;
 
-  // Check if there are fewer than 50% free blocks
   let lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
-  while (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
-    newBlocks = garbageCollection(newBlocks, overprovisionArea, setCurrentBlock);
-    lowUtilizationBlocks = newBlocks.filter(block => block.numBlankPages / block.pages.length >= 0.75);
+
+  if (lowUtilizationBlocks.length / newBlocks.length < 0.5) {
+    newBlocks = gcAlgorithm(newBlocks, overprovisionArea, setCurrentBlock);
   }
+
   return newBlocks;
 }
 
@@ -89,67 +89,3 @@ export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlo
   setCurrentBlock(-1);
   return newBlocks;
 }
-
-// export function greedyGarbageCollection(blocks: Array<Block>, overprovisionArea: Array<Block>, setCurrentBlock: Function, isFullWipe = false): Array<Block> {
-//   if (isFullWipe) {
-//     for (let blockIndex = 0; blockIndex < blocks.length; blockIndex++) {
-//       if (blocks[blockIndex].numStalePages == 0) continue;
-//       // Step 1: Find each non-stale page, write it to the backup pages
-//       const newBackupPages: Array<Page> = [];
-//
-//       for (const page of blocks[blockIndex].pages) 
-//         if (/^Written by file \d+$/.test(page.status)) newBackupPages.push(page);
-//
-//       // Step 2: set all pages in the block to empty pages
-//       for (let pageIndex = 0; pageIndex < blocks[blockIndex].pages.length; pageIndex++) blocks[blockIndex].pages[pageIndex] = { status: "Empty", bgColour: "bg-green-500"};
-//
-//       // Step 3: write back the backup pages
-//       for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) 
-//         blocks[blockIndex].pages[pageIndex] = newBackupPages[pageIndex];
-//
-//       // Now we "swap" with a block in OP IF the num of erases on this block is more than any of the blocks in OP.
-//       const minIndex = overprovisionArea.reduce((minIdx, block, i, a) => block.numErases < a[minIdx].numErases ? i : minIdx, 0);
-//
-//       if (overprovisionArea[minIndex].numErases <= blocks[blockIndex].numErases) {
-//         overprovisionArea[minIndex].numErases++;
-//       } else {
-//         blocks[blockIndex].numErases++;
-//       }
-//
-//       // NOTE: we also need to reset the number of stale pages in the block
-//       blocks[blockIndex].numStalePages = 0;
-//       blocks[blockIndex].numLivePages = newBackupPages.length;
-//       blocks[blockIndex].numBlankPages = blocks[blockIndex].pages.length - blocks[blockIndex].numLivePages;
-//     }
-//     return blocks;
-//
-//   } else {
-//     let blockIndex = maxStalePages(blocks);
-//     // Step 1: Find each non-stale page, write it to the backup pages
-//     const newBackupPages: Array<Page> = [];
-//
-//     for (const page of blocks[blockIndex].pages) 
-//       if (/^Written by file \d+$/.test(page.status)) newBackupPages.push(page);
-//
-//     // Step 2: set all pages in the block to empty pages
-//     for (let pageIndex = 0; pageIndex < blocks[blockIndex].pages.length; pageIndex++) blocks[blockIndex].pages[pageIndex] = { status: "Empty", bgColour: "bg-green-500"};
-//
-//     // Step 3: write back the backup pages
-//     for (let pageIndex = 0; pageIndex < newBackupPages.length; pageIndex++) 
-//       blocks[blockIndex].pages[pageIndex] = newBackupPages[pageIndex];
-//
-//     // Now we "swap" with a block in OP IF the num of erases on this block is more than any of the blocks in OP.
-//     const minIndex = overprovisionArea.reduce((minIdx, block, i, a) => block.numErases < a[minIdx].numErases ? i : minIdx, 0);
-//
-//     if (overprovisionArea[minIndex].numErases <= blocks[blockIndex].numErases) {
-//       overprovisionArea[minIndex].numErases++;
-//     } else {
-//       blocks[blockIndex].numErases++;
-//     }
-//
-//     // NOTE: we also need to reset the number of stale pages in the block
-//     blocks[blockIndex].numStalePages = 0;
-//
-//     return blocks;
-//   }
-// }
