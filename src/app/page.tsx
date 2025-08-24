@@ -125,11 +125,13 @@ export default function Home() {
   const [algorithm, setAlgorithm] = useState('Greedy');
 
   const [striping, setStriping] = useState(false);
+  const [slowmo, setSlowmo] = useState(false);
+  const [resume, setResume] = useState<(() => void) | null>(null);
 
   const [gcAlgorithm, setGcAlgorithm] = useState("Efficient Garbage Collection");
 
 
-  const handleWriteFile = () => {
+  const handleWriteFile = async () => {
     let gc;
     if (gcAlgorithm == "Efficient Garbage Collection") {
       gc = efficientGarbageCollection;
@@ -139,6 +141,9 @@ export default function Home() {
       gc = totalGarbageCollection;
     }
     if (algorithm == "Greedy") {
+      console.log("waiting to resolve");
+      if (slowmo == true) await new Promise<void>(resolve => setResume(() => resolve));
+      console.log("it resolved.");
       if (striping) {
         const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold);
         setBlocks(updatedBlocks);
@@ -164,6 +169,13 @@ export default function Home() {
       console.log('no algorithm selected');
     }
   };
+
+  const nextStep = () => {
+    if (resume) {
+      resume();        // continues execution
+      setResume(null); // clear it so it doesn't get called twice
+    }
+  }
 
   const handleGarbageCollection = () => {
     // NOTE: right now, this does nothing. This is because our "good" threshold is the exact opposite
@@ -223,7 +235,6 @@ export default function Home() {
           Striping On/Off
         </label>
         
-
         <button onClick={handleGarbageCollection}
           className="btn btn-primary"
         >
@@ -246,8 +257,16 @@ export default function Home() {
           <option>Total Garbage Collection</option>
         </select>
         
-        
+        <label className="label">
+          <input type="checkbox" className="toggle toggle-primary" checked={slowmo} onChange={e => setSlowmo(e.target.checked)}/>
+          Slow-mo On/Off
+        </label>
 
+        <button onClick={nextStep}
+                  className="btn btn-primary"
+        >
+          Next step in the SSD
+        </button>
 
         <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
 
