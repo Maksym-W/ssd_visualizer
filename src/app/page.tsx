@@ -126,12 +126,16 @@ export default function Home() {
 
   const [striping, setStriping] = useState(false);
 
+  const [automaticGc, setAutomaticGc] = useState(true);
+
   const [gcAlgorithm, setGcAlgorithm] = useState("Efficient Garbage Collection");
 
 
   const handleWriteFile = () => {
     let gc;
-    if (gcAlgorithm == "Efficient Garbage Collection") {
+    if (!automaticGc) {
+      gc = (blocks: Array[Block], num2: Array[Block], num3: number, num4: number) => blocks;
+    } else if (gcAlgorithm == "Efficient Garbage Collection") {
       gc = efficientGarbageCollection;
     } else if (gcAlgorithm == "Single Garbage Collection") {
       gc = singleGarbageCollection;
@@ -184,10 +188,9 @@ export default function Home() {
   let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
   if (numBlankPages / numTotalPages <= lowThreshold) {
     newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
+    setBlocks(newBlocks);
   }
 }
-
-  let pageCounter = 1;
 
 
   return (
@@ -222,10 +225,16 @@ export default function Home() {
           <input type="checkbox" className="toggle toggle-primary" checked={striping} onChange={e => setStriping(e.target.checked)}/>
           Striping On/Off
         </label>
+
+        <label className="label">
+          <input type="checkbox" className="toggle toggle-primary" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)}/>
+          Automatic GC On/Off
+        </label>
         
 
         <button onClick={handleGarbageCollection}
           className="btn btn-primary"
+          disabled={!automaticGc}
         >
           Toggle Garbage Collection
         </button>
