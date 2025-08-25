@@ -141,16 +141,16 @@ export default function Home() {
       gc = totalGarbageCollection;
     }
     if (algorithm == "Greedy") {
-      console.log("waiting to resolve");
-      if (slowmo == true) await new Promise<void>(resolve => setResume(() => resolve));
-      console.log("it resolved.");
+      // console.log("waiting to resolve");
+      // if (slowmo == true) await new Promise<void>(resolve => setResume(() => resolve));
+      // console.log("it resolved.");
       if (striping) {
-        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold);
-        setBlocks(updatedBlocks);
+        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold, slowmo, setResume);
+        setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       } else {
-        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold);
-        setBlocks(updatedBlocks);
+        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold, slowmo, setResume);
+        setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       }
     } else if (algorithm == ""){
