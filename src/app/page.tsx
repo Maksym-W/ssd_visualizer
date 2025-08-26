@@ -167,6 +167,7 @@ export default function Home() {
     } else {
       console.log('no algorithm selected');
     }
+    setDeleteFileValue('');
   };
 
   const handleGarbageCollection = () => {
@@ -197,65 +198,101 @@ export default function Home() {
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
 
       <div className="md:mt-10 md:ml-auto mr-20">
-        {/* NOTE: for some reason I can't have both value={} and placeholder= in this... so if you don't like one then yeah */}
-        <input type="text"
-          onChange={(e) => setFileSizeValue(e.target.value)}
-          value={fileSizeValue} 
-          className="input input-primary"
-        />
 
-        <button onClick={handleWriteFile}
-          className="btn btn-primary"
-        >
-          Write a file of size n kilobytes
-        </button>
+        <div className="flex justify-center mx-auto max-w-5xl">
+          <div className="card bg-base-300 rounded-box grid m-4">
+            <div className="card-body">
+              <h2 className="card-title">File Operations</h2>
+              <fieldset className="fieldset border-base-100 border w-120 p-4 rounded-box">
+                <legend className="fieldset-legend">Create File (size in kb)</legend>
+                <div className="flex items-end gap-2">
+                  <input 
+                    type="text"
+                    className="input input-primary"
+                    value={fileSizeValue}
+                    onChange={(e) => setFileSizeValue(e.target.value)}
+                  />
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleWriteFile}
+                  >
+                    Create File
+                  </button>
+                </div>
+              </fieldset>
 
-        <input type="text" placeholder="Enter value..."
-          onChange={(e) => setDeleteFileValue(e.target.value)}
-          className="input input-primary"
-        />
+              <fieldset className="fieldset border-base-100 border w-120 p-4 rounded-box">
+                <legend className="fieldset-legend">Update File (block # and page #)</legend>
+                <div className="flex items-end gap-2">
+                  <input type="text" className="input input-primary"/>
+                  <button className="btn btn-primary">Update File</button>
+                </div>
+              </fieldset>
 
-        <button onClick={handleDeleteFile}
-          className="btn btn-primary"
-        >
-          Delete file n
-        </button>
+              <fieldset className="fieldset border-base-100 border w-120 p-4 rounded-box">
+                <legend className="fieldset-legend">Delete File (file #)</legend>
+                <div className="flex items-end gap-2">
+                  <input 
+                    type="text"
+                    className="input input-primary"
+                    value={deleteFileValue}
+                    onChange={(e) => setDeleteFileValue(e.target.value)}
+                  />
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleDeleteFile}
+                  >
+                    Delete File
+                  </button>
+                </div>
+              </fieldset>
 
-        <label className="label">
-          <input type="checkbox" className="toggle toggle-primary" checked={striping} onChange={e => setStriping(e.target.checked)}/>
-          Striping On/Off
-        </label>
+              <fieldset className="fieldset border-base-100 border w-50 p-4 rounded-box">
+                <legend className="fieldset-legend">Striping Toggle</legend>
+                <label className="label">
+                  <input type="checkbox" checked={striping} onChange={e => setStriping(e.target.checked)} className="toggle toggle-primary"/>
+                  <p>{striping ? "Enabled" : "Disabled"}</p>
+                </label>
+              </fieldset>
+            </div>
+          </div>
 
-        <label className="label">
-          <input type="checkbox" className="toggle toggle-primary" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)}/>
-          Automatic GC On/Off
-        </label>
-        
+          <div className="card bg-base-300 rounded-box grid m-4">
+            <div className="card-body">
+              <h2 className="card-title">Garbage Collection</h2>
 
-        <button onClick={handleGarbageCollection}
-          className="btn btn-primary"
-          disabled={automaticGc}
-        >
-          Trigger Garbage Collection
-        </button>
+              <fieldset className="fieldset border-base-100 border w-120 p-4 rounded-box">
+                <legend className="fieldset-legend">Type</legend>
+                <div className="flex items-end gap-2">
+                  <select
+                    className="select select-primary"
+                    onChange={e => setGcAlgorithm(e.target.value)}
+                  >
+                    <option>Efficient Garbage Collection</option>
+                    <option>Single Garbage Collection</option>
+                    <option>Total Garbage Collection</option>
+                  </select>
+                  <button
+                    className="btn btn-primary"
+                    disabled={automaticGc}
+                    onClick={handleGarbageCollection}
+                  >
+                    Trigger GC
+                  </button>
+                </div>
+              </fieldset>
 
-        <select defaultValue="Empty Pages" 
-        className="select select-primary" 
-        onChange={e => setAlgorithm(e.target.value)}>
-          <option>Empty Pages</option>
-          <option>Hot/Cold Config</option>
-        </select>
+              <fieldset className="fieldset border-base-100 border w-50 p-4 rounded-box">
+                <legend className="fieldset-legend">Automatic GC</legend>
+                <label className="label">
+                  <input type="checkbox" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)} className="toggle toggle-primary"/>
+                  <p>{automaticGc ? "Enabled" : "Disabled"}</p>
+                </label>
+              </fieldset>
 
-        <select value={gcAlgorithm}
-          className="select select-primary"
-          onChange={e => setGcAlgorithm(e.target.value)}
-        >
-          <option>Efficient Garbage Collection</option>
-          <option>Single Garbage Collection</option>
-          <option>Total Garbage Collection</option>
-        </select>
-        
-        
+            </div>
+          </div>
+        </div>
 
 
         <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
