@@ -234,9 +234,9 @@ export default function Home() {
 
         <button onClick={handleGarbageCollection}
           className="btn btn-primary"
-          disabled={!automaticGc}
+          disabled={automaticGc}
         >
-          Toggle Garbage Collection
+          Trigger Garbage Collection
         </button>
 
         <select defaultValue="Empty Pages" 
