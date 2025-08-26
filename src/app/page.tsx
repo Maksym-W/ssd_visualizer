@@ -117,7 +117,7 @@ export default function Home() {
   // Block we're currently writing to
   const [currentBlock, setCurrentBlock] = useState(-1);
 
-  const [fileSizeValue, setFileSizeValue] = useState("");
+  const [fileSizeValue, setFileSizeValue] = useState(""); // Total jank to have this as let
   const [fileCounter, setFileCounter] = useState(1); // Track how many files have been written
   const [errorDisplay, setErrorDisplay] = useState("No errors yet");
   const [deleteFileValue, setDeleteFileValue] = useState("");
@@ -129,9 +129,11 @@ export default function Home() {
   const [automaticGc, setAutomaticGc] = useState(true);
 
   const [gcAlgorithm, setGcAlgorithm] = useState("Efficient Garbage Collection");
+  const [preset, setPreset] = useState("Empty Pages");
 
-
-  const handleWriteFile = () => {
+  const handleWriteFile = (value?: string) => {
+    let size = parseInt(value ?? fileSizeValue);
+    
     let gc;
     if (!automaticGc) {
       gc = (blocks: Array[Block], num2: Array[Block], num3: number, num4: number) => blocks;
@@ -142,13 +144,14 @@ export default function Home() {
     } else {
       gc = totalGarbageCollection;
     }
+
     if (algorithm == "Greedy") {
       if (striping) {
-        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold);
+        const updatedBlocks = stripingWrite(size, blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold);
         setBlocks(updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       } else {
-        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold);
+        const updatedBlocks = greedyWrite(size, blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold);
         setBlocks(updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       }
@@ -192,6 +195,42 @@ export default function Home() {
   }
 }
 
+  useEffect(() => {
+    if (preset === "Hot/Cold Config") {
+        let gc;
+        if (!automaticGc) {
+          gc = (blocks: Array[Block], num2: Array[Block], num3: number, num4: number) => blocks;
+        } else if (gcAlgorithm == "Efficient Garbage Collection") {
+          gc = efficientGarbageCollection;
+        } else if (gcAlgorithm == "Single Garbage Collection") {
+          gc = singleGarbageCollection;
+        } else {
+          gc = totalGarbageCollection;
+        }
+        const size = 50;
+        for (let i = 0; i < 15; i++){
+          setFileCounter(prev => {
+          const updatedBlocks = stripingWrite(
+            size,
+            blocks,
+            currentBlock,
+            setCurrentBlock,
+            prev, 
+            overprovisionArea,
+            gc,
+            lowThreshold,
+            highThreshold
+          );
+          setBlocks(updatedBlocks);
+          return prev + 1;
+        });
+        }
+    } else if (preset === "Empty Pages") {
+      console.log("works as intended");
+    } else {
+      console.error("This is not working as intended.");
+    }
+  }, [preset]);
 
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
@@ -241,7 +280,7 @@ export default function Home() {
 
         <select defaultValue="Empty Pages" 
         className="select select-primary" 
-        onChange={e => setAlgorithm(e.target.value)}>
+        onChange={e => setPreset(e.target.value)}>
           <option>Empty Pages</option>
           <option>Hot/Cold Config</option>
         </select>
