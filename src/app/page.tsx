@@ -128,16 +128,18 @@ export default function Home() {
 
   const [automaticGc, setAutomaticGc] = useState(true);
 
-  const [gcAlgorithm, setGcAlgorithm] = useState("Efficient Garbage Collection");
+  const [gcAlgorithm, setGcAlgorithm] = useState("Efficient");
+
+  const [slowMo, setSlowMo] = useState(false);
 
 
   const handleWriteFile = () => {
     let gc;
     if (!automaticGc) {
       gc = (blocks: Array[Block], num2: Array[Block], num3: number, num4: number) => blocks;
-    } else if (gcAlgorithm == "Efficient Garbage Collection") {
+    } else if (gcAlgorithm == "Efficient") {
       gc = efficientGarbageCollection;
-    } else if (gcAlgorithm == "Single Garbage Collection") {
+    } else if (gcAlgorithm == "Single") {
       gc = singleGarbageCollection;
     } else {
       gc = totalGarbageCollection;
@@ -176,9 +178,9 @@ export default function Home() {
     // < 0.25 is our bad threshold, >= 0.75 is our good threshold)
 
   let gc;
-  if (gcAlgorithm == "Efficient Garbage Collection") {
+  if (gcAlgorithm == "Efficient") {
     gc = efficientGarbageCollection;
-  } else if (gcAlgorithm == "Single Garbage Collection") {
+  } else if (gcAlgorithm == "Single") {
     gc = singleGarbageCollection;
   } else {
     gc = totalGarbageCollection;
@@ -195,15 +197,14 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
+    <div className="flex flex-col md:flex-row items-start md:items-center gap-12">
 
-      <div className="md:mt-10 md:ml-auto mr-20">
+      <div className="md:ml-auto mr-20">
 
         <div className="flex justify-center mx-auto max-w-5xl">
-          <div className="card bg-base-300 rounded-box grid m-4">
+          <div className="card bg-base-300 rounded-box grid m-2">
             <div className="card-body">
-              <h2 className="card-title">File Operations</h2>
-              <fieldset className="fieldset border-base-100 border w-120 p-4 rounded-box">
+              <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
                 <legend className="fieldset-legend">Create File (size in kb)</legend>
                 <div className="flex items-end gap-2">
                   <input 
@@ -221,7 +222,7 @@ export default function Home() {
                 </div>
               </fieldset>
 
-              <fieldset className="fieldset border-base-100 border w-120 p-4 rounded-box">
+              <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
                 <legend className="fieldset-legend">Update File (block # and page #)</legend>
                 <div className="flex items-end gap-2">
                   <input type="text" className="input input-primary"/>
@@ -229,7 +230,7 @@ export default function Home() {
                 </div>
               </fieldset>
 
-              <fieldset className="fieldset border-base-100 border w-120 p-4 rounded-box">
+              <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
                 <legend className="fieldset-legend">Delete File (file #)</legend>
                 <div className="flex items-end gap-2">
                   <input 
@@ -247,7 +248,7 @@ export default function Home() {
                 </div>
               </fieldset>
 
-              <fieldset className="fieldset border-base-100 border w-50 p-4 rounded-box">
+              <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
                 <legend className="fieldset-legend">Striping Toggle</legend>
                 <label className="label">
                   <input type="checkbox" checked={striping} onChange={e => setStriping(e.target.checked)} className="toggle toggle-primary"/>
@@ -257,20 +258,19 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="card bg-base-300 rounded-box grid m-4">
+          <div className="card bg-base-300 rounded-box grid m-2">
             <div className="card-body">
-              <h2 className="card-title">Garbage Collection</h2>
 
-              <fieldset className="fieldset border-base-100 border w-120 p-4 rounded-box">
-                <legend className="fieldset-legend">Type</legend>
+              <fieldset className="fieldset border-base-100 border w-65 p-2 rounded-box">
+                <legend className="fieldset-legend">GC Algorithm</legend>
                 <div className="flex items-end gap-2">
                   <select
                     className="select select-primary"
                     onChange={e => setGcAlgorithm(e.target.value)}
                   >
-                    <option>Efficient Garbage Collection</option>
-                    <option>Single Garbage Collection</option>
-                    <option>Total Garbage Collection</option>
+                    <option>Efficient</option>
+                    <option>Single</option>
+                    <option>Total</option>
                   </select>
                   <button
                     className="btn btn-primary"
@@ -282,7 +282,7 @@ export default function Home() {
                 </div>
               </fieldset>
 
-              <fieldset className="fieldset border-base-100 border w-50 p-4 rounded-box">
+              <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
                 <legend className="fieldset-legend">Automatic GC</legend>
                 <label className="label">
                   <input type="checkbox" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)} className="toggle toggle-primary"/>
@@ -292,10 +292,49 @@ export default function Home() {
 
             </div>
           </div>
+
+          <div className="card bg-base-300 rounded-box grid m-2">
+            <div className="card-body">
+              <fieldset className="fieldset border-base-100 border w-65 p-2 rounded-box">
+                <legend className="fieldset-legend">Select a Scenario</legend>
+                <div className="flex items-end gap-2">
+                  <select
+                    className="select select-primary"
+                    onChange={e => setGcAlgorithm(e.target.value)}
+                  >
+                    <option>Empty Pages</option>
+                    <option>Hot/Cold</option>
+                  </select>
+                </div>
+              </fieldset>
+              <div className="flex space-x-4 justify-center">
+                <button className="btn btn-primary">
+                  Import
+                </button>
+                <button className="btn btn-primary">
+                  Export
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="card bg-base-300 rounded-box grid m-2">
+            <div className="card-body">
+              <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
+                <legend className="fieldset-legend">Slow-mo</legend>
+                <label className="label">
+                  <input type="checkbox" checked={slowMo} onChange={e => setSlowMo(e.target.checked)} className="toggle toggle-primary"/>
+                  <p>{slowMo ? "Enabled" : "Disabled"}</p>
+                </label>
+              </fieldset>
+              <button className="btn btn-primary" disabled={!slowMo}>Step Forward</button>
+            </div>
+          </div>
         </div>
 
 
-        <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
+
+        <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage  Status:"} />
 
         {/* Overprovision Area */}
         <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
