@@ -181,3 +181,23 @@ export const totalGarbageCollection = (blocks: Array<Block>, overprovisionArea: 
    
   return blocks;
 }
+
+export const numWriteablePages = (blocks: Array<Block>) => {
+  let sum = 0;
+  for (const block of blocks) {
+    sum += block.numBlankPages + block.numStalePages;
+  }
+  return sum;
+}
+
+export const listOfFiles = (blocks: Array<Block>) => {
+  let files: Array<number> = [];
+  for (const block of blocks) {
+    for (const page of block.pages) {
+      if (page.writtenByFile && !files.includes(page.writtenByFile)) {
+        files.push(page.writtenByFile);
+      }
+    }
+  }
+  return files;
+}

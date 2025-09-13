@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
-import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection } from "./utils/utils";
+import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles } from "./utils/utils";
 import SSDDie from "./components/ssddie";
+import MyTooltip from "./components/tooltip"
 import { stripingWrite } from "./algorithms/striping";
+import { isNumber } from "util";
 export interface Page {
     status: string;
     bgColour: string;
@@ -132,8 +134,21 @@ export default function Home() {
 
   const [slowMo, setSlowMo] = useState(false);
 
+  const [isCreateFileValid, setIsCreateFileValid] = useState(true);
+
+  const [isUpdateFileValid, setIsUpdateFileValid] = useState(true);
+  const [updateFileValue, setUpdateFileValue] = useState('');
+
+  const [isDeleteFileValid, setIsDeleteFileValid] = useState(true);
+
+
 
   const handleWriteFile = () => {
+  /* Maybe add some visual stuff here */
+  if (numWriteablePages(blocks) < parseInt(fileSizeValue)) {
+    setFileSizeValue('');
+    return;
+  }
     let gc;
     if (!automaticGc) {
       gc = (blocks: Array[Block], num2: Array[Block], num3: number, num4: number) => blocks;
@@ -172,28 +187,59 @@ export default function Home() {
     setDeleteFileValue('');
   };
 
+
   const handleGarbageCollection = () => {
     // NOTE: right now, this does nothing. This is because our "good" threshold is the exact opposite
     // of our "bad" threshold. In the future, we would have a better good and bad threshold (e.g. 
     // < 0.25 is our bad threshold, >= 0.75 is our good threshold)
 
-  let gc;
-  if (gcAlgorithm == "Efficient") {
-    gc = efficientGarbageCollection;
-  } else if (gcAlgorithm == "Single") {
-    gc = singleGarbageCollection;
-  } else {
-    gc = totalGarbageCollection;
-  }
-  let newBlocks = [...blocks];
+    let gc;
+    if (gcAlgorithm == "Efficient") {
+      gc = efficientGarbageCollection;
+    } else if (gcAlgorithm == "Single") {
+      gc = singleGarbageCollection;
+    } else {
+      gc = totalGarbageCollection;
+    }
+    let newBlocks = [...blocks];
 
-  let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
-  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
-  if (numBlankPages / numTotalPages <= lowThreshold) {
-    newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
-    setBlocks(newBlocks);
+    let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+    let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+    if (numBlankPages / numTotalPages <= lowThreshold) {
+      newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
+      setBlocks(newBlocks);
+    }
   }
-}
+
+  const handleCreateFileUpdate = e => {
+    if (parseInt(e.target.value) / 4 > numWriteablePages(blocks)) {
+      setIsCreateFileValid(false);
+    } else if (!/^\d+$/.test(e.target.value) || e.target.value === '0') {
+      setIsCreateFileValid(false);
+    } else {
+      setIsCreateFileValid(true);
+    }
+    setFileSizeValue(e.target.value);
+  }
+
+  const isValidBlockPage = str => {
+    const regex = /^B(1[0-5]|[0-9])P(3[0-1]|[12][0-9]|[0-9])$/;
+    return regex.test(str);
+  }
+
+  const handleUpdateFileUpdate = e => {
+    if (!isValidBlockPage(e.target.value))
+    console.log(isValidBlockPage(e.target.value));
+    setIsUpdateFileValid(isValidBlockPage(e.target.value));
+    setUpdateFileValue(e.target.value);
+  }
+
+  const handleDeleteFileUpdate = e => {
+    const files = listOfFiles(blocks);
+    console.log(files);
+    setIsDeleteFileValid(files.includes(parseInt(e.target.value)));
+    setDeleteFileValue(e.target.value);
+  }
 
 
   return (
@@ -204,57 +250,65 @@ export default function Home() {
         <div className="flex justify-center mx-auto max-w-5xl">
           <div className="card bg-base-300 rounded-box grid m-2">
             <div className="card-body">
-              <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
-                <legend className="fieldset-legend">Create File (size in kb)</legend>
-                <div className="flex items-end gap-2">
-                  <input 
-                    type="text"
-                    className="input input-primary"
-                    value={fileSizeValue}
-                    onChange={(e) => setFileSizeValue(e.target.value)}
-                  />
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleWriteFile}
-                  >
-                    Create File
-                  </button>
-                </div>
-              </fieldset>
+              <div className="tooltip" data-tip="Must be a number within the SSD's size limits">
+                <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
+                  <legend className="fieldset-legend">Create File (size in kb)</legend>
+                  <div className="flex items-end gap-2">
+                    <input 
+                      type="text"
+                      className={`input ${isCreateFileValid ? 'input-primary' : 'input-error'}`}
+                      value={fileSizeValue}
+                      onChange={handleCreateFileUpdate}
+                    />
+                    <button
+                      className="btn btn-primary"
+                      onClick={handleWriteFile}
+                      disabled={!isCreateFileValid}
+                    >
+                      Create File
+                    </button>
+                  </div>
+                </fieldset>
+              </div>
+              <div className="tooltip" data-tip="Format: B<BLOCK #>P<PAGE #>">
+                <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
+                  <legend className="fieldset-legend">Update File (block # and page #)</legend>
+                  <div className="flex items-end gap-2">
+                    <input type="text" className={`input ${isUpdateFileValid ? 'input-primary' : 'input-error'}`} value={updateFileValue} onChange={handleUpdateFileUpdate}/>
+                    <button className="btn btn-primary" disabled={!isUpdateFileValid}>Update File</button>
+                  </div>
+                </fieldset>
+              </div>
+              <div className="tooltip" data-tip="Must be a valid file #">
+                <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
+                  <legend className="fieldset-legend">Delete File (file #)</legend>
+                  <div className="flex items-end gap-2">
+                    <input 
+                      type="text"
+                      className={`input ${isDeleteFileValid ? 'input-primary' : 'input-error'}`}
+                      value={deleteFileValue}
+                      onChange={handleDeleteFileUpdate}
+                    />
+                    <button
+                      className="btn btn-primary"
+                      onClick={handleDeleteFile}
+                      disabled={!isDeleteFileValid}
+                    >
+                      Delete File
+                    </button>
+                  </div>
+                </fieldset>
+              </div>
 
-              <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
-                <legend className="fieldset-legend">Update File (block # and page #)</legend>
-                <div className="flex items-end gap-2">
-                  <input type="text" className="input input-primary"/>
-                  <button className="btn btn-primary">Update File</button>
-                </div>
-              </fieldset>
-
-              <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
-                <legend className="fieldset-legend">Delete File (file #)</legend>
-                <div className="flex items-end gap-2">
-                  <input 
-                    type="text"
-                    className="input input-primary"
-                    value={deleteFileValue}
-                    onChange={(e) => setDeleteFileValue(e.target.value)}
-                  />
-                  <button
-                    className="btn btn-primary"
-                    onClick={handleDeleteFile}
-                  >
-                    Delete File
-                  </button>
-                </div>
-              </fieldset>
-
-              <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
-                <legend className="fieldset-legend">Striping Toggle</legend>
-                <label className="label">
-                  <input type="checkbox" checked={striping} onChange={e => setStriping(e.target.checked)} className="toggle toggle-primary"/>
-                  <p>{striping ? "Enabled" : "Disabled"}</p>
-                </label>
-              </fieldset>
+              <div className="tooltip" data-tip="Striping: distributing files across blocks">
+                <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
+                  <legend className="fieldset-legend">Striping Toggle</legend>
+                  <label className="label">
+                    <input type="checkbox" checked={striping} onChange={e => setStriping(e.target.checked)} className="toggle toggle-primary"/>
+                    <p>{striping ? "Enabled" : "Disabled"}</p>
+                  </label>
+                </fieldset>
+              </div>
             </div>
           </div>
 
