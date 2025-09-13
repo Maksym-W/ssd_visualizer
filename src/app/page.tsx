@@ -315,34 +315,38 @@ export default function Home() {
           <div className="card bg-base-300 rounded-box grid m-2">
             <div className="card-body">
 
-              <fieldset className="fieldset border-base-100 border w-65 p-2 rounded-box">
-                <legend className="fieldset-legend">GC Algorithm</legend>
-                <div className="flex items-end gap-2">
-                  <select
-                    className="select select-primary"
-                    onChange={e => setGcAlgorithm(e.target.value)}
-                  >
-                    <option>Efficient</option>
-                    <option>Single</option>
-                    <option>Total</option>
-                  </select>
-                  <button
-                    className="btn btn-primary"
-                    disabled={automaticGc}
-                    onClick={handleGarbageCollection}
-                  >
-                    Trigger GC
-                  </button>
-                </div>
-              </fieldset>
+              <div className="tooltip" data-tip="Efficient: triggers if 10% of blocks are free; done when 20% are free. Single: clears a single block of stale pages. Total: clears every stale page">
+                <fieldset className="fieldset border-base-100 border w-65 p-2 rounded-box">
+                  <legend className="fieldset-legend">GC Algorithm</legend>
+                  <div className="flex items-end gap-2">
+                    <select
+                      className="select select-primary"
+                      onChange={e => setGcAlgorithm(e.target.value)}
+                    >
+                      <option>Efficient</option>
+                      <option>Single</option>
+                      <option>Total</option>
+                    </select>
+                    <button
+                      className="btn btn-primary"
+                      disabled={automaticGc}
+                      onClick={handleGarbageCollection}
+                    >
+                      Trigger GC
+                    </button>
+                  </div>
+                </fieldset>
+              </div>
 
-              <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
-                <legend className="fieldset-legend">Automatic GC</legend>
-                <label className="label">
-                  <input type="checkbox" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)} className="toggle toggle-primary"/>
-                  <p>{automaticGc ? "Enabled" : "Disabled"}</p>
-                </label>
-              </fieldset>
+              <div className="tooltip" data-tip="If GC should be triggered when free blocks are <10% usage, or manually">
+                <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
+                  <legend className="fieldset-legend">Automatic GC</legend>
+                  <label className="label">
+                    <input type="checkbox" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)} className="toggle toggle-primary"/>
+                    <p>{automaticGc ? "Enabled" : "Disabled"}</p>
+                  </label>
+                </fieldset>
+              </div>
 
             </div>
           </div>
@@ -384,6 +388,7 @@ export default function Home() {
               <button className="btn btn-primary" disabled={!slowMo}>Step Forward</button>
             </div>
           </div>
+
         </div>
 
 
