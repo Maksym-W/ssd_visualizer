@@ -126,6 +126,7 @@ export default function Home() {
 
   const [striping, setStriping] = useState(false);
   const [slowmo, setSlowmo] = useState(false);
+  const [slowmoMessage, setSlowmoMessage] = useState(" No messages from Slowmo Yet.")
   const [resume, setResume] = useState<(() => void) | null>(null);
 
   const [gcAlgorithm, setGcAlgorithm] = useState("Efficient Garbage Collection");
@@ -141,9 +142,15 @@ export default function Home() {
       gc = totalGarbageCollection;
     }
     if (algorithm == "Greedy") {
-      console.log("waiting to resolve");
-      if (slowmo == true) await new Promise<void>(resolve => setResume(() => resolve));
-      console.log("it resolved.");
+
+      if (slowmo == true) {
+        setSlowmoMessage(" Finding where to place the data. Waiting for user to click 'Next step in the SSD'...");
+        await new Promise(r => setTimeout(r, 0)); // This is needed to ensure the above message renders before we pause
+        await new Promise<void>(resolve => setResume(() => resolve));
+        setSlowmoMessage(" Resolved. Continuing...");
+      }
+
+      
       if (striping) {
         const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold);
         setBlocks(updatedBlocks);
@@ -267,6 +274,8 @@ export default function Home() {
         >
           Next step in the SSD
         </button>
+
+        <label>{slowmoMessage}</label>
 
         <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
 
