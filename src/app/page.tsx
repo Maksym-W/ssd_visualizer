@@ -152,12 +152,12 @@ export default function Home() {
 
       
       if (striping) {
-        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold);
-        setBlocks(updatedBlocks);
+        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold, slowmo, setResume);
+        setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       } else {
-        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold);
-        setBlocks(updatedBlocks);
+        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold, slowmo, setResume);
+        setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       }
     } else if (algorithm == ""){

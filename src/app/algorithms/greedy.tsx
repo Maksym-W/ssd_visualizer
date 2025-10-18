@@ -1,11 +1,14 @@
 import { time } from "console";
 import { Block, Page } from "../page";
 import { getFileColour, minStalePages, maxStalePages, maxEmptyPages } from "../utils/utils";
+import { useState } from "react";
 
-export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, numAlreadyWritten: number, gcAlgorithm: Function, lowThreshold: number, highThreshold: number): Array<Block> {
+// TODO the input to this fuction is a mess. Create an interface for it at somepoint, and have 1 input.
+export async function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, 
+  setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, numAlreadyWritten: number, 
+  gcAlgorithm: Function, lowThreshold: number, highThreshold: number, slowmo: boolean, setResume: Function): Promise<Block[]> {
 
   if (isNaN(size)) return [];
-
   // check if the currentBlock exists yet (default value is -1)
   if (currentBlock == -1) {
     currentBlock = minStalePages(blocks);
@@ -20,6 +23,10 @@ export function greedyWrite(size: number, blocks: Array<Block>, currentBlock: nu
   let pageIndexPlus = 0;
   let numWrittenPages = numAlreadyWritten;
   while (pagesToUpdate > 0 && currentBlock != -1) {
+    console.log("waiting to resolve");
+    if (slowmo == true) await new Promise<void>(resolve => setResume(() => resolve));
+    console.log("it resolved.");
+
     // Find available pages (NOTE: might not work like this)
     const emptyPages = newBlocks[currentBlock].pages
       .map((page, index) => ({ ...page, index }))
