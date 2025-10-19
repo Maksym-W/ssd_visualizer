@@ -142,21 +142,12 @@ export default function Home() {
       gc = totalGarbageCollection;
     }
     if (algorithm == "Greedy") {
-
-      if (slowmo == true) {
-        setSlowmoMessage(" Finding where to place the data. Waiting for user to click 'Next step in the SSD'...");
-        await new Promise(r => setTimeout(r, 0)); // This is needed to ensure the above message renders before we pause
-        await new Promise<void>(resolve => setResume(() => resolve));
-        setSlowmoMessage(" Resolved. Continuing...");
-      }
-
-      
       if (striping) {
         const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold, slowmo, setResume);
         setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       } else {
-        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold, slowmo, setResume);
+        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold, slowmo, setResume, setSlowmoMessage);
         setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       }
@@ -169,7 +160,7 @@ export default function Home() {
 
   const handleDeleteFile = () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock);
+      const updatedBlocks = greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock, slowmo, setSlowmoMessage, setResume);
 
       setBlocks(updatedBlocks);
     } else {

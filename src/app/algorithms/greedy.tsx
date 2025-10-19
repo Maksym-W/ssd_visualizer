@@ -6,7 +6,7 @@ import { useState } from "react";
 // TODO the input to this fuction is a mess. Create an interface for it at somepoint, and have 1 input.
 export async function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, 
   setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, numAlreadyWritten: number, 
-  gcAlgorithm: Function, lowThreshold: number, highThreshold: number, slowmo: boolean, setResume: Function): Promise<Block[]> {
+  gcAlgorithm: Function, lowThreshold: number, highThreshold: number, slowmo: boolean, setResume: Function, setSlowmoMessage: Function): Promise<Block[]> {
 
   if (isNaN(size)) return [];
   // check if the currentBlock exists yet (default value is -1)
@@ -23,9 +23,12 @@ export async function greedyWrite(size: number, blocks: Array<Block>, currentBlo
   let pageIndexPlus = 0;
   let numWrittenPages = numAlreadyWritten;
   while (pagesToUpdate > 0 && currentBlock != -1) {
-    console.log("waiting to resolve");
-    if (slowmo == true) await new Promise<void>(resolve => setResume(() => resolve));
-    console.log("it resolved.");
+
+    if (slowmo == true) {
+      setSlowmoMessage(" Finding where to place the data. Waiting for user to click 'Next step in the SSD'...");
+      await new Promise<void>(resolve => setResume(() => resolve));
+      setSlowmoMessage(" Resolved. Continuing...");
+    }
 
     // Find available pages (NOTE: might not work like this)
     const emptyPages = newBlocks[currentBlock].pages
@@ -71,8 +74,14 @@ export async function greedyWrite(size: number, blocks: Array<Block>, currentBlo
   return newBlocks;
 }
 
-export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: Function): Array<Block> {
+export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: Function, slowmo: boolean, setSlowmoMessage: Function, setResume: Function): Array<Block> {
   if (isNaN(fileID)) return [];
+
+    // if (slowmo == true) {
+    //   setSlowmoMessage(" Finding where to place the data. Waiting for user to click 'Next step in the SSD'...");
+    //   await new Promise<void>(resolve => setResume(() => resolve));
+    //   setSlowmoMessage(" Resolved. Continuing...");
+    // }
 
   let newBlocks = [...blocks];
 
