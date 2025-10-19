@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
-import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles } from "./utils/utils";
+import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles, updateFile } from "./utils/utils";
 import SSDDie from "./components/ssddie";
 import MyTooltip from "./components/tooltip"
 import { stripingWrite } from "./algorithms/striping";
@@ -141,7 +141,10 @@ export default function Home() {
 
   const [isDeleteFileValid, setIsDeleteFileValid] = useState(true);
 
+  const [_, setTick] = useState(0);
 
+
+  const forceUpdate = () => setTick(tick => tick + 1);
 
   const handleWriteFile = () => {
   /* Maybe add some visual stuff here */
@@ -175,6 +178,16 @@ export default function Home() {
     // NOTE: you can remove this but I like resetting the inputValue here so you don't need to backspace
     setFileSizeValue('');
   };
+
+  const handleUpdateFile = () => {
+    const pIndex = updateFileValue.indexOf('P');
+    const bNum = updateFileValue.slice(0, pIndex).slice(1);
+    const pNum = updateFileValue.slice(pIndex).slice(1);
+    const updatedBlocks = updateFile(blocks, +bNum, +pNum);
+    console.log(updatedBlocks);
+    setBlocks(updatedBlocks);
+    forceUpdate();
+  }
 
   const handleDeleteFile = () => {
     if (algorithm == "Greedy") {
@@ -224,6 +237,13 @@ export default function Home() {
 
   const isValidBlockPage = str => {
     const regex = /^B(1[0-5]|[0-9])P(3[0-1]|[12][0-9]|[0-9])$/;
+    if (regex.test(str)) {
+      // determine the block and page #
+      const pIndex = str.indexOf('P');
+      const bNum = str.slice(0, pIndex).slice(1);
+      const pNum = str.slice(pIndex).slice(1);
+      return blocks[bNum].pages[pNum].writtenByFile;
+    }
     return regex.test(str);
   }
 
@@ -250,7 +270,7 @@ export default function Home() {
         <div className="flex justify-center mx-auto max-w-5xl">
           <div className="card bg-base-300 rounded-box grid m-2">
             <div className="card-body">
-              <div className="tooltip" data-tip="Must be a number within the SSD's size limits">
+              <div className="tooltip" data-tip="Must be a number within the SSD's size limits [1, 1024]">
                 <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
                   <legend className="fieldset-legend">Create File (size in kb)</legend>
                   <div className="flex items-end gap-2">
@@ -270,12 +290,18 @@ export default function Home() {
                   </div>
                 </fieldset>
               </div>
-              <div className="tooltip" data-tip="Format: B<BLOCK #>P<PAGE #>">
+              <div className="tooltip" data-tip="Format: B<BLOCK #>P<PAGE #> (do not include angle brackets, just numbers)">
                 <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
                   <legend className="fieldset-legend">Update File (block # and page #)</legend>
                   <div className="flex items-end gap-2">
                     <input type="text" className={`input ${isUpdateFileValid ? 'input-primary' : 'input-error'}`} value={updateFileValue} onChange={handleUpdateFileUpdate}/>
-                    <button className="btn btn-primary" disabled={!isUpdateFileValid}>Update File</button>
+                    <button
+                      className="btn btn-primary"
+                      disabled={!isUpdateFileValid}
+                      onClick={handleUpdateFile}
+                    >
+                      Update File
+                    </button>
                   </div>
                 </fieldset>
               </div>
@@ -300,7 +326,7 @@ export default function Home() {
                 </fieldset>
               </div>
 
-              <div className="tooltip" data-tip="Striping: distributing files across blocks">
+              <div className="tooltip [--tooltip-tail:0px] before:whitespace-pre-line" data-tip={`Enabled: distribute a file across pages from several blocks\nDisabled: store file in contiguous pages in the same block before moving onto a new block`}>
                 <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
                   <legend className="fieldset-legend">Striping Toggle</legend>
                   <label className="label">
@@ -315,7 +341,7 @@ export default function Home() {
           <div className="card bg-base-300 rounded-box grid m-2">
             <div className="card-body">
 
-              <div className="tooltip" data-tip="Efficient: triggers if 10% of blocks are free; done when 20% are free. Single: clears a single block of stale pages. Total: clears every stale page">
+              <div className="tooltip [--tooltip-tail:0px] before:whitespace-pre-line" data-tip={`Efficient: triggers if 10% of blocks are free; done when 20% are free\nSingle: clears a single block of stale pages\nTotal: clears every stale page`}>
                 <fieldset className="fieldset border-base-100 border w-65 p-2 rounded-box">
                   <legend className="fieldset-legend">GC Algorithm</legend>
                   <div className="flex items-end gap-2">
@@ -338,7 +364,7 @@ export default function Home() {
                 </fieldset>
               </div>
 
-              <div className="tooltip" data-tip="If GC should be triggered when free blocks are <10% usage, or manually">
+              <div className="tooltip" data-tip="Toggles whether the Garbage Collection is to be triggered manually using the 'Trigger GC' button, or automatically triggered when free blocks are <10% of all blocks in the main storage area.">
                 <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
                   <legend className="fieldset-legend">Automatic GC</legend>
                   <label className="label">
@@ -397,24 +423,6 @@ export default function Home() {
 
         {/* Overprovision Area */}
         <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
-
-        <div className="bg-blue-500 inline-block">
-          <p className="font-bold">Legend</p>
-          <p className="font-bold">Blocks</p>
-          <ul>
-            <li>E: Empty Pages</li>
-            <li>L: Live Pages</li>
-            <li>B: Blank Pages</li>
-            <li>S: Stale Pages</li>
-          </ul>
-          <p className="font-bold">Pages</p>
-          <ul>
-            <li>Green: Blank Page</li>
-            <li>Grey: Stale Page</li>
-            <li>Any other colour: Live Page</li>
-            <li>#1 (#2): File #1 (Page #2 of the file)</li>
-          </ul>
-        </div>
 
       </div>
     </div>

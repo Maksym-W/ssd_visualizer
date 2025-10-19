@@ -201,3 +201,28 @@ export const listOfFiles = (blocks: Array<Block>) => {
   }
   return files;
 }
+
+export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: number) => {
+  // Step 1: Invalidate the block
+  const page = blocks[blockNum].pages[pageNum];
+  const newPage = { ...page, status: "Stale", bgColour: "bg-gray-500" };
+  blocks[blockNum].pages[pageNum] = newPage;
+  // We also need to adjust the block stats
+  blocks[blockNum].numStalePages++;
+  blocks[blockNum].numLivePages--;
+
+  // Step 2: place "page" in another block.
+  // We want to find the block with the most space. (aside from this block, probably.)
+  const newBlock = minStalePages(blocks, [blockNum]);
+  // Find the nearest free page
+  for (let i = 0; i < blocks[newBlock].pages.length; i++) {
+    if (blocks[newBlock].pages[i].status.startsWith("Empty")) {
+      blocks[newBlock].pages[i] = page;
+      blocks[newBlock].numLivePages++;
+      blocks[newBlock].numBlankPages--;
+      break;
+    }
+  }
+
+  return blocks;
+}
