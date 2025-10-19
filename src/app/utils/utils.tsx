@@ -213,7 +213,12 @@ export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: numb
 
   // Step 2: place "page" in another block.
   // We want to find the block with the most space. (aside from this block, probably.)
-  const newBlock = minStalePages(blocks, [blockNum]);
+  let ignoredPages = [blockNum];
+  let newBlock = minStalePages(blocks, ignoredPages);
+  while (blocks[newBlock].numBlankPages == 0) {
+    ignoredPages.push(newBlock);
+    newBlock = minStalePages(blocks, ignoredPages);
+  }
   // Find the nearest free page
   for (let i = 0; i < blocks[newBlock].pages.length; i++) {
     if (blocks[newBlock].pages[i].status.startsWith("Empty")) {

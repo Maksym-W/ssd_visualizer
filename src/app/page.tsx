@@ -148,7 +148,7 @@ export default function Home() {
 
   const handleWriteFile = () => {
   /* Maybe add some visual stuff here */
-  if (numWriteablePages(blocks) < parseInt(fileSizeValue)) {
+  if (numWriteablePages(blocks) < parseInt(fileSizeValue) / 4) {
     setFileSizeValue('');
     return;
   }
