@@ -194,7 +194,7 @@ export const listOfFiles = (blocks: Array<Block>) => {
   let files: Array<number> = [];
   for (const block of blocks) {
     for (const page of block.pages) {
-      if (page.writtenByFile && !files.includes(page.writtenByFile)) {
+      if (page.status.startsWith("Written") && page.writtenByFile && !files.includes(page.writtenByFile)) {
         files.push(page.writtenByFile);
       }
     }
