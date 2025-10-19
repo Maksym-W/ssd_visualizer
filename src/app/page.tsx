@@ -263,9 +263,9 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col md:flex-row items-start md:items-center gap-12">
+    <div className="flex flex-col items-center gap-12">
 
-      <div className="md:ml-auto mr-20">
+      <div>
 
         <div className="flex justify-center mx-auto max-w-5xl">
           <div className="card bg-base-300 rounded-box grid m-2">
@@ -419,10 +419,12 @@ export default function Home() {
 
 
 
-        <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage  Status:"} />
+        <div className="w-full flex flex-col items-center">
+          <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage  Status:"} />
 
-        {/* Overprovision Area */}
-        <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
+          {/* Overprovision Area */}
+          <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
+        </div>
 
       </div>
     </div>
