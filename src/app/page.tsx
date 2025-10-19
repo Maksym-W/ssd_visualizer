@@ -158,9 +158,9 @@ export default function Home() {
     setFileSizeValue('');
   };
 
-  const handleDeleteFile = () => {
+  const handleDeleteFile = async () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock, slowmo, setSlowmoMessage, setResume);
+      const updatedBlocks = await greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock, slowmo, setSlowmoMessage, setResume);
 
       setBlocks(updatedBlocks);
     } else {

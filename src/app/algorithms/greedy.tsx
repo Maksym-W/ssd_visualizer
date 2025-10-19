@@ -74,7 +74,7 @@ export async function greedyWrite(size: number, blocks: Array<Block>, currentBlo
   return newBlocks;
 }
 
-export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: Function, slowmo: boolean, setSlowmoMessage: Function, setResume: Function): Array<Block> {
+export async function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: Function, slowmo: boolean, setSlowmoMessage: Function, setResume: Function): Promise<Block[]> {
   if (isNaN(fileID)) return [];
 
     // if (slowmo == true) {
@@ -86,6 +86,14 @@ export function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlo
   let newBlocks = [...blocks];
 
   for (const i in newBlocks) {
+
+        if (slowmo == true) {
+      setSlowmoMessage(" Finding where to place the data. Waiting for user to click 'Next step in the SSD'...");
+      await new Promise<void>(resolve => setResume(() => resolve));
+      setSlowmoMessage(" Resolved. Continuing...");
+    }
+
+
     const block = newBlocks[i]
     let newStaleBlocks = 0; // Look for pages written by fileID
     for (const j in block.pages) {
