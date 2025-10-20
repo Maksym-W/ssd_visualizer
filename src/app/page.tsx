@@ -127,12 +127,13 @@ export default function Home() {
   const [algorithm, setAlgorithm] = useState('Greedy');
 
   const [striping, setStriping] = useState(false);
+  const [slowMo, setSlowMo] = useState(false);
+  const [slowmoMessage, setSlowmoMessage] = useState(" No messages from Slowmo Yet.")
+  const [resume, setResume] = useState<(() => void) | null>(null);
 
   const [automaticGc, setAutomaticGc] = useState(true);
 
   const [gcAlgorithm, setGcAlgorithm] = useState("Efficient");
-
-  const [slowMo, setSlowMo] = useState(false);
 
   const [isCreateFileValid, setIsCreateFileValid] = useState(true);
 
@@ -146,7 +147,7 @@ export default function Home() {
 
   const forceUpdate = () => setTick(tick => tick + 1);
 
-  const handleWriteFile = () => {
+  const handleWriteFile = async () => {
   /* Maybe add some visual stuff here */
   if (numWriteablePages(blocks) < parseInt(fileSizeValue) / 4) {
     setFileSizeValue('');
@@ -164,12 +165,12 @@ export default function Home() {
     }
     if (algorithm == "Greedy") {
       if (striping) {
-        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold);
-        setBlocks(updatedBlocks);
+        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold, slowMo, setResume);
+        setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       } else {
-        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold);
-        setBlocks(updatedBlocks);
+        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold, slowMo, setResume, setSlowmoMessage);
+        setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       }
     } else if (algorithm == ""){
@@ -189,9 +190,9 @@ export default function Home() {
     forceUpdate();
   }
 
-  const handleDeleteFile = () => {
+  const handleDeleteFile = async () => {
     if (algorithm == "Greedy") {
-      const updatedBlocks = greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock);
+      const updatedBlocks = await greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock, slowMo, setSlowmoMessage, setResume);
 
       setBlocks(updatedBlocks);
     } else {
@@ -200,6 +201,12 @@ export default function Home() {
     setDeleteFileValue('');
   };
 
+  const nextStep = () => {
+    if (resume) {
+      resume();        // continues execution
+      setResume(null); // clear it so it doesn't get called twice
+    }
+  }
 
   const handleGarbageCollection = () => {
     // NOTE: right now, this does nothing. This is because our "good" threshold is the exact opposite
@@ -242,7 +249,7 @@ export default function Home() {
       const pIndex = str.indexOf('P');
       const bNum = str.slice(0, pIndex).slice(1);
       const pNum = str.slice(pIndex).slice(1);
-      return blocks[bNum].pages[pNum].writtenByFile;
+      return (blocks[bNum].pages[pNum].writtenByFile) ? true : false
     }
     return regex.test(str);
   }
@@ -411,16 +418,15 @@ export default function Home() {
                   <p>{slowMo ? "Enabled" : "Disabled"}</p>
                 </label>
               </fieldset>
-              <button className="btn btn-primary" disabled={!slowMo}>Step Forward</button>
+              <button className="btn btn-primary" onClick={nextStep} disabled={!slowMo}>Step Forward</button>
             </div>
           </div>
 
         </div>
 
 
-
         <div className="w-full flex flex-col items-center">
-          <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage  Status:"} />
+          <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage  Status:" + slowmoMessage} />
 
           {/* Overprovision Area */}
           <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
