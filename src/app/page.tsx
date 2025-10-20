@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
-import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection } from "./utils/utils";
+import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles, updateFile } from "./utils/utils";
 import SSDDie from "./components/ssddie";
+import MyTooltip from "./components/tooltip"
 import { stripingWrite } from "./algorithms/striping";
+import { isNumber } from "util";
 export interface Page {
     status: string;
     bgColour: string;
@@ -128,16 +130,34 @@ export default function Home() {
 
   const [automaticGc, setAutomaticGc] = useState(true);
 
-  const [gcAlgorithm, setGcAlgorithm] = useState("Efficient Garbage Collection");
+  const [gcAlgorithm, setGcAlgorithm] = useState("Efficient");
 
+  const [slowMo, setSlowMo] = useState(false);
+
+  const [isCreateFileValid, setIsCreateFileValid] = useState(true);
+
+  const [isUpdateFileValid, setIsUpdateFileValid] = useState(true);
+  const [updateFileValue, setUpdateFileValue] = useState('');
+
+  const [isDeleteFileValid, setIsDeleteFileValid] = useState(true);
+
+  const [_, setTick] = useState(0);
+
+
+  const forceUpdate = () => setTick(tick => tick + 1);
 
   const handleWriteFile = () => {
+  /* Maybe add some visual stuff here */
+  if (numWriteablePages(blocks) < parseInt(fileSizeValue) / 4) {
+    setFileSizeValue('');
+    return;
+  }
     let gc;
     if (!automaticGc) {
       gc = (blocks: Array[Block], num2: Array[Block], num3: number, num4: number) => blocks;
-    } else if (gcAlgorithm == "Efficient Garbage Collection") {
+    } else if (gcAlgorithm == "Efficient") {
       gc = efficientGarbageCollection;
-    } else if (gcAlgorithm == "Single Garbage Collection") {
+    } else if (gcAlgorithm == "Single") {
       gc = singleGarbageCollection;
     } else {
       gc = totalGarbageCollection;
@@ -159,6 +179,16 @@ export default function Home() {
     setFileSizeValue('');
   };
 
+  const handleUpdateFile = () => {
+    const pIndex = updateFileValue.indexOf('P');
+    const bNum = updateFileValue.slice(0, pIndex).slice(1);
+    const pNum = updateFileValue.slice(pIndex).slice(1);
+    const updatedBlocks = updateFile(blocks, +bNum, +pNum);
+    console.log(updatedBlocks);
+    setBlocks(updatedBlocks);
+    forceUpdate();
+  }
+
   const handleDeleteFile = () => {
     if (algorithm == "Greedy") {
       const updatedBlocks = greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock);
@@ -167,118 +197,233 @@ export default function Home() {
     } else {
       console.log('no algorithm selected');
     }
+    setDeleteFileValue('');
   };
+
 
   const handleGarbageCollection = () => {
     // NOTE: right now, this does nothing. This is because our "good" threshold is the exact opposite
     // of our "bad" threshold. In the future, we would have a better good and bad threshold (e.g. 
     // < 0.25 is our bad threshold, >= 0.75 is our good threshold)
 
-  let gc;
-  if (gcAlgorithm == "Efficient Garbage Collection") {
-    gc = efficientGarbageCollection;
-  } else if (gcAlgorithm == "Single Garbage Collection") {
-    gc = singleGarbageCollection;
-  } else {
-    gc = totalGarbageCollection;
-  }
-  let newBlocks = [...blocks];
+    let gc;
+    if (gcAlgorithm == "Efficient") {
+      gc = efficientGarbageCollection;
+    } else if (gcAlgorithm == "Single") {
+      gc = singleGarbageCollection;
+    } else {
+      gc = totalGarbageCollection;
+    }
+    let newBlocks = [...blocks];
 
-  let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
-  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
-  if (numBlankPages / numTotalPages <= lowThreshold) {
-    newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
-    setBlocks(newBlocks);
+    let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+    let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+    if (numBlankPages / numTotalPages <= lowThreshold) {
+      newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
+      setBlocks(newBlocks);
+    }
   }
-}
+
+  const handleCreateFileUpdate = e => {
+    if (parseInt(e.target.value) / 4 > numWriteablePages(blocks)) {
+      setIsCreateFileValid(false);
+    } else if (!/^\d+$/.test(e.target.value) || e.target.value === '0') {
+      setIsCreateFileValid(false);
+    } else {
+      setIsCreateFileValid(true);
+    }
+    setFileSizeValue(e.target.value);
+  }
+
+  const isValidBlockPage = str => {
+    const regex = /^B(1[0-5]|[0-9])P(3[0-1]|[12][0-9]|[0-9])$/;
+    if (regex.test(str)) {
+      // determine the block and page #
+      const pIndex = str.indexOf('P');
+      const bNum = str.slice(0, pIndex).slice(1);
+      const pNum = str.slice(pIndex).slice(1);
+      return blocks[bNum].pages[pNum].writtenByFile;
+    }
+    return regex.test(str);
+  }
+
+  const handleUpdateFileUpdate = e => {
+    if (!isValidBlockPage(e.target.value))
+    console.log(isValidBlockPage(e.target.value));
+    setIsUpdateFileValid(isValidBlockPage(e.target.value));
+    setUpdateFileValue(e.target.value);
+  }
+
+  const handleDeleteFileUpdate = e => {
+    const files = listOfFiles(blocks);
+    console.log(files);
+    setIsDeleteFileValid(files.includes(parseInt(e.target.value)));
+    setDeleteFileValue(e.target.value);
+  }
 
 
   return (
-    <div className="flex flex-col md:flex-row items-start md:items-center p-8 gap-12">
+    <div className="flex flex-col items-center gap-12">
 
-      <div className="md:mt-10 md:ml-auto mr-20">
-        {/* NOTE: for some reason I can't have both value={} and placeholder= in this... so if you don't like one then yeah */}
-        <input type="text"
-          onChange={(e) => setFileSizeValue(e.target.value)}
-          value={fileSizeValue} 
-          className="input input-primary"
-        />
+      <div>
 
-        <button onClick={handleWriteFile}
-          className="btn btn-primary"
-        >
-          Write a file of size n kilobytes
-        </button>
+        <div className="flex justify-center mx-auto max-w-5xl">
+          <div className="card bg-base-300 rounded-box grid m-2">
+            <div className="card-body">
+              <div className="tooltip" data-tip="Must be a number within the SSD's size limits [1, 1024]">
+                <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
+                  <legend className="fieldset-legend">Create File (size in kb)</legend>
+                  <div className="flex items-end gap-2">
+                    <input 
+                      type="text"
+                      className={`input ${isCreateFileValid ? 'input-primary' : 'input-error'}`}
+                      value={fileSizeValue}
+                      onChange={handleCreateFileUpdate}
+                    />
+                    <button
+                      className="btn btn-primary"
+                      onClick={handleWriteFile}
+                      disabled={!isCreateFileValid}
+                    >
+                      Create File
+                    </button>
+                  </div>
+                </fieldset>
+              </div>
+              <div className="tooltip" data-tip="Format: B<BLOCK #>P<PAGE #> (do not include angle brackets, just numbers)">
+                <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
+                  <legend className="fieldset-legend">Update File (block # and page #)</legend>
+                  <div className="flex items-end gap-2">
+                    <input type="text" className={`input ${isUpdateFileValid ? 'input-primary' : 'input-error'}`} value={updateFileValue} onChange={handleUpdateFileUpdate}/>
+                    <button
+                      className="btn btn-primary"
+                      disabled={!isUpdateFileValid}
+                      onClick={handleUpdateFile}
+                    >
+                      Update File
+                    </button>
+                  </div>
+                </fieldset>
+              </div>
+              <div className="tooltip" data-tip="Must be a valid file #">
+                <fieldset className="fieldset border-base-100 border w-90 p-2 rounded-box">
+                  <legend className="fieldset-legend">Delete File (file #)</legend>
+                  <div className="flex items-end gap-2">
+                    <input 
+                      type="text"
+                      className={`input ${isDeleteFileValid ? 'input-primary' : 'input-error'}`}
+                      value={deleteFileValue}
+                      onChange={handleDeleteFileUpdate}
+                    />
+                    <button
+                      className="btn btn-primary"
+                      onClick={handleDeleteFile}
+                      disabled={!isDeleteFileValid}
+                    >
+                      Delete File
+                    </button>
+                  </div>
+                </fieldset>
+              </div>
 
-        <input type="text" placeholder="Enter value..."
-          onChange={(e) => setDeleteFileValue(e.target.value)}
-          className="input input-primary"
-        />
+              <div className="tooltip [--tooltip-tail:0px] before:whitespace-pre-line" data-tip={`Enabled: distribute a file across pages from several blocks\nDisabled: store file in contiguous pages in the same block before moving onto a new block`}>
+                <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
+                  <legend className="fieldset-legend">Striping Toggle</legend>
+                  <label className="label">
+                    <input type="checkbox" checked={striping} onChange={e => setStriping(e.target.checked)} className="toggle toggle-primary"/>
+                    <p>{striping ? "Enabled" : "Disabled"}</p>
+                  </label>
+                </fieldset>
+              </div>
+            </div>
+          </div>
 
-        <button onClick={handleDeleteFile}
-          className="btn btn-primary"
-        >
-          Delete file n
-        </button>
+          <div className="card bg-base-300 rounded-box grid m-2">
+            <div className="card-body">
 
-        <label className="label">
-          <input type="checkbox" className="toggle toggle-primary" checked={striping} onChange={e => setStriping(e.target.checked)}/>
-          Striping On/Off
-        </label>
+              <div className="tooltip [--tooltip-tail:0px] before:whitespace-pre-line" data-tip={`Efficient: triggers if 10% of blocks are free; done when 20% are free\nSingle: clears a single block of stale pages\nTotal: clears every stale page`}>
+                <fieldset className="fieldset border-base-100 border w-65 p-2 rounded-box">
+                  <legend className="fieldset-legend">GC Algorithm</legend>
+                  <div className="flex items-end gap-2">
+                    <select
+                      className="select select-primary"
+                      onChange={e => setGcAlgorithm(e.target.value)}
+                    >
+                      <option>Efficient</option>
+                      <option>Single</option>
+                      <option>Total</option>
+                    </select>
+                    <button
+                      className="btn btn-primary"
+                      disabled={automaticGc}
+                      onClick={handleGarbageCollection}
+                    >
+                      Trigger GC
+                    </button>
+                  </div>
+                </fieldset>
+              </div>
 
-        <label className="label">
-          <input type="checkbox" className="toggle toggle-primary" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)}/>
-          Automatic GC On/Off
-        </label>
-        
+              <div className="tooltip" data-tip="Toggles whether the Garbage Collection is to be triggered manually using the 'Trigger GC' button, or automatically triggered when free blocks are <10% of all blocks in the main storage area.">
+                <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
+                  <legend className="fieldset-legend">Automatic GC</legend>
+                  <label className="label">
+                    <input type="checkbox" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)} className="toggle toggle-primary"/>
+                    <p>{automaticGc ? "Enabled" : "Disabled"}</p>
+                  </label>
+                </fieldset>
+              </div>
 
-        <button onClick={handleGarbageCollection}
-          className="btn btn-primary"
-          disabled={automaticGc}
-        >
-          Trigger Garbage Collection
-        </button>
+            </div>
+          </div>
 
-        <select defaultValue="Empty Pages" 
-        className="select select-primary" 
-        onChange={e => setAlgorithm(e.target.value)}>
-          <option>Empty Pages</option>
-          <option>Hot/Cold Config</option>
-        </select>
+          <div className="card bg-base-300 rounded-box grid m-2">
+            <div className="card-body">
+              <fieldset className="fieldset border-base-100 border w-65 p-2 rounded-box">
+                <legend className="fieldset-legend">Select a Scenario</legend>
+                <div className="flex items-end gap-2">
+                  <select
+                    className="select select-primary"
+                    onChange={e => setGcAlgorithm(e.target.value)}
+                  >
+                    <option>Empty Pages</option>
+                    <option>Hot/Cold</option>
+                  </select>
+                </div>
+              </fieldset>
+              <div className="flex space-x-4 justify-center">
+                <button className="btn btn-primary">
+                  Import
+                </button>
+                <button className="btn btn-primary">
+                  Export
+                </button>
+              </div>
+            </div>
+          </div>
 
-        <select value={gcAlgorithm}
-          className="select select-primary"
-          onChange={e => setGcAlgorithm(e.target.value)}
-        >
-          <option>Efficient Garbage Collection</option>
-          <option>Single Garbage Collection</option>
-          <option>Total Garbage Collection</option>
-        </select>
-        
-        
+          <div className="card bg-base-300 rounded-box grid m-2">
+            <div className="card-body">
+              <fieldset className="fieldset border-base-100 border w-50 p-2 rounded-box">
+                <legend className="fieldset-legend">Slow-mo</legend>
+                <label className="label">
+                  <input type="checkbox" checked={slowMo} onChange={e => setSlowMo(e.target.checked)} className="toggle toggle-primary"/>
+                  <p>{slowMo ? "Enabled" : "Disabled"}</p>
+                </label>
+              </fieldset>
+              <button className="btn btn-primary" disabled={!slowMo}>Step Forward</button>
+            </div>
+          </div>
+
+        </div>
 
 
-        <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage"} />
 
-        {/* Overprovision Area */}
-        <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
+        <div className="w-full flex flex-col items-center">
+          <SSDDie blocks={blocks} blockRows={blockRows} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Main Storage  Status:"} />
 
-        <div className="bg-blue-500 inline-block">
-          <p className="font-bold">Legend</p>
-          <p className="font-bold">Blocks</p>
-          <ul>
-            <li>E: Empty Pages</li>
-            <li>L: Live Pages</li>
-            <li>B: Blank Pages</li>
-            <li>S: Stale Pages</li>
-          </ul>
-          <p className="font-bold">Pages</p>
-          <ul>
-            <li>Green: Blank Page</li>
-            <li>Grey: Stale Page</li>
-            <li>Any other colour: Live Page</li>
-            <li>#1 (#2): File #1 (Page #2 of the file)</li>
-          </ul>
+          {/* Overprovision Area */}
+          <SSDDie blocks={overprovisionArea} blockRows={Math.floor(blockRows/4)} blockCols={blockCols} pageRows={pageRows} pageCols={pageCols} text={"Overprovision Area (OP)"} />
         </div>
 
       </div>
