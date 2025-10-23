@@ -1,11 +1,11 @@
 "use client"
 
 import Ssdpage from "./components/ssdpage";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Ssdblock from "./components/ssdblock";
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
-import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles, updateFile } from "./utils/utils";
+import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles, updateFile, saveToFile } from "./utils/utils";
 import SSDDie from "./components/ssddie";
 import MyTooltip from "./components/tooltip"
 import { stripingWrite } from "./algorithms/striping";
@@ -267,6 +267,32 @@ export default function Home() {
     setIsDeleteFileValid(files.includes(parseInt(e.target.value)));
     setDeleteFileValue(e.target.value);
   }
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click(); // opens file picker
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      try {
+        const text = event.target?.result as string;
+        const parsed: Block[] = JSON.parse(text);
+        console.log("Loaded object:", parsed);
+
+        setBlocks(parsed);
+      } catch (err) {
+        alert("Invalid or corrupt file. Could not parse JSON.");
+      }
+    };
+
+    reader.readAsText(file);
+  };
 
 
   return (
@@ -399,10 +425,17 @@ export default function Home() {
                 </div>
               </fieldset>
               <div className="flex space-x-4 justify-center">
-                <button className="btn btn-primary">
+                <button className="btn btn-primary" onClick={handleImportClick}>
                   Import
                 </button>
-                <button className="btn btn-primary">
+                <input
+                  type="file"
+                  accept=".json"
+                  ref={fileInputRef}
+                  style={{display: "none" }}
+                  onChange={handleFileChange}
+                />
+                <button className="btn btn-primary" onClick={() => saveToFile(blocks)}>
                   Export
                 </button>
               </div>
