@@ -26,6 +26,11 @@ export interface Block {
   pages: Array<Page>;
 }
 
+export interface Preset {
+  name: string;
+  blocks: Array<Block>;
+}
+
 export class PageHeap {
   heap: Page[] = []; // This is implemented as a min heap
 
@@ -113,7 +118,10 @@ export default function Home() {
     newOverprovisionArea.push(newBlock);
   }
 
+  let tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }];
+
   const [blocks, setBlocks] = useState(newBlocks);
+  const [presets, setPresets] = useState(tempPresets);
   const [overprovisionArea, setOverprovisionArea] = useState(newOverprovisionArea)
 
   // Block we're currently writing to
@@ -141,6 +149,8 @@ export default function Home() {
   const [updateFileValue, setUpdateFileValue] = useState('');
 
   const [isDeleteFileValid, setIsDeleteFileValid] = useState(true);
+
+  const [presetIndex, setPresetIndex] = useState(0);
 
   const [_, setTick] = useState(0);
 
@@ -285,6 +295,11 @@ export default function Home() {
         const parsed: Block[] = JSON.parse(text);
         console.log("Loaded object:", parsed);
 
+        const filename = file.name.replace(/\.json$/i, "");
+
+        setPresets([...presets, {name: filename, blocks: parsed}]);
+        setPresetIndex(presets.length);
+
         setBlocks(parsed);
       } catch (err) {
         alert("Invalid or corrupt file. Could not parse JSON.");
@@ -293,6 +308,17 @@ export default function Home() {
 
     reader.readAsText(file);
   };
+
+  const handlePresetChange = e => {
+    // iterate over presets
+    for (let i = 0; i < presets.length; i++) {
+      if (presets[i].name.startsWith(e.target.value)) {
+        setPresetIndex(i);
+        setBlocks(presets[i].blocks);
+        return;
+      }
+    }
+  }
 
 
   return (
@@ -417,10 +443,12 @@ export default function Home() {
                 <div className="flex items-end gap-2">
                   <select
                     className="select select-primary"
-                    onChange={e => setGcAlgorithm(e.target.value)}
+                    onChange={handlePresetChange}
+                    value={presets[presetIndex].name}
                   >
-                    <option>Empty Pages</option>
-                    <option>Hot/Cold</option>
+                    {presets.map((item, i) => (
+                      <option key={i} value={item.name}>{item.name}</option>
+                    ))}
                   </select>
                 </div>
               </fieldset>
