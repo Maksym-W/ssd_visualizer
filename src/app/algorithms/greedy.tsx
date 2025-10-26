@@ -92,7 +92,7 @@ export async function greedyDelete(fileID: number, blocks: Array<Block>, setCurr
     let newStaleBlocks = 0; // Look for pages written by fileID
     for (const j in block.pages) {
       const page = block.pages[j];
-      if (page.status.startsWith(`Written by file ${fileID}`)) {
+      if (page.status == `Written by file ${fileID}`) {
         newStaleBlocks++;
         const newPage = { ...page, status: "Stale", bgColour: "bg-gray-500" };
         block.pages[j] = newPage;
