@@ -3,7 +3,17 @@
 import Ssdpage from "./components/ssdpage";
 import { useEffect, useRef, useState } from "react";
 import Ssdblock from "./components/ssdblock";
-import filePreset from "./data/hot-cold.json"
+import filePresetSmallOne from "./data/one_small_file.json"
+import filePresetSmallTwo from "./data/several_small_files.json"
+import filePresetSmallThree from "./data/lots_of_small_files.json"
+import filePresetBigOne from "./data/one_large_file.json"
+import filePresetBigTwo from "./data/several_large_files.json"
+import filePresetBigThree from "./data/lots_of_large_files.json"
+import filePresetAdvancedOne from "./data/advance_one_gc.json"
+import filePresetAdvancedTwo from "./data/advanced_total_gc.json"
+import filePresetAdvancedThree from "./data/advanced_total_gc_is_bad.json"
+import filePresetAdvancedFour from "./data/advanced_all_is_fine.json"
+
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
 import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles, updateFile, saveToFile } from "./utils/utils";
 import SSDDie from "./components/ssddie";
@@ -118,7 +128,11 @@ export default function Home() {
     newOverprovisionArea.push(newBlock);
   }
 
-  let tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }, { name: "Hot/cold demo", blocks: filePreset }];
+  let tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }, { name: "One Small File", blocks: filePresetSmallOne }, 
+    { name: "Several Small Files", blocks: filePresetSmallTwo }, { name: "Lots of Small Files", blocks: filePresetSmallThree }, 
+    { name: "One Large File", blocks: filePresetBigOne }, { name: "Several Large Files", blocks: filePresetBigTwo }, 
+    { name: "Lots of Large Files", blocks: filePresetBigThree },  { name: "Advanced: One GC Trigger", blocks: filePresetAdvancedOne }, 
+    { name: "Advanced: Total GC is Bad", blocks: filePresetAdvancedThree }, { name: "Advanced: All is Fine", blocks: filePresetAdvancedFour }];
 
   const [blocks, setBlocks] = useState(newBlocks);
   const [presets, setPresets] = useState(tempPresets);
