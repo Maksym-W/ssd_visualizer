@@ -118,7 +118,7 @@ export default function Home() {
     newOverprovisionArea.push(newBlock);
   }
 
-  let tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }, { name: "File Preset", blocks: filePreset }];
+  let tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }, { name: "Hot/cold demo", blocks: filePreset }];
 
   const [blocks, setBlocks] = useState(newBlocks);
   const [presets, setPresets] = useState(tempPresets);
