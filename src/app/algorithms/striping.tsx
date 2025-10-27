@@ -1,7 +1,9 @@
 import { Block, Page } from "../page";
 import { getFileColour, minStalePages, maxStalePages, maxEmptyPages } from "../utils/utils";
 
-export function stripingWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, gcAlgorithm: Function, lowThreshold: number, highThreshold: number): Array<Block> {
+// TODO the input to this fuction is a mess. Create an interface for it at somepoint, and have 1 input.
+export async function stripingWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, 
+  overprovisionArea: Array<Block>, gcAlgorithm: Function, lowThreshold: number, highThreshold: number, slowmo: boolean, setResume: Function): Promise<Block[]> {
   if (isNaN(size)) return [];
 
   // check if the currentBlock exists yet (default value is -1)
@@ -17,6 +19,9 @@ export function stripingWrite(size: number, blocks: Array<Block>, currentBlock: 
 
   let numWritten = 0;
   while (pagesToUpdate > 0 && currentBlock != -1) {
+    console.log("waiting to resolve");
+    if (slowmo == true) await new Promise<void>(resolve => setResume(() => resolve));
+    console.log("it resolved.");
     // Find available pages within the current block. (NOTE: might not work like this)
     const emptyPages = newBlocks[currentBlock].pages
       .map((page, index) => ({ ...page, index }))

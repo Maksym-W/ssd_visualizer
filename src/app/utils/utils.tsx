@@ -181,3 +181,66 @@ export const totalGarbageCollection = (blocks: Array<Block>, overprovisionArea: 
    
   return blocks;
 }
+
+export const numWriteablePages = (blocks: Array<Block>) => {
+  let sum = 0;
+  for (const block of blocks) {
+    sum += block.numBlankPages + block.numStalePages;
+  }
+  return sum;
+}
+
+export const listOfFiles = (blocks: Array<Block>) => {
+  let files: Array<number> = [];
+  for (const block of blocks) {
+    for (const page of block.pages) {
+      if (page.status.startsWith("Written") && page.writtenByFile && !files.includes(page.writtenByFile)) {
+        files.push(page.writtenByFile);
+      }
+    }
+  }
+  return files;
+}
+
+export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: number) => {
+  // Step 1: Invalidate the block
+  const page = blocks[blockNum].pages[pageNum];
+  const newPage = { ...page, status: "Stale", bgColour: "bg-gray-500" };
+  blocks[blockNum].pages[pageNum] = newPage;
+  // We also need to adjust the block stats
+  blocks[blockNum].numStalePages++;
+  blocks[blockNum].numLivePages--;
+
+  // Step 2: place "page" in another block.
+  // We want to find the block with the most space. (aside from this block, probably.)
+  let ignoredPages = [blockNum];
+  let newBlock = minStalePages(blocks, ignoredPages);
+  while (blocks[newBlock].numBlankPages == 0) {
+    ignoredPages.push(newBlock);
+    newBlock = minStalePages(blocks, ignoredPages);
+  }
+  // Find the nearest free page
+  for (let i = 0; i < blocks[newBlock].pages.length; i++) {
+    if (blocks[newBlock].pages[i].status.startsWith("Empty")) {
+      blocks[newBlock].pages[i] = page;
+      blocks[newBlock].numLivePages++;
+      blocks[newBlock].numBlankPages--;
+      break;
+    }
+  }
+
+  return blocks;
+}
+
+export function saveToFile(data: any, filename = "data.json") {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
