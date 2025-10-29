@@ -1,4 +1,5 @@
-import { Block, Page } from "../page";
+import { Block } from "../page";
+import { Page } from "../../lib/Page"
 
 export const getFileColour = (fileID: number) => {
   const colours = [

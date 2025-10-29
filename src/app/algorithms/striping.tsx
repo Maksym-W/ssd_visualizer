@@ -1,9 +1,16 @@
 import { Block } from "../page";
 import { getFileColour, minStalePages, maxEmptyPages } from "../utils/utils";
 
+type GCFunction = (
+  blocks: Block[],
+  overprovisionArea: Block[],
+  lowThreshold: number,
+  highThreshold: number
+) => Block[];
+
 // TODO the input to this fuction is a mess. Create an interface for it at somepoint, and have 1 input.
 export async function stripingWrite(size: number, blocks: Array<Block>, currentBlock: number, fileID: number, 
-  overprovisionArea: Array<Block>, gcAlgorithm: "Efficient" | "Greedy" | "One", lowThreshold: number, highThreshold: number, 
+  overprovisionArea: Array<Block>, gcAlgorithm: GCFunction, lowThreshold: number, highThreshold: number, 
   slowmo: boolean, setResume: React.Dispatch<React.SetStateAction<(() => void) | null>>): Promise<Block[]> {
   if (isNaN(size)) return [];
 
