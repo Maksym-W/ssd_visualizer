@@ -1,9 +1,10 @@
-import { Block, Page } from "../page";
-import { getFileColour, minStalePages, maxStalePages, maxEmptyPages } from "../utils/utils";
+import { Block } from "../page";
+import { getFileColour, minStalePages, maxEmptyPages } from "../utils/utils";
 
 // TODO the input to this fuction is a mess. Create an interface for it at somepoint, and have 1 input.
-export async function stripingWrite(size: number, blocks: Array<Block>, currentBlock: number, setCurrentBlock: Function, fileID: number, 
-  overprovisionArea: Array<Block>, gcAlgorithm: Function, lowThreshold: number, highThreshold: number, slowmo: boolean, setResume: Function): Promise<Block[]> {
+export async function stripingWrite(size: number, blocks: Array<Block>, currentBlock: number, fileID: number, 
+  overprovisionArea: Array<Block>, gcAlgorithm: "Efficient" | "Greedy" | "One", lowThreshold: number, highThreshold: number, 
+  slowmo: boolean, setResume: React.Dispatch<React.SetStateAction<(() => void) | null>>): Promise<Block[]> {
   if (isNaN(size)) return [];
 
   // check if the currentBlock exists yet (default value is -1)
@@ -15,7 +16,7 @@ export async function stripingWrite(size: number, blocks: Array<Block>, currentB
 
   let newBlocks = blocks.slice();
 
-  let ignoredPages = [];
+  const ignoredPages = [];
 
   let numWritten = 0;
   while (pagesToUpdate > 0 && currentBlock != -1) {
@@ -64,8 +65,8 @@ export async function stripingWrite(size: number, blocks: Array<Block>, currentB
     }
   }
 
-  let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
-  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+  const numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+  const numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
   if (numBlankPages / numTotalPages <= lowThreshold) {
     newBlocks = gcAlgorithm(newBlocks, overprovisionArea, lowThreshold, highThreshold);
   }
@@ -73,10 +74,10 @@ export async function stripingWrite(size: number, blocks: Array<Block>, currentB
   return newBlocks;
 }
 
-export function stripingDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: Function): Array<Block> {
+export function stripingDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: React.Dispatch<React.SetStateAction<number>>): Array<Block> {
   if (isNaN(fileID)) return [];
 
-  let newBlocks = [...blocks];
+  const newBlocks = [...blocks];
 
   for (const i in newBlocks) {
     const block = newBlocks[i]
