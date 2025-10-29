@@ -1,4 +1,5 @@
-import { Block, Page } from "../page";
+import { Block } from "../page";
+import { Page } from "../../lib/Page"
 
 export const getFileColour = (fileID: number) => {
   const colours = [
@@ -63,7 +64,7 @@ export const maxEmptyPages = (blocks: Array<Block>, ignoredPages: Array<number> 
       continue;
     };
     const block = blocks[i];
-    let numOfCurrentEmptyPages = block.numBlankPages;
+    const numOfCurrentEmptyPages = block.numBlankPages;
 
     if (numOfCurrentEmptyPages > maxNumOfEmptyPages) {
       maxNumOfEmptyPages = numOfCurrentEmptyPages;
@@ -77,9 +78,9 @@ export const maxEmptyPages = (blocks: Array<Block>, ignoredPages: Array<number> 
 export const efficientGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, lowThreshold: number, highThreshold: number) => {
   // Check if there are fewer than 50% free blocks
   let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
-  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+  const numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
   while (numBlankPages / numTotalPages <= highThreshold) {
-    let blockIndex = maxStalePages(blocks);
+    const blockIndex = maxStalePages(blocks);
     if (blocks[blockIndex].numStalePages == 0) break;
 
     // Step 1: Find each non-stale page, write it to the backup pages
@@ -114,8 +115,8 @@ export const efficientGarbageCollection = (blocks: Array<Block>, overprovisionAr
   return blocks;
 }
 
-export const singleGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, lowThreshold: number, highThreshold: number) => {
-  let blockIndex = maxStalePages(blocks);
+export const singleGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>) => {
+  const blockIndex = maxStalePages(blocks);
 
   // Step 1: Find each non-stale page, write it to the backup pages
   const newBackupPages: Array<Page> = [];
@@ -146,7 +147,7 @@ export const singleGarbageCollection = (blocks: Array<Block>, overprovisionArea:
   return blocks;
 }
 
-export const totalGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>, lowThreshold: number, highThreshold: number) => {
+export const totalGarbageCollection = (blocks: Array<Block>, overprovisionArea: Array<Block>) => {
 
   let blockIndex = maxStalePages(blocks);
   while (blocks[blockIndex].numStalePages > 0) {
@@ -191,7 +192,7 @@ export const numWriteablePages = (blocks: Array<Block>) => {
 }
 
 export const listOfFiles = (blocks: Array<Block>) => {
-  let files: Array<number> = [];
+  const files: Array<number> = [];
   for (const block of blocks) {
     for (const page of block.pages) {
       if (page.status.startsWith("Written") && page.writtenByFile && !files.includes(page.writtenByFile)) {
@@ -213,7 +214,7 @@ export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: numb
 
   // Step 2: place "page" in another block.
   // We want to find the block with the most space. (aside from this block, probably.)
-  let ignoredPages = [blockNum];
+  const ignoredPages = [blockNum];
   let newBlock = minStalePages(blocks, ignoredPages);
   while (blocks[newBlock].numBlankPages == 0) {
     ignoredPages.push(newBlock);
@@ -232,7 +233,7 @@ export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: numb
   return blocks;
 }
 
-export function saveToFile(data: any, filename = "data.json") {
+export function saveToFile(data: unknown, filename = "data.json") {
   const json = JSON.stringify(data, null, 2);
   const blob = new Blob([json], { type: "application/json" });
   const url = URL.createObjectURL(blob);

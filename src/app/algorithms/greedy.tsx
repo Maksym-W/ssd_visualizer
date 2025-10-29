@@ -1,12 +1,18 @@
-import { time } from "console";
-import { Block, Page } from "../page";
-import { getFileColour, minStalePages, maxStalePages, maxEmptyPages } from "../utils/utils";
-import { useState } from "react";
+import { Block } from "../page";
+import { getFileColour, minStalePages } from "../utils/utils";
+
+type GCFunction = (
+  blocks: Block[],
+  overprovisionArea: Block[],
+  lowThreshold: number,
+  highThreshold: number
+) => Block[];
 
 // TODO the input to this fuction is a mess. Create an interface for it at somepoint, and have 1 input.
 export async function greedyWrite(size: number, blocks: Array<Block>, currentBlock: number, 
-  setCurrentBlock: Function, fileID: number, overprovisionArea: Array<Block>, numAlreadyWritten: number, 
-  gcAlgorithm: Function, lowThreshold: number, highThreshold: number, slowmo: boolean, setResume: Function, setSlowmoMessage: Function): Promise<Block[]> {
+  fileID: number, overprovisionArea: Array<Block>, numAlreadyWritten: number, 
+  gcAlgorithm: GCFunction, lowThreshold: number, highThreshold: number, slowmo: boolean, 
+  setResume: React.Dispatch<React.SetStateAction<(() => void) | null>>, setSlowmoMessage: React.Dispatch<React.SetStateAction<string>>): Promise<Block[]> {
 
   if (isNaN(size)) return [];
   // check if the currentBlock exists yet (default value is -1)
@@ -18,9 +24,8 @@ export async function greedyWrite(size: number, blocks: Array<Block>, currentBlo
 
   let newBlocks = blocks.slice();
 
-  let ignoredPages = [];
+  const ignoredPages = [];
 
-  let pageIndexPlus = 0;
   let numWrittenPages = numAlreadyWritten;
   while (pagesToUpdate > 0 && currentBlock != -1) {
 
@@ -63,10 +68,9 @@ export async function greedyWrite(size: number, blocks: Array<Block>, currentBlo
       currentBlock = minStalePages(newBlocks, ignoredPages);
     }
   }
-  pageIndexPlus = 0;
 
-  let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
-  let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+  const numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+  const numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
   if (numBlankPages / numTotalPages <= lowThreshold) {
     newBlocks = gcAlgorithm(newBlocks, overprovisionArea, lowThreshold, highThreshold);
   }
@@ -74,10 +78,11 @@ export async function greedyWrite(size: number, blocks: Array<Block>, currentBlo
   return newBlocks;
 }
 
-export async function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: Function, slowmo: boolean, setSlowmoMessage: Function, setResume: Function): Promise<Block[]> {
+export async function greedyDelete(fileID: number, blocks: Array<Block>, setCurrentBlock: React.Dispatch<React.SetStateAction<number>>, slowmo: boolean, 
+  setSlowmoMessage: React.Dispatch<React.SetStateAction<string>>, setResume: React.Dispatch<React.SetStateAction<(() => void) | null>>): Promise<Block[]> {
   if (isNaN(fileID)) return [];
 
-  let newBlocks = [...blocks];
+  const newBlocks = [...blocks];
 
   for (const i in newBlocks) {
 

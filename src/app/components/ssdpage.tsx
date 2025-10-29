@@ -1,4 +1,4 @@
-import { Page } from "../page";
+import { Page } from "../../lib/Page";
 
 export default function SSDPage({ page, pageNumber, pageIndex }: { page: Page, pageNumber?: number, pageIndex?: number }) {
   let status = (pageNumber) ? `${pageNumber} (${pageIndex})` : ''

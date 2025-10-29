@@ -1,10 +1,15 @@
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
+// import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-export default function MyTooltip({ id, children, title }) {
-  return (
-    <OverlayTrigger overlay={<Tooltip id={id}>{title}</Tooltip>}>
-      {children}
-    </OverlayTrigger>
-  )
-}
+// interface MyTooltipProps {
+//   id: string;
+//   title: string;
+//   children: React.ReactNode;
+// }
+
+// export default function MyTooltip({ id, children, title }: MyTooltipProps) {
+//   return (
+//     <OverlayTrigger overlay={<Tooltip id={id}>{title}</Tooltip>}>
+//       {children}
+//     </OverlayTrigger>
+//   )
+// }

@@ -1,8 +1,6 @@
 "use client"
 
-import Ssdpage from "./components/ssdpage";
-import { useEffect, useRef, useState } from "react";
-import Ssdblock from "./components/ssdblock";
+import { useRef, useState } from "react";
 import filePresetSmallOne from "./data/one_small_file.json"
 import filePresetSmallTwo from "./data/several_small_files.json"
 import filePresetSmallThree from "./data/lots_of_small_files.json"
@@ -10,23 +8,15 @@ import filePresetBigOne from "./data/one_large_file.json"
 import filePresetBigTwo from "./data/several_large_files.json"
 import filePresetBigThree from "./data/lots_of_large_files.json"
 import filePresetAdvancedOne from "./data/advance_one_gc.json"
-import filePresetAdvancedTwo from "./data/advanced_total_gc.json"
 import filePresetAdvancedThree from "./data/advanced_total_gc_is_bad.json"
 import filePresetAdvancedFour from "./data/advanced_all_is_fine.json"
+
+import { Page } from "../lib/Page"
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
 import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles, updateFile, saveToFile } from "./utils/utils";
 import SSDDie from "./components/ssddie";
-import MyTooltip from "./components/tooltip"
 import { stripingWrite } from "./algorithms/striping";
-import { isNumber } from "util";
-export interface Page {
-    status: string;
-    bgColour: string;
-    writtenByFile?: number;
-    filePageNumber?: number;
-    uses?: number; // TODO Make uses compulsory
-};
 
 export interface Block {
   numStalePages: number;
@@ -41,64 +31,6 @@ export interface Preset {
   blocks: Array<Block>;
 }
 
-export class PageHeap {
-  heap: Page[] = []; // This is implemented as a min heap
-
-  insert(page: Page) {
-    if (page.uses === undefined) {
-      throw new Error("Page must have a 'uses' value before inserting into heap");
-    }
-
-    this.heap.push(page);
-    this.bubbleUp(this.heap.length - 1);
-  }
-
-  private bubbleUp(index: number) {
-    while (index > 0) {
-      const parentIndex = Math.floor((index - 1) / 2);
-
-      if ((this.heap[parentIndex].uses ?? 0) <= (this.heap[index].uses ?? 0)) {
-        break; // Heap property is fine
-      }
-
-      [this.heap[parentIndex], this.heap[index]] = [this.heap[index], this.heap[parentIndex]];
-      index = parentIndex;
-    }
-  }
-
-  private checkValidity(index: number = 0) {
-  const leftIndex = 2 * index + 1;
-  const rightIndex = 2 * index + 2;
-  let smallestIndex = index;
-
-  if (
-    leftIndex < this.heap.length &&
-    (this.heap[leftIndex].uses ?? 0) < (this.heap[smallestIndex].uses ?? 0)
-  ) {
-    smallestIndex = leftIndex;
-  }
-
-  if (
-    rightIndex < this.heap.length &&
-    (this.heap[rightIndex].uses ?? 0) < (this.heap[smallestIndex].uses ?? 0)
-  ) {
-    smallestIndex = rightIndex;
-  }
-
-  if (smallestIndex !== index) {
-    [this.heap[index], this.heap[smallestIndex]] = [
-      this.heap[smallestIndex],
-      this.heap[index],
-    ];
-    this.checkValidity(smallestIndex); 
-  }
-}
-
-private peak() {
-  return this.heap[0];
-}
-}
-
 export default function Home() {
   const blockRows = 4;
   const blockCols = 4;
@@ -108,9 +40,9 @@ export default function Home() {
   const lowThreshold = 0.1;
   const highThreshold = 0.25;
 
-  let newBlocks: Array<Block> = [];
+  const newBlocks: Array<Block> = [];
   for (let i = 0; i < blockRows * blockCols; i++) {
-    let pages = [];
+    const pages = [];
     for (let j = 0; j < pageRows * pageCols; j++) {
       pages.push({ status: "Empty", bgColour: "bg-green-500" })
     }
@@ -118,9 +50,9 @@ export default function Home() {
     newBlocks.push(newBlock);
   }
 
-  let newOverprovisionArea = [];
+  const newOverprovisionArea = [];
   for (let i = 0; i < blockRows * blockCols / 4; i++) {
-    let pages = [];
+    const pages = [];
     for (let j = 0; j < pageRows * pageCols; j++) {
       pages.push({ status: "Empty", bgColour: "bg-green-500" })
     }
@@ -128,7 +60,7 @@ export default function Home() {
     newOverprovisionArea.push(newBlock);
   }
 
-  let tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }, { name: "One Small File", blocks: filePresetSmallOne }, 
+  const tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }, { name: "One Small File", blocks: filePresetSmallOne }, 
     { name: "Several Small Files", blocks: filePresetSmallTwo }, { name: "Lots of Small Files", blocks: filePresetSmallThree }, 
     { name: "One Large File", blocks: filePresetBigOne }, { name: "Several Large Files", blocks: filePresetBigTwo }, 
     { name: "Lots of Large Files", blocks: filePresetBigThree },  { name: "Advanced: One GC Trigger", blocks: filePresetAdvancedOne }, 
@@ -136,17 +68,14 @@ export default function Home() {
 
   const [blocks, setBlocks] = useState(newBlocks);
   const [presets, setPresets] = useState(tempPresets);
-  const [overprovisionArea, setOverprovisionArea] = useState(newOverprovisionArea)
+  const [overprovisionArea, ] = useState(newOverprovisionArea)
 
   // Block we're currently writing to
   const [currentBlock, setCurrentBlock] = useState(-1);
 
   const [fileSizeValue, setFileSizeValue] = useState(""); // Total jank to have this as let
   const [fileCounter, setFileCounter] = useState(1); // Track how many files have been written
-  const [errorDisplay, setErrorDisplay] = useState("No errors yet");
   const [deleteFileValue, setDeleteFileValue] = useState("");
-
-  const [algorithm, setAlgorithm] = useState('Greedy');
 
   const [striping, setStriping] = useState(false);
   const [slowMo, setSlowMo] = useState(false);
@@ -166,8 +95,8 @@ export default function Home() {
 
   const [presetIndex, setPresetIndex] = useState(0);
 
-  const [_, setTick] = useState(0);
-
+  const [, setTick] = useState(0);
+  const algorithm = "Greedy" // SHOULD WE EVEN HAVE THIS
 
   const forceUpdate = () => setTick(tick => tick + 1);
 
@@ -179,7 +108,7 @@ export default function Home() {
   }
     let gc;
     if (!automaticGc) {
-      gc = (blocks: Array[Block], num2: Array[Block], num3: number, num4: number) => blocks;
+      gc = (blocks: Array<Block>) => blocks;
     } else if (gcAlgorithm == "Efficient") {
       gc = efficientGarbageCollection;
     } else if (gcAlgorithm == "Single") {
@@ -190,11 +119,11 @@ export default function Home() {
 
     if (algorithm == "Greedy") {
       if (striping) {
-        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold, slowMo, setResume);
+        const updatedBlocks = stripingWrite(parseInt(fileSizeValue), blocks, currentBlock, fileCounter, overprovisionArea, gc, lowThreshold, highThreshold, slowMo, setResume);
         setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       } else {
-        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, setCurrentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold, slowMo, setResume, setSlowmoMessage);
+        const updatedBlocks = greedyWrite(parseInt(fileSizeValue), blocks, currentBlock, fileCounter, overprovisionArea, 0, gc, lowThreshold, highThreshold, slowMo, setResume, setSlowmoMessage);
         setBlocks(await updatedBlocks);
         setFileCounter(fileCounter + 1); // Increment for next file
       }
@@ -248,15 +177,15 @@ export default function Home() {
     }
     let newBlocks = [...blocks];
 
-    let numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
-    let numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+    const numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+    const numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
     if (numBlankPages / numTotalPages <= lowThreshold) {
       newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
       setBlocks(newBlocks);
     }
   }
 
-  const handleCreateFileUpdate = e => {
+  const handleCreateFileUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (parseInt(e.target.value) / 4 > numWriteablePages(blocks)) {
       setIsCreateFileValid(false);
     } else if (!/^\d+$/.test(e.target.value) || e.target.value === '0') {
@@ -267,26 +196,26 @@ export default function Home() {
     setFileSizeValue(e.target.value);
   }
 
-  const isValidBlockPage = str => {
+  const isValidBlockPage = (str: string) => {
     const regex = /^B(1[0-5]|[0-9])P(3[0-1]|[12][0-9]|[0-9])$/;
     if (regex.test(str)) {
       // determine the block and page #
       const pIndex = str.indexOf('P');
-      const bNum = str.slice(0, pIndex).slice(1);
-      const pNum = str.slice(pIndex).slice(1);
+      const bNum = parseInt(str.slice(0, pIndex).slice(1), 10);
+      const pNum = parseInt(str.slice(pIndex).slice(1), 10);
       return (blocks[bNum].pages[pNum].writtenByFile) ? true : false
     }
     return regex.test(str);
   }
 
-  const handleUpdateFileUpdate = e => {
+  const handleUpdateFileUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isValidBlockPage(e.target.value))
     console.log(isValidBlockPage(e.target.value));
     setIsUpdateFileValid(isValidBlockPage(e.target.value));
     setUpdateFileValue(e.target.value);
   }
 
-  const handleDeleteFileUpdate = e => {
+  const handleDeleteFileUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = listOfFiles(blocks);
     console.log(files);
     setIsDeleteFileValid(files.includes(parseInt(e.target.value)));
@@ -316,7 +245,7 @@ export default function Home() {
         setPresetIndex(presets.length);
 
         setBlocks(parsed);
-      } catch (err) {
+      } catch {
         alert("Invalid or corrupt file. Could not parse JSON.");
       }
     };
@@ -324,7 +253,7 @@ export default function Home() {
     reader.readAsText(file);
   };
 
-  const handlePresetChange = e => {
+  const handlePresetChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // iterate over presets
     for (let i = 0; i < presets.length; i++) {
       if (presets[i].name.startsWith(e.target.value)) {
