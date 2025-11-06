@@ -1,0 +1,3074 @@
+[
+  {
+    "pages": [
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 1",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 1,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 2,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 3",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 3,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 4,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 5",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 5,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 6,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 7",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 7,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 8,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 9",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 9,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 10,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 11",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 11,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 12,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 13",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 13,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 14,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 15",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 15,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 16,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 17",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 17,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 18,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 19",
+        "bgColour": "bg-orange-500",
+        "writtenByFile": 19,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 20,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 21",
+        "bgColour": "bg-blue-500",
+        "writtenByFile": 21,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 22,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 23",
+        "bgColour": "bg-red-500",
+        "writtenByFile": 23,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 24,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 25",
+        "bgColour": "bg-teal-500",
+        "writtenByFile": 25,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 26,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 0
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 1
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 2
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 3
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 4
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 5
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 6
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 7
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 8
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 9
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 10
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 11
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 12
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 13
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 14
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 15
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 16
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 17
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 18
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 19
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 20
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 21
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 22
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 23
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 24
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 25
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 26
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 27
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 28
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 29
+      },
+      {
+        "status": "Written by file 27",
+        "bgColour": "bg-purple-500",
+        "writtenByFile": 27,
+        "filePageNumber": 30
+      },
+      {
+        "status": "Stale",
+        "bgColour": "bg-gray-500",
+        "writtenByFile": 28,
+        "filePageNumber": 0
+      }
+    ],
+    "numStalePages": 1,
+    "numBlankPages": 0,
+    "numLivePages": 31,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      }
+    ],
+    "numStalePages": 0,
+    "numBlankPages": 32,
+    "numLivePages": 0,
+    "numErases": 0
+  },
+  {
+    "pages": [
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      },
+      {
+        "status": "Empty",
+        "bgColour": "bg-green-500"
+      }
+    ],
+    "numStalePages": 0,
+    "numBlankPages": 32,
+    "numLivePages": 0,
+    "numErases": 0
+  }
+]

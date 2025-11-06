@@ -11,6 +11,10 @@ import filePresetAdvancedOne from "./data/advance_one_gc.json"
 import filePresetAdvancedThree from "./data/advanced_total_gc_is_bad.json"
 import filePresetAdvancedFour from "./data/advanced_all_is_fine.json"
 
+import scenario1 from "./data/scenario1.json"
+import scenario2 from "./data/scenario2.json"
+import scenario3 from "./data/scenario3.json"
+
 import { Page } from "../lib/Page"
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
@@ -60,11 +64,16 @@ export default function Home() {
     newOverprovisionArea.push(newBlock);
   }
 
-  const tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }, { name: "One Small File", blocks: filePresetSmallOne }, 
-    { name: "Several Small Files", blocks: filePresetSmallTwo }, { name: "Lots of Small Files", blocks: filePresetSmallThree }, 
-    { name: "One Large File", blocks: filePresetBigOne }, { name: "Several Large Files", blocks: filePresetBigTwo }, 
-    { name: "Lots of Large Files", blocks: filePresetBigThree },  { name: "Advanced: One GC Trigger", blocks: filePresetAdvancedOne }, 
-    { name: "Advanced: Total GC is Bad", blocks: filePresetAdvancedThree }, { name: "Advanced: All is Fine", blocks: filePresetAdvancedFour }];
+  // const tempPresets: Preset[] = [{ name: "Empty Pages", blocks: newBlocks }, { name: "One Small File", blocks: filePresetSmallOne }, 
+  //   { name: "Several Small Files", blocks: filePresetSmallTwo }, { name: "Lots of Small Files", blocks: filePresetSmallThree }, 
+  //   { name: "One Large File", blocks: filePresetBigOne }, { name: "Several Large Files", blocks: filePresetBigTwo }, 
+  //   { name: "Lots of Large Files", blocks: filePresetBigThree },  { name: "Advanced: One GC Trigger", blocks: filePresetAdvancedOne }, 
+  //   { name: "Advanced: Total GC is Bad", blocks: filePresetAdvancedThree }, { name: "Advanced: All is Fine", blocks: filePresetAdvancedFour }];
+  
+  const tempPresets : Preset[] = [{ name: "Empty Pages", blocks: newBlocks },
+        { name: "Scenario 1", blocks: scenario1 },
+        { name: "Scenario 2", blocks: scenario2 },
+        { name: "Scenario 3", blocks: scenario3 }];
 
   const [blocks, setBlocks] = useState(newBlocks);
   const [presets, setPresets] = useState(tempPresets);
