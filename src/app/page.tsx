@@ -177,12 +177,12 @@ export default function Home() {
     }
     let newBlocks = [...blocks];
 
-    const numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
-    const numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
-    if (numBlankPages / numTotalPages <= lowThreshold) {
+    // const numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+    // const numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+    // if (numBlankPages / numTotalPages <= lowThreshold) {
       newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
       setBlocks(newBlocks);
-    }
+    // }
   }
 
   const handleCreateFileUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -344,7 +344,7 @@ export default function Home() {
           <div className="card bg-base-300 rounded-box grid m-2">
             <div className="card-body">
 
-              <div className="tooltip [--tooltip-tail:0px] before:whitespace-pre-line" data-tip={`Efficient: triggers if 10% of blocks are free; done when 20% are free\nSingle: clears a single block of stale pages\nTotal: clears every stale page`}>
+              <div className="tooltip [--tooltip-tail:0px] before:whitespace-pre-line" data-tip={`Efficient: triggers if 10% of blocks are free; done when 25% are free\nSingle: clears a single block of stale pages\nTotal: clears every stale page`}>
                 <fieldset className="fieldset border-base-100 border w-65 p-2 rounded-box">
                   <legend className="fieldset-legend">GC Algorithm</legend>
                   <div className="flex items-end gap-2">
