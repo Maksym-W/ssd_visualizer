@@ -1,6 +1,4 @@
-As of July 2025, This is a project that I am doing for CSC492, a reading course on file systems. The end goal of it is to create a visualization tool of how SSD's work, for use in courses about Operating Systems (CSC369)
-
-Goals: Finish the front end to properly visualize an SSD. Then add a back end to add user customization (such as uploading custom SSD algorithms, or a quiz on how SSDs work and user results are saved.)
+As of November 2025, This is a project that Maksym Woychyshyn and Stephen Clark created for CSC369: Operating Systems at UTM. The goal of this project is to create a tool that makes it intuitive for students taking CSC369 to learn how SSDs are managed. An associated lab is given with this tool in the course to test students if they learnt the concepts from the tool. 
 
 The stuff below is just the standard Next.js stuff
 
