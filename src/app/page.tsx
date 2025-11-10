@@ -186,12 +186,15 @@ export default function Home() {
     }
     let newBlocks = [...blocks];
 
-    // const numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
-    // const numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
-    // if (numBlankPages / numTotalPages <= lowThreshold) {
+    const numBlankPages = blocks.reduce((acc, block) => acc += block.numBlankPages, 0);
+    const numTotalPages = blocks.reduce((acc, block) => acc += block.pages.length, 0);
+    if (gcAlgorithm == "Efficient" && numBlankPages / numTotalPages <= lowThreshold) {
       newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
       setBlocks(newBlocks);
-    // }
+    } else if (gcAlgorithm != "Efficient") {
+      newBlocks = gc(newBlocks, overprovisionArea, lowThreshold, highThreshold);
+      setBlocks(newBlocks);
+    } 
   }
 
   const handleCreateFileUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
