@@ -150,6 +150,7 @@ export default function Home() {
     const updatedBlocks = updateFile(blocks, +bNum, +pNum);
     console.log(updatedBlocks);
     setBlocks(updatedBlocks);
+    setUpdateFileValue('');
     forceUpdate();
   }
 
@@ -215,7 +216,7 @@ export default function Home() {
       const pIndex = str.indexOf('P');
       const bNum = parseInt(str.slice(0, pIndex).slice(1), 10);
       const pNum = parseInt(str.slice(pIndex).slice(1), 10);
-      return (blocks[bNum].pages[pNum].writtenByFile) ? true : false
+      return (blocks[bNum].pages[pNum].writtenByFile && !blocks[bNum].pages[pNum].status.startsWith("Stale")) ? true : false
     }
     return regex.test(str);
   }
