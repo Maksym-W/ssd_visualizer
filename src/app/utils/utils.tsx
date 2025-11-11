@@ -239,20 +239,17 @@ export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: numb
     // We want to search for the first instance of a block with fewer free pages than the current block.
     var numBlankPages = blocks[blockNum].numBlankPages;
     var index = blockNum + 1;
-    while (true) {
-      if (index < blocks.length) {
-        if (blocks[index].numBlankPages > numBlankPages) {
-          newBlock = index;
-          console.log("The index we have determined is", newBlock);
-          break;
-        }
-        numBlankPages = blocks[index].numBlankPages;
-        index++;
-      } else {
-        console.log("hello.");
-        newBlock = blockNum;
+    while (index < blocks.length) {
+      if (blocks[index].numBlankPages > numBlankPages) {
+        newBlock = index;
+        console.log("The index we have determined is", newBlock);
         break;
       }
+      numBlankPages = blocks[index].numBlankPages;
+      index++;
+    }
+    if (index >= blocks.length) {
+      newBlock = blockNum;
     }
   }
   // Find the nearest free page
