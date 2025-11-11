@@ -237,8 +237,8 @@ export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: numb
   } else {
     console.log("Striping is enabled");
     // We want to search for the first instance of a block with fewer free pages than the current block.
-    var numBlankPages = blocks[blockNum].numBlankPages;
-    var index = blockNum + 1;
+    let numBlankPages = blocks[blockNum].numBlankPages;
+    let index = blockNum + 1;
     while (index < blocks.length) {
       if (blocks[index].numBlankPages > numBlankPages) {
         newBlock = index;
