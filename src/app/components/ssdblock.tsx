@@ -4,7 +4,7 @@ import SSDPage from "./ssdpage"
 export default function SSDBlock({ block, pageRows, pageCols, blockNumber }: { block: Block, pageRows: number, pageCols: number, blockNumber: number }) {
   return (
     <div className="bg-white p-2">
-      <div className="tooltip" data-tip="E: empty pages L: live pages B: blank pages S: stale pages">
+      <div className="tooltip" data-tip="E: erase cycles L: live pages B: blank pages S: stale pages">
         <p>Block{blockNumber}  E: {block.numErases} L: {block.numLivePages} B: {block.numBlankPages} S: {block.numStalePages}</p>
         <div
           className="grid gap-1"
