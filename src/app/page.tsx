@@ -147,7 +147,7 @@ export default function Home() {
     const pIndex = updateFileValue.indexOf('P');
     const bNum = updateFileValue.slice(0, pIndex).slice(1);
     const pNum = updateFileValue.slice(pIndex).slice(1);
-    const updatedBlocks = updateFile(blocks, +bNum, +pNum);
+    const updatedBlocks = updateFile(blocks, +bNum, +pNum, striping);
     console.log(updatedBlocks);
     setBlocks(updatedBlocks);
     setUpdateFileValue('');

@@ -203,7 +203,17 @@ export const listOfFiles = (blocks: Array<Block>) => {
   return files;
 }
 
-export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: number) => {
+export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: number, isStriping: boolean) => {
+  // Failsafe: check if there if there are blank pages.
+  var count = 0;
+  for (const block of blocks) {
+    if (block.numBlankPages > 0) {
+      count += block.numBlankPages;
+      break;
+    }
+  }
+  if (count === 0) return blocks;
+
   // Step 1: Invalidate the block
   const page = blocks[blockNum].pages[pageNum];
   const newPage = { ...page, status: "Stale", bgColour: "bg-gray-500" };
@@ -212,13 +222,38 @@ export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: numb
   blocks[blockNum].numStalePages++;
   blocks[blockNum].numLivePages--;
 
+  let newBlock;
   // Step 2: place "page" in another block.
   // We want to find the block with the most space. (aside from this block, probably.)
-  const ignoredPages = [blockNum];
-  let newBlock = minStalePages(blocks, ignoredPages);
-  while (blocks[newBlock].numBlankPages == 0) {
-    ignoredPages.push(newBlock);
+  if (!isStriping) {
+    console.log("Striping is disabled");
+    const ignoredPages = [blockNum];
     newBlock = minStalePages(blocks, ignoredPages);
+    if (newBlock === -1) newBlock = blockNum;
+    while (blocks[newBlock].numBlankPages == 0) {
+      ignoredPages.push(newBlock);
+      newBlock = minStalePages(blocks, ignoredPages);
+    }
+  } else {
+    console.log("Striping is enabled");
+    // We want to search for the first instance of a block with fewer free pages than the current block.
+    var numBlankPages = blocks[blockNum].numBlankPages;
+    var index = blockNum + 1;
+    while (true) {
+      if (index < blocks.length) {
+        if (blocks[index].numBlankPages > numBlankPages) {
+          newBlock = index;
+          console.log("The index we have determined is", newBlock);
+          break;
+        }
+        numBlankPages = blocks[index].numBlankPages;
+        index++;
+      } else {
+        console.log("hello.");
+        newBlock = blockNum;
+        break;
+      }
+    }
   }
   // Find the nearest free page
   for (let i = 0; i < blocks[newBlock].pages.length; i++) {
