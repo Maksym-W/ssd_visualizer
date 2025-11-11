@@ -205,7 +205,7 @@ export const listOfFiles = (blocks: Array<Block>) => {
 
 export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: number, isStriping: boolean) => {
   // Failsafe: check if there if there are blank pages.
-  var count = 0;
+  let count = 0;
   for (const block of blocks) {
     if (block.numBlankPages > 0) {
       count += block.numBlankPages;
@@ -222,7 +222,7 @@ export const updateFile = (blocks: Array<Block>, blockNum: number, pageNum: numb
   blocks[blockNum].numStalePages++;
   blocks[blockNum].numLivePages--;
 
-  let newBlock;
+  let newBlock = blockNum;
   // Step 2: place "page" in another block.
   // We want to find the block with the most space. (aside from this block, probably.)
   if (!isStriping) {
