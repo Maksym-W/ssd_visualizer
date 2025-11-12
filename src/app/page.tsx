@@ -258,6 +258,7 @@ export default function Home() {
         setPresetIndex(presets.length);
 
         setBlocks(parsed);
+        setFileCounter(getFileNumber(parsed));
       } catch {
         alert("Invalid or corrupt file. Could not parse JSON.");
       }
