@@ -18,7 +18,7 @@ import scenario3 from "./data/scenario3.json"
 import { Page } from "../lib/Page"
 
 import { greedyWrite, greedyDelete } from "./algorithms/greedy";
-import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles, updateFile, saveToFile } from "./utils/utils";
+import { totalGarbageCollection, efficientGarbageCollection, singleGarbageCollection, numWriteablePages, listOfFiles, updateFile, saveToFile, getFileNumber } from "./utils/utils";
 import SSDDie from "./components/ssddie";
 import { stripingWrite } from "./algorithms/striping";
 
@@ -272,6 +272,7 @@ export default function Home() {
       if (presets[i].name.startsWith(e.target.value)) {
         setPresetIndex(i);
         setBlocks(presets[i].blocks);
+        setFileCounter(getFileNumber(presets[i].blocks));
         return;
       }
     }

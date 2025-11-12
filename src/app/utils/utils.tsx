@@ -277,3 +277,15 @@ export function saveToFile(data: unknown, filename = "data.json") {
 
   URL.revokeObjectURL(url);
 }
+
+export function getFileNumber(blocks: Array<Block>) {
+    let blockNum = 0;
+    for (const block of blocks) {
+        for (const page of block.pages) {
+            if (page.writtenByFile && page.writtenByFile > blockNum) {
+                blockNum = page.writtenByFile;
+            }
+        }
+    }
+    return blockNum + 1;
+}
