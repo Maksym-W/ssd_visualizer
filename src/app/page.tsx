@@ -91,7 +91,7 @@ export default function Home() {
   const [slowmoMessage, setSlowmoMessage] = useState(" No messages from Slowmo Yet.")
   const [resume, setResume] = useState<(() => void) | null>(null);
 
-  const [automaticGc, setAutomaticGc] = useState(true);
+  const [automaticGc, setAutomaticGc] = useState(false);
 
   const [gcAlgorithm, setGcAlgorithm] = useState("Efficient");
 
@@ -387,7 +387,7 @@ export default function Home() {
                   <legend className="fieldset-legend">Automatic GC</legend>
                   <label className="label">
                     <input type="checkbox" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)} className="toggle toggle-primary"/>
-                    <p>{automaticGc ? "Enabled" : "Disabled"}</p>
+                    <p>{automaticGc ? "Disabled" : "Enabled"}</p>
                   </label>
                 </fieldset>
               </div>
