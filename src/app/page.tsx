@@ -390,7 +390,7 @@ export default function Home() {
                   <legend className="fieldset-legend">Automatic GC</legend>
                   <label className="label">
                     <input type="checkbox" checked={automaticGc} onChange={e => setAutomaticGc(e.target.checked)} className="toggle toggle-primary"/>
-                    <p>{automaticGc ? "Disabled" : "Enabled"}</p>
+                    <p>{automaticGc ? "Enabled" : "Disabled"}</p>
                   </label>
                 </fieldset>
               </div>
