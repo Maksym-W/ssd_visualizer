@@ -111,6 +111,7 @@ export default function Home() {
 
   const handleWriteFile = async () => {
   /* Maybe add some visual stuff here */
+  if (fileSizeValue.length == 0) return;
   if (numWriteablePages(blocks) < parseInt(fileSizeValue) / 4) {
     setFileSizeValue('');
     return;
@@ -144,6 +145,7 @@ export default function Home() {
   };
 
   const handleUpdateFile = () => {
+    if (updateFileValue.length == 0) return;
     const pIndex = updateFileValue.indexOf('P');
     const bNum = updateFileValue.slice(0, pIndex).slice(1);
     const pNum = updateFileValue.slice(pIndex).slice(1);
@@ -155,6 +157,7 @@ export default function Home() {
   }
 
   const handleDeleteFile = async () => {
+    if (deleteFileValue.length == 0) return;
     if (algorithm == "Greedy") {
       const updatedBlocks = await greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock, slowMo, setSlowmoMessage, setResume);
 
