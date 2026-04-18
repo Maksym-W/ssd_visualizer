@@ -13,6 +13,8 @@ function processDir(dir) {
     } else if (entry.name.endsWith('.html')) {
       let content = readFileSync(fullPath, 'utf8');
       content = content.replaceAll('/_next/', '_next/');
+      content = content.replaceAll('href="./"', 'href="./index.html"');
+      content = content.replaceAll('href="./faq"', 'href="./faq.html"');
       writeFileSync(fullPath, content);
       console.log(`Patched: ${fullPath}`);
     }
