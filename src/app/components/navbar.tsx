@@ -12,10 +12,10 @@ export default function Navbar() {
   return (
     <nav className="shadow py-4">
       <div className="max-w-5xl mx-auto flex justify-center items-center space-x-6">
-        <Link href="/" onClick={(e) => handleNav(e, './index.html')} className="btn btn-primary">
+        <Link href="./" onClick={(e) => handleNav(e, './index.html')} className="btn btn-primary">
           🏠 Home
         </Link>
-        <Link href="/faq" onClick={(e) => handleNav(e, './faq.html')} className="btn btn-primary">
+        <Link href="./faq" onClick={(e) => handleNav(e, './faq.html')} className="btn btn-primary">
           faq
         </Link>
       </div>
