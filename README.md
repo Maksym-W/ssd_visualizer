@@ -1,4 +1,12 @@
-As of November 2025, This is a project that Maksym Woychyshyn and Stephen Clark created for CSC369: Operating Systems at UTM. The goal of this project is to create a tool that makes it intuitive for students taking CSC369 to learn how SSDs are managed. An associated lab is given with this tool in the course to test students if they learnt the concepts from the tool. 
+As of April 2026, This is a project that Maksym Woychyshyn and Stephen Clark created for CSC369: Operating Systems at UTM. 
+The goal of this project is to create a tool that makes it intuitive for students taking CSC369 to learn how SSDs are managed. 
+An associated lab is given with this tool in the course to test students if they learnt the concepts from the tool. 
+The tool was deployed both via vercel and on UofT servers.
+https://cs.utm.utoronto.ca/~visualizer/
+https://ssd-visualizer.vercel.app/visualizer
+
+The experiences that students had with this project was surveyed, and under the mentorship of professors Bogdan Simion, Michael Liut, and Naaz Sibia,
+we published an associated paper in ITICSE 2026
 
 The stuff below is just the standard Next.js stuff
 

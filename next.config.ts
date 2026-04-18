@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
-const nextConfig = {
-  basePath: '/visualizer',
-  assetPrefix: '/visualizer/',
-    /* config options here */
+const nextConfig: NextConfig = {
+  output: 'export',
+  images: { unoptimized: true },
 };
 
 export default nextConfig;
