@@ -3,7 +3,7 @@ The goal of this project is to create a tool that makes it intuitive for student
 An associated lab is given with this tool in the course to test students if they learnt the concepts from the tool. 
 The tool was deployed both via vercel and on UofT servers.
 https://cs.utm.utoronto.ca/~visualizer/
-https://ssd-visualizer.vercel.app/visualizer
+https://ssd-visualizer.vercel.app/
 
 The experiences that students had with this project was surveyed, and under the mentorship of professors Bogdan Simion, Michael Liut, and Naaz Sibia,
 we published an associated paper in ITICSE 2026
