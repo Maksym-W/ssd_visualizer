@@ -158,13 +158,43 @@ export default function Home() {
 
   const handleDeleteFile = async () => {
     if (deleteFileValue.length == 0) return;
+
     if (algorithm == "Greedy") {
-      const updatedBlocks = await greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock, slowMo, setSlowmoMessage, setResume);
+      // This marks the deleted file's pages as stale
+      let updatedBlocks = await greedyDelete(parseInt(deleteFileValue), blocks, setCurrentBlock, slowMo, setSlowmoMessage, setResume);
+
+      // This does auto garbage collection if enabled 
+      if (automaticGc) {
+        let gc;
+
+        // TODO this logic shows up in handleWriteFile. Maybe could introduce a function later to get rid of duplicate code? 
+        if (gcAlgorithm == "Efficient") {
+          gc = efficientGarbageCollection;
+        } else if (gcAlgorithm == "Single") {
+          gc = singleGarbageCollection;
+        } else {
+          gc = totalGarbageCollection;
+        }
+
+        // Actually triggers GC
+        const numBlankPages = updatedBlocks.reduce((acc, block) => acc + block.numBlankPages, 0);
+        const numTotalPages = updatedBlocks.reduce((acc, block) => acc + block.pages.length, 0);
+        if (gcAlgorithm == "Efficient") {
+          if (numBlankPages / numTotalPages <= lowThreshold) {
+            updatedBlocks = gc(updatedBlocks, overprovisionArea, lowThreshold, highThreshold);
+          }
+        } else {
+          updatedBlocks = gc(updatedBlocks,overprovisionArea,lowThreshold,highThreshold
+          );
+        }
+      }
 
       setBlocks(updatedBlocks);
+
     } else {
       console.log('no algorithm selected');
     }
+
     setDeleteFileValue('');
   };
 
